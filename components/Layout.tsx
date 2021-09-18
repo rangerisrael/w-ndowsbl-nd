@@ -15,7 +15,7 @@ export default function Layout({ children }: LayoutProps) {
         position="static"
       >
         <Toolbar>
-          <Typography>W!ndowsBl!nd</Typography>
+          <Typography variant="h5">W!ndowsBl!nd</Typography>
         </Toolbar>
       </AppBar>
       <Container
@@ -32,7 +32,7 @@ export default function Layout({ children }: LayoutProps) {
         }}
       >
         <Typography>
-          All right reserved &copy; 2021 <strong>w!ndowbl!nd@shop</strong>{' '}
+          All right reserved &copy; 2021 <strong>w!ndowsbl!nd@shop</strong>{' '}
         </Typography>
       </footer>
     </>

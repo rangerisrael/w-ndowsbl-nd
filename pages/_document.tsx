@@ -38,12 +38,7 @@ MyDocument.getInitialProps = async (ctx) => {
     const initialProps = await Document.getInitialProps(ctx);
     return {
       ...initialProps,
-      styles: (
-        <>
-          {initialProps.styles}
-          {sheet.getStyleElement()}
-        </>
-      ),
+      styles: [...React.Children.toArray(initialProps.styles), sheet.getStyleElement()],
     };
   } finally {
     sheet.seal();
