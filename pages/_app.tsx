@@ -8,10 +8,11 @@ import theme from '../styles/theme';
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
+
   return (
     <>
       <Head>
-        <title>Next App</title>
+        <title>w!ndowsbl!nd</title>
         <link href="/favicon.ico" rel="icon" />
         <meta content="minimum-scale=1, initial-scale=1, width=device-width" name="viewport" />
       </Head>
