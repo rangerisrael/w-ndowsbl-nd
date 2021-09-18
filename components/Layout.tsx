@@ -1,10 +1,13 @@
-import React from 'react';
-import { AppBar, Container, Paper, Toolbar, Typography } from '@mui/material';
+import React, { ReactChildren, ReactChild } from 'react';
+import { AppBar, Container, Toolbar, Typography } from '@mui/material';
 
-// eslint-disable-next-line react/prop-types
-export default function Layout({ children }) {
+interface LayoutProps {
+  children: ReactChild | ReactChildren;
+}
+
+export default function Layout({ children }: LayoutProps) {
   return (
-    <Paper>
+    <>
       <AppBar
         sx={{
           background: 'rgb(76,76,74)',
@@ -32,6 +35,6 @@ export default function Layout({ children }) {
           All right reserved &copy; 2021 <strong>w!ndowbl!nd@shop</strong>{' '}
         </Typography>
       </footer>
-    </Paper>
+    </>
   );
 }
