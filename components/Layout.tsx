@@ -7,8 +7,7 @@ import styled from 'styled-components';
 
 interface LayoutProps {
   titles: string;
-  // eslint-disable-next-line react/require-default-props
-  children: ReactChild | ReactChildren;
+  children: ReactChildren;
 }
 
 const LayoutStyle = styled.div`
