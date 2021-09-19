@@ -3,12 +3,13 @@ import * as React from 'react';
 import { Card, CardActionArea, Grid, CardMedia, CardContent, CardActions, Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import NextLink from 'next/link';
 import Layout from '../components/Layout';
 import data from '../utils/data';
 
 export default function Index() {
   return (
-    <Layout>
+    <Layout titles="list-item">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Product
@@ -17,19 +18,23 @@ export default function Index() {
           {data.products.map((product) => (
             <Grid item md={4} key={product.name}>
               <Card>
-                <CardActionArea>
-                  <CardMedia component="img" image={product.image} title={product.name} />
-                  <CardContent sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                    <Typography variant="h6" component="h1">
-                      &#8369;{product.price}
-                    </Typography>
-                    <Typography variant="h5" component="h1">
-                      {product.name}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
+                <NextLink href={`/product/${product.slug}`} passHref>
+                  <CardActionArea>
+                    <CardMedia component="img" image={product.image} title={product.name} />
+                    <CardContent
+                      sx={{ display: 'flex', justifyContent: 'space-around', color: '#f3f4f6', background: '#506E7F' }}
+                    >
+                      <Typography variant="h6" component="h1">
+                        &#8369;{product.price}
+                      </Typography>
+                      <Typography variant="h5" component="h1">
+                        {product.name}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </NextLink>
                 <CardActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                  <Button size="small" color="primary">
+                  <Button fullWidth variant="contained">
                     Add to Basket
                   </Button>
                 </CardActions>
