@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { ReactChildren, ReactChild } from 'react';
+import React, { ReactChildren, ReactElement } from 'react';
 import { AppBar, Container, Link, Toolbar, Typography } from '@mui/material';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 interface LayoutProps {
   titles: string;
-  children: ReactChildren;
+  children: ReactChildren | ReactElement;
 }
 
 const LayoutStyle = styled.div`
@@ -34,6 +34,7 @@ const LayoutStyle = styled.div`
   }
 `;
 
+// eslint-disable-next-line no-undef
 export default function Layout({ titles, children }: LayoutProps) {
   return (
     <LayoutStyle>
