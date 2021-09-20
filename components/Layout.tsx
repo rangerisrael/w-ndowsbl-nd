@@ -99,6 +99,7 @@ export default function Layout({ titles, children }: LayoutProps) {
             <div style={{ flexGrow: 1 }} />
             <div>
               <Switch checked={darkMode} onChange={darkModeChangeHandler} />
+              &nbsp;
               <NextLink href="/cart" passHref>
                 <Link>Cart</Link>
               </NextLink>
