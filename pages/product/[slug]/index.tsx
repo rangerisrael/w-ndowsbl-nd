@@ -1,8 +1,6 @@
 /* eslint-disable import/order */
 
 import React, { useContext } from 'react';
-import Layout from '../../../components/Layout';
-import data from '../../../utils/data';
 import Image from 'next/image';
 import { Grid, List, ListItem, Typography, Card, Button, Box, Rating, Link } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
@@ -35,13 +33,14 @@ export default function ProductDetails({ product }: Props) {
   // console.log(product);
   // const { slug } = router.query;
   // const product = data.products.find((a) => a.slug === slug);
-  const { state, dispatch } = useContext(Store);
+  const { dispatch } = useContext(Store);
 
   const addToCartHandler = async () => {
     // const productData = await fetch(`http://localhost:3000/api/product/${product._id}`);
     const productData = await ProductQueriesById(product._id);
 
     if (productData.product.countInStock <= 0) {
+      // eslint-disable-next-line no-alert
       window.alert('Product is not available');
       return;
     }
@@ -142,6 +141,7 @@ export default function ProductDetails({ product }: Props) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
   const slugName = context.params.slug;
 

@@ -2,6 +2,7 @@ import React, { ReactChildren, ReactElement, createContext, Dispatch, Reducer, u
 import Cookies from 'js-cookie';
 
 interface Actions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload: any;
   type: string;
 }
@@ -9,6 +10,7 @@ interface Actions {
 interface PropTypes {
   darkMode: boolean;
   cart: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cartItem: [] | any;
   };
 }
@@ -41,12 +43,12 @@ const reducer: Reducer<PropTypes, Actions> = (state, action) => {
 
     case 'ADD_TO_CART': {
       const newItem = action.payload;
-      //if exist
+      // if exist
       const existItem = state.cart.cartItem.find((item: { _id: number }) => item._id === newItem._id);
 
-      //if item on the list
+      // if item on the list
       const cartItem = existItem
-        ? state.cart.cartItem.map((item: { name: string }) => (item.name == existItem.name ? newItem : item))
+        ? state.cart.cartItem.map((item: { name: string }) => (item.name === existItem.name ? newItem : item))
         : [...state.cart.cartItem, newItem];
 
       Cookies.set('cartItems', JSON.stringify(cartItem));
