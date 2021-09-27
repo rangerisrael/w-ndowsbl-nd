@@ -1,16 +1,53 @@
 /* eslint-disable import/order */
-import { useRouter } from 'next/router';
-import React from 'react';
+
+import React, { useContext } from 'react';
 import Layout from '../../../components/Layout';
 import data from '../../../utils/data';
 import Image from 'next/image';
-import { Grid, List, ListItem, Typography, Card, Button, Box } from '@mui/material';
+import { Grid, List, ListItem, Typography, Card, Button, Box, Rating, Link } from '@mui/material';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { Store } from '../../../components/Store';
+import { ProductQueriesById, ProductQueriesBySlug } from '../../../queries/product-queries';
 
-export default function ProductDetails() {
-  const router = useRouter();
+interface IProduct {
+  _id: string;
+  name: string;
+  slug: string;
+  category: string;
+  image: string;
+  price: number;
+  brand: string;
+  rating: number;
+  numReviews: number;
+  countInStock: number;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
-  const { slug } = router.query;
-  const product = data.products.find((a) => a.slug === slug);
+type Props = {
+  product: IProduct;
+};
+
+export default function ProductDetails({ product }: Props) {
+  // const router = useRouter();
+
+  // console.log(product);
+  // const { slug } = router.query;
+  // const product = data.products.find((a) => a.slug === slug);
+  const { state, dispatch } = useContext(Store);
+
+  const addToCartHandler = async () => {
+    // const productData = await fetch(`http://localhost:3000/api/product/${product._id}`);
+    const productData = await ProductQueriesById(product._id);
+
+    if (productData.product.countInStock <= 0) {
+      window.alert('Product is not available');
+      return;
+    }
+
+    dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } });
+  };
 
   return (
     <Layout titles={product ? product.name : ''}>
@@ -35,18 +72,21 @@ export default function ProductDetails() {
 
                   <ListItem>
                     <Typography>
-                      Category:<strong>{product.category.toUpperCase()}</strong>
+                      Category:<strong>{product.category}</strong>
                     </Typography>
                   </ListItem>
                   <ListItem>
                     <Typography>
-                      Brand:<strong>{product.brand.toLocaleLowerCase()}</strong>
+                      Brand:<strong>{product.brand}</strong>
                     </Typography>
                   </ListItem>
                   <ListItem>
                     <Typography>
-                      Rating: {product.rating} stars ({product.numReviews} reviews)
+                      <Rating value={product.rating} readOnly />
                     </Typography>
+                    <Link href="#reviews">
+                      <Typography>({product.numReviews} reviews)</Typography>
+                    </Link>
                   </ListItem>
                   <ListItem>
                     <Typography>
@@ -86,7 +126,7 @@ export default function ProductDetails() {
                       </Grid>
                     </ListItem>
                     <ListItem>
-                      <Button fullWidth variant="contained">
+                      <Button fullWidth variant="contained" onClick={addToCartHandler}>
                         Add to Basket
                       </Button>
                     </ListItem>
@@ -101,3 +141,15 @@ export default function ProductDetails() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
+  const slugName = context.params.slug;
+
+  const product = await ProductQueriesBySlug(slugName);
+  // const res = await fetch(`http://localhost:3000/api/products/${slug}`);
+  // const product = await res.json();
+
+  return {
+    props: { product: product.product },
+  };
+};

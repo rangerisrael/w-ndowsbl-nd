@@ -1,7 +1,7 @@
 {
   "env": {
     "browser": true,
-    "es2021": true,
+    "es6": true,
     "node": true,
     "jest": true
   },
@@ -26,6 +26,9 @@
   },
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier", "import", "jsx-a11y"],
   "rules": {
+    "no-param-reassign": "off",
+    "no-underscore-dangle": "off",
+    "no-console": "off",
     "prettier/prettier": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": "off",

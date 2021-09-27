@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactChildren, ReactElement, useContext, useState, useEffect } from 'react';
-import { AppBar, Container, Link, Toolbar, Typography, Switch, CircularProgress, Box } from '@mui/material';
+import { AppBar, Container, Link, Toolbar, Typography, Switch, CircularProgress, Box, Badge } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
@@ -43,7 +43,7 @@ export default function Layout({ titles, children }: LayoutProps) {
   const { state, dispatch } = useContext(Store);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(10);
-  const { darkMode } = state;
+  const { darkMode, cart } = state;
 
   // Create a theme instance.
   const theme = createTheme({
@@ -74,7 +74,7 @@ export default function Layout({ titles, children }: LayoutProps) {
   });
 
   const darkModeChangeHandler = () => {
-    dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON' });
+    dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON', payload: undefined });
     const newDarkMode = !darkMode;
     Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF');
   };
@@ -145,7 +145,9 @@ export default function Layout({ titles, children }: LayoutProps) {
                   <Switch checked={darkMode} onChange={darkModeChangeHandler} />
                   &nbsp;
                   <NextLink href="/cart" passHref>
-                    <Link>Cart</Link>
+                    <Link>
+                      {cart.cartItem.length > 0 ? <Badge badgeContent={cart.cartItem.length}>Cart </Badge> : 'Cart'}
+                    </Link>
                   </NextLink>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <NextLink href="/login" passHref>
