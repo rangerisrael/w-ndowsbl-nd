@@ -21,8 +21,6 @@ type Props = {
 };
 
 export default function Index({ products }: Props) {
-  const { state, dispatch } = useContext(Store);
-
   const addToCartHandler = async () => {
     // const data = products.map((item) => item._id);
     // console.log(data);
