@@ -6,6 +6,7 @@ import { Grid, List, ListItem, Typography, Card, Button, Box, Rating, Link } fro
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { Store } from '../../../components/Store';
 import { ProductQueriesById, ProductQueriesBySlug } from '../../../queries/product-queries';
+import Layout from '../../../components/Layout';
 
 interface IProduct {
   _id: string;
