@@ -10,11 +10,9 @@ import {
   CardActions,
   Button,
 } from '@mui/material';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import NextLink from 'next/link';
 import Layout from '../components/Layout';
 import { Store } from '../components/Store';
-import axios from 'axios';
 import { IProduct } from '../models/interface/Product';
 import { ProductQueries } from '../queries/product-queries';
 
