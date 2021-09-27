@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   Card,
   Typography,
@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import NextLink from 'next/link';
 import Layout from '../components/Layout';
-import { Store } from '../components/Store';
 import { IProduct } from '../models/interface/Product';
 import { ProductQueries } from '../queries/product-queries';
 
