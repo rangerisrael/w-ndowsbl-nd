@@ -30,7 +30,7 @@ const initialState: PropTypes = {
   // eslint-disable-next-line no-unneeded-ternary
   darkMode: Cookies.get('darkMode') === 'ON' ? true : false,
   cart: {
-    cartItem: Cookies.get('cartItems') ? JSON.parse(`${Cookies.get('cartItems')})`) : [],
+    cartItem: Cookies.get('cartItems') ? JSON.parse(`${Cookies.get('cartItems')}`) : [],
   },
 };
 
