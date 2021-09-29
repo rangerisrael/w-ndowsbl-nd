@@ -7,7 +7,7 @@ import { Switch } from '@mui/material';
 import { styled } from '@mui/system';
 
 export const DayNightMode = styled(Switch)(({ theme }) => ({
-  width: 62,
+  width: 50 ,
   height: 34,
   padding: 7,
   '& .MuiSwitch-switchBase': {

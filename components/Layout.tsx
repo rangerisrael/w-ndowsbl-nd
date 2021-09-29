@@ -141,11 +141,10 @@ export default function Layout({ titles, children }: LayoutProps) {
                     </a>
                   </Link>
                 </NextLink>
-
                 <div style={{ flexGrow: 1 }} />
+                <DayNightMode defaultChecked={darkMode} onChange={darkModeChangeHandler} />
+                &nbsp;
                 <div>
-                  <DayNightMode defaultChecked={darkMode} onChange={darkModeChangeHandler} />
-                  &nbsp;&nbsp;&nbsp;
                   <NextLink href="/cart" passHref>
                     <Link>
                       {cart.cartItem.length > 0 ? (
@@ -157,7 +156,7 @@ export default function Layout({ titles, children }: LayoutProps) {
                       )}
                     </Link>
                   </NextLink>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;
                   <NextLink href="/login" passHref>
                     <Link>Login</Link>
                   </NextLink>

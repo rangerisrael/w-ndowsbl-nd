@@ -41,7 +41,7 @@ export default function Index({ products }: Props) {
     }
 
     dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity } });
-    router.push('/checkout');
+    router.push('/cart');
   };
 
   return (
