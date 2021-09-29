@@ -8,6 +8,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { Store } from './Store';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 interface LayoutProps {
   titles: string;
@@ -146,7 +147,13 @@ export default function Layout({ titles, children }: LayoutProps) {
                   &nbsp;
                   <NextLink href="/cart" passHref>
                     <Link>
-                      {cart.cartItem.length > 0 ? <Badge badgeContent={cart.cartItem.length}>Cart </Badge> : 'Cart'}
+                      {cart.cartItem.length > 0 ? (
+                        <Badge badgeContent={cart.cartItem.length}>
+                          <ShoppingCartIcon />{' '}
+                        </Badge>
+                      ) : (
+                        'Cart'
+                      )}
                     </Link>
                   </NextLink>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
