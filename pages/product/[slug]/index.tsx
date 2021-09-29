@@ -7,6 +7,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { Store } from '../../../components/Store';
 import { ProductQueriesById, ProductQueriesBySlug } from '../../../queries/product-queries';
 import Layout from '../../../components/Layout';
+import { useRouter } from 'next/dist/client/router';
 
 interface IProduct {
   _id: string;
@@ -29,7 +30,7 @@ type Props = {
 };
 
 export default function ProductDetails({ product }: Props) {
-  // const router = useRouter();
+  const router = useRouter();
 
   // console.log(product);
   // const { slug } = router.query;
@@ -47,6 +48,7 @@ export default function ProductDetails({ product }: Props) {
     }
 
     dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } });
+    router.push('/checkout');
   };
 
   return (

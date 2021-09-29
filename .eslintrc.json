@@ -26,6 +26,7 @@
   },
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier", "import", "jsx-a11y"],
   "rules": {
+    "jsx-a11y/anchor-is-valid": "off",
     "no-param-reassign": "off",
     "no-underscore-dangle": "off",
     "no-console": "off",
