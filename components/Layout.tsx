@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactChildren, ReactElement, useContext, useState, useEffect } from 'react';
-import { AppBar, Container, Link, Toolbar, Typography, Switch, CircularProgress, Box, Badge } from '@mui/material';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { AppBar, Container, Link, Toolbar, Typography, CircularProgress, Box, Badge } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
@@ -8,7 +9,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { Store } from './Store';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { DayNightMode } from './SwitchMode';
 
 interface LayoutProps {
   titles: string;
@@ -143,8 +144,8 @@ export default function Layout({ titles, children }: LayoutProps) {
 
                 <div style={{ flexGrow: 1 }} />
                 <div>
-                  <Switch checked={darkMode} onChange={darkModeChangeHandler} />
-                  &nbsp;
+                  <DayNightMode defaultChecked={darkMode} onChange={darkModeChangeHandler} />
+                  &nbsp;&nbsp;&nbsp;
                   <NextLink href="/cart" passHref>
                     <Link>
                       {cart.cartItem.length > 0 ? (
