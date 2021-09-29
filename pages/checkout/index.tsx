@@ -21,12 +21,29 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
+import { ProductQueriesById } from '../../queries/product-queries';
 
 export default function Checkout() {
-  const { state } = useContext(Store);
+  const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItem },
   } = state;
+
+  const updateQuantity = async (item: { _id: string }, quantity: number) => {
+    const productData = await ProductQueriesById(item._id);
+
+    if (productData.product.countInStock < quantity) {
+      // eslint-disable-next-line no-alert
+      window.alert('Product is not available');
+      return;
+    }
+
+    dispatch({ type: 'ADD_TO_CART', payload: { ...item, quantity } });
+  };
+
+  const removeCartItem = (item: any) => {
+    dispatch({ type: 'REMOVE_CART', payload: item });
+  };
 
   return (
     <Layout titles="checkout">
@@ -36,7 +53,10 @@ export default function Checkout() {
         </Typography>
         {cartItem.length === 0 ? (
           <div>
-            Cart is empty list <NextLink href="/">Go to product to buy item</NextLink>
+            Cart is empty list{' '}
+            <NextLink href="/" passHref>
+              <Link> Go to product to buy items</Link>
+            </NextLink>
           </div>
         ) : (
           <Grid container spacing={1}>
@@ -73,7 +93,7 @@ export default function Checkout() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <Select value={item.quantity}>
+                          <Select value={item.quantity} onChange={(e) => updateQuantity(item, e.target.value)}>
                             {[...Array(item.countInStock).keys()].map((x) => (
                               <MenuItem key={x + 1} value={x + 1}>
                                 {x + 1}
@@ -87,7 +107,7 @@ export default function Checkout() {
                           </Typography>
                         </TableCell>
                         <TableCell align="right">
-                          <Button variant="contained" color="primary">
+                          <Button variant="contained" color="primary" onClick={() => removeCartItem(item)}>
                             X
                           </Button>
                         </TableCell>

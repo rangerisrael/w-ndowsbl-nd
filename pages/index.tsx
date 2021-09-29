@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Card,
   Typography,
@@ -11,25 +11,37 @@ import {
   Button,
 } from '@mui/material';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
+import { Store } from '../components/Store';
 import { IProduct } from '../models/interface/Product';
-import { ProductQueries } from '../queries/product-queries';
+import { ProductQueries, ProductQueriesById } from '../queries/product-queries';
 
 type Props = {
   products: IProduct[];
 };
 
 export default function Index({ products }: Props) {
-  const addToCartHandler = async () => {
-    // const data = products.map((item) => item._id);
-    // console.log(data);
-    // const productData = await fetch(`http://localhost:3000/api/product/${data._id}`);
-    // const listData = await productData.json();
-    // if (listData.countInStock <= 0) {
-    //   window.alert('Product is not available');
-    //   return;
-    // }
-    // dispatch({ type: 'ADD_TO_CART', payload: { ...products, quantity: 1 } });
+  const { state, dispatch } = useContext(Store);
+
+  const router = useRouter();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const addToCartHandler = async (product: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const existItem = state.cart.cartItem.find((x: { _id: any }) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+
+    const productData = await ProductQueriesById(product._id);
+
+    if (productData.product.countInStock < quantity) {
+      // eslint-disable-next-line no-alert
+      window.alert('Product is  out stocks');
+      return;
+    }
+
+    dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity } });
+    router.push('/checkout');
   };
 
   return (
@@ -58,7 +70,7 @@ export default function Index({ products }: Props) {
                   </CardActionArea>
                 </NextLink>
                 <CardActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                  <Button fullWidth variant="contained" onClick={addToCartHandler}>
+                  <Button fullWidth variant="contained" onClick={() => addToCartHandler(product)}>
                     Add to Basket
                   </Button>
                 </CardActions>

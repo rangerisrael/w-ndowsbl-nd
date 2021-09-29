@@ -54,6 +54,11 @@ const reducer: Reducer<PropTypes, Actions> = (state, action) => {
       Cookies.set('cartItems', JSON.stringify(cartItem));
       return { ...state, cart: { ...state.cart, cartItem } };
     }
+    case 'REMOVE_CART': {
+      const cartItem = state.cart.cartItem.filter((item: { _id: number }) => item._id !== action.payload._id);
+      Cookies.set('cartItems', JSON.stringify(cartItem));
+      return { ...state, cart: { ...state.cart, cartItem } };
+    }
 
     default:
       return state;

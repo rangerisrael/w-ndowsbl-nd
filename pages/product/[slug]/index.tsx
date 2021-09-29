@@ -35,19 +35,21 @@ export default function ProductDetails({ product }: Props) {
   // console.log(product);
   // const { slug } = router.query;
   // const product = data.products.find((a) => a.slug === slug);
-  const { dispatch } = useContext(Store);
+  const { state, dispatch } = useContext(Store);
 
   const addToCartHandler = async () => {
-    // const productData = await fetch(`http://localhost:3000/api/product/${product._id}`);
+    const existItem = state.cart.cartItem.find((x: { _id: string }) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+
     const productData = await ProductQueriesById(product._id);
 
-    if (productData.product.countInStock <= 0) {
+    if (productData.product.countInStock < quantity) {
       // eslint-disable-next-line no-alert
-      window.alert('Product is not available');
+      window.alert('Product is out of stocks');
       return;
     }
 
-    dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } });
+    dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity } });
     router.push('/checkout');
   };
 
