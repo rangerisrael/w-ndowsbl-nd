@@ -1,5 +1,9 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactChildren, ReactElement, createContext, Dispatch, Reducer, useReducer } from 'react';
 import Cookies from 'js-cookie';
+import { IUser } from '../models/interface/Users';
+import { IProduct } from '../models/interface/Product';
 
 interface Actions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -10,9 +14,9 @@ interface Actions {
 interface PropTypes {
   darkMode: boolean;
   cart: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cartItem: [] | any;
   };
+  userInfo: IUser;
 }
 
 interface InitContextProps {
@@ -32,6 +36,7 @@ const initialState: PropTypes = {
   cart: {
     cartItem: Cookies.get('cartItems') ? JSON.parse(`${Cookies.get('cartItems')}`) : [],
   },
+  userInfo: Cookies.get('userInfo') ? JSON.parse(`${Cookies.get('userInfo')}`) : null,
 };
 
 const reducer: Reducer<PropTypes, Actions> = (state, action) => {
@@ -44,9 +49,10 @@ const reducer: Reducer<PropTypes, Actions> = (state, action) => {
     case 'ADD_TO_CART': {
       const newItem = action.payload;
       // if exist
-      const existItem = state.cart.cartItem.find((item: { _id: number }) => item._id === newItem._id);
+      const existItem: any = state.cart.cartItem.find((item: { _id: string }) => item._id === newItem._id);
 
       // if item on the list
+
       const cartItem = existItem
         ? state.cart.cartItem.map((item: { name: string }) => (item.name === existItem.name ? newItem : item))
         : [...state.cart.cartItem, newItem];
@@ -55,9 +61,16 @@ const reducer: Reducer<PropTypes, Actions> = (state, action) => {
       return { ...state, cart: { ...state.cart, cartItem } };
     }
     case 'REMOVE_CART': {
-      const cartItem = state.cart.cartItem.filter((item: { _id: number }) => item._id !== action.payload._id);
+      const cartItem = state.cart.cartItem.filter((item: { _id: string }) => item._id !== action.payload._id);
       Cookies.set('cartItems', JSON.stringify(cartItem));
       return { ...state, cart: { ...state.cart, cartItem } };
+    }
+
+    case 'USER_LOGIN': {
+      return { ...state, userInfo: action.payload };
+    }
+    case 'USER_LOGOUT': {
+      return { ...state, cart: { cartItem: {} }, userInfo: null };
     }
 
     default:

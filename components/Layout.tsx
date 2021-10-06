@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactChildren, ReactElement, useContext, useState, useEffect } from 'react';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { AppBar, Container, Link, Toolbar, Typography, CircularProgress, Box, Badge } from '@mui/material';
+import { AppBar, Container, Link, Toolbar, Typography, CircularProgress, Box, Badge, Button } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
@@ -45,7 +45,7 @@ export default function Layout({ titles, children }: LayoutProps) {
   const { state, dispatch } = useContext(Store);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(10);
-  const { darkMode, cart } = state;
+  const { darkMode, cart, userInfo } = state;
 
   // Create a theme instance.
   const theme = createTheme({
@@ -152,14 +152,18 @@ export default function Layout({ titles, children }: LayoutProps) {
                           <ShoppingCartIcon />{' '}
                         </Badge>
                       ) : (
-                        'Cart'
+                        <ShoppingCartIcon />
                       )}
                     </Link>
                   </NextLink>
-                  &nbsp;&nbsp;
-                  <NextLink href="/login" passHref>
-                    <Link>Login</Link>
-                  </NextLink>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  {userInfo ? (
+                    <Button variant="contained">{userInfo.name.split(' ').slice(0, -1).join('')}</Button>
+                  ) : (
+                    <NextLink href="/login" passHref>
+                      <Link>Login</Link>
+                    </NextLink>
+                  )}
                 </div>
               </Toolbar>
             </AppBar>

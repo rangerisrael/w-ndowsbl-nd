@@ -1,23 +1,45 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-alert */
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
+import { Store } from '../../components/Store';
 
 export default function Login() {
+  const router = useRouter();
+
+  const { redirect } = router.query; // login?redirect=/shipping
+
+  const { state, dispatch } = useContext(Store);
+
+  const { userInfo } = state;
+
+  if (userInfo) {
+    router.push('/');
+  }
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const submitRequest = async (e) => {
+  const submitRequest = async (e: any) => {
     e.preventDefault();
 
     try {
-      const { request } = await axios.post('/api/users/signIn', { email, password });
+      const { data } = await axios.post('/api/users/signIn', { email, password });
       alert('sign in sucees');
+      setEmail('');
+      setPassword('');
+      console.log(data);
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      Cookies.set('userInfo', JSON.stringify(data));
+      router.push(redirect || '/');
     } catch (err) {
       alert(err.response.data ? err.response.data.message : err.message);
     }

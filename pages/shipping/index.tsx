@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
+import { Store } from '../../components/Store';
 
 export default function ShippingAddress() {
   const router = useRouter();
+  const { state } = useContext(Store);
 
-  useEffect(() => {
+  const { userInfo } = state;
+
+  if (!userInfo) {
     router.push('/login');
-  }, [router]);
+  }
 
   return (
     <Layout titles="shipping">
