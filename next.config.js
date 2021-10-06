@@ -9,6 +9,10 @@ module.exports = withTM({
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID,
     LOCAL_URL: process.env.LOCAL_URL,
     HOSTNAME_URL: process.env.HOSTNAME_URL,
+    GOOGLE_ID: process.env.GOOGLE_ID,
+    GOOGLE_SECRET: process.env.GOOGLE_SECRET,
+    FACEBOOK_ID: process.env.FACEBOOK_ID,
+    FACEBOOK_SECRET: process.env.FACEBOOK_SECRET,
   },
   reactStrictMode: true,
   webpack: (config) => {

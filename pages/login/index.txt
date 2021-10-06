@@ -1,0 +1,74 @@
+import FacebookIcon from '@mui/icons-material/Facebook';
+import GoogleIcon from '@mui/icons-material/Google';
+import { Link } from '@mui/material';
+import { signIn, signOut, useSession } from 'next-auth/client';
+import NextLink from 'next/link';
+
+// The approach used in this component shows how to built a sign in and sign out
+// component that works on pages which support both client and server side
+// rendering, and avoids any flash incorrect content on initial page load.
+export default function LogInScreen() {
+  const [session] = useSession();
+
+  return (
+    <div>
+      <noscript>
+        <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
+      </noscript>
+      <div>
+        <p>
+          {!session && (
+            <>
+              <span>You are not signed in</span>
+              <NextLink href="/api/auth/signin" passHref>
+                <Link
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signIn('google', {
+                      callbackUrl: `${process.env.LOCAL_URL}`,
+                    });
+                  }}
+                >
+                  <GoogleIcon sx={{ width: '50px' }} />
+                  Sigin with Google
+                </Link>
+              </NextLink>
+              <NextLink href="/api/auth/signin" passHref>
+                <Link
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signIn('facebook', {
+                      callbackUrl: `${process.env.LOCAL_URL}`,
+                    });
+                  }}
+                >
+                  <FacebookIcon sx={{ width: '50px' }} />
+                  Facebook
+                </Link>
+              </NextLink>
+            </>
+          )}
+          {session?.user && (
+            <>
+              <span style={{ backgroundImage: `url(${session.user.image})` }} className={styles.avatar} />
+              <span>
+                <small>Signed in as</small>
+                <br />
+                <strong>{session.user.email || session.user.name}</strong>
+              </span>
+              <a
+                href="/api/auth/signout"
+                onClick={(e) => {
+                  e.preventDefault();
+                  signOut();
+                }}
+              >
+                Sign out
+              </a>
+            </>
+          )}
+        </p>
+      </div>
+    </div>
+  );
+}

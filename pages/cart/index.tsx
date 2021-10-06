@@ -19,11 +19,13 @@ import {
 } from '@mui/material';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 import { ProductQueriesById } from '../../queries/product-queries';
 
 export default function Checkout() {
+  const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItem },
@@ -46,7 +48,7 @@ export default function Checkout() {
   };
 
   return (
-    <Layout titles="checkout">
+    <Layout titles="cart">
       <div>
         <Typography component="h1" variant="h1">
           Shopping Cart
@@ -127,7 +129,7 @@ export default function Checkout() {
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Button fullWidth variant="contained" color="primary">
+                    <Button fullWidth variant="contained" color="primary" onClick={() => router.push('/shipping')}>
                       Checkout
                     </Button>
                   </ListItem>

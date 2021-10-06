@@ -1,6 +1,5 @@
 export interface IProduct {
-
-  _id: string;
+  _id?: string;
   name: string;
   slug: string;
   category: string;
@@ -13,8 +12,4 @@ export interface IProduct {
   description: string;
   createdAt: string;
   updatedAt: string;
-}
-
-export interface Slug {
-  slug: string;
 }
