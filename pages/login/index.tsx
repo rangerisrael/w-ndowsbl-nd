@@ -7,6 +7,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { signIn } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
@@ -91,28 +92,50 @@ export default function Login() {
                 <ListItem sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Grid container>
                     <Grid item md={6} xs={7}>
-                      <Grid container>
-                        <Grid item md={2} xs={2}>
-                          {' '}
-                          <GoogleIcon sx={{ width: '50px' }} />
-                        </Grid>
-                        <Grid item md={5} xs={8}>
-                          {' '}
-                          <Typography>Sign in with Google</Typography>
-                        </Grid>
-                      </Grid>
+                      <NextLink href="/api/auth/signin" passHref>
+                        <Link
+                          onClick={(e) => {
+                            e.preventDefault();
+                            signIn('google', {
+                              callbackUrl: `${process.env.LOCAL_URL || router.push(`${redirect}`)}`,
+                            });
+                          }}
+                        >
+                          <Grid container>
+                            <Grid item md={2} xs={2}>
+                              {' '}
+                              <GoogleIcon sx={{ width: '50px' }} />
+                            </Grid>
+                            <Grid item md={5} xs={8}>
+                              {' '}
+                              <Typography>Sign in with Google</Typography>
+                            </Grid>
+                          </Grid>
+                        </Link>
+                      </NextLink>
                     </Grid>
                     <Grid item md={6} xs={5}>
-                      <Grid container>
-                        <Grid item md={2} xs={3}>
-                          {' '}
-                          <FacebookIcon sx={{ width: '50px' }} />
-                        </Grid>
-                        <Grid item md={5} xs={5}>
-                          {' '}
-                          <Typography>Facebook</Typography>
-                        </Grid>
-                      </Grid>
+                      <NextLink href="/api/auth/signin" passHref>
+                        <Link
+                          onClick={(e) => {
+                            e.preventDefault();
+                            signIn('facebook', {
+                              callbackUrl: `${process.env.LOCAL_URL || router.push(`${redirect}`)}`,
+                            });
+                          }}
+                        >
+                          <Grid container>
+                            <Grid item md={2} xs={3}>
+                              {' '}
+                              <FacebookIcon sx={{ width: '50px' }} />
+                            </Grid>
+                            <Grid item md={5} xs={5}>
+                              {' '}
+                              <Typography>Facebook</Typography>
+                            </Grid>
+                          </Grid>
+                        </Link>
+                      </NextLink>
                     </Grid>
                   </Grid>
                 </ListItem>

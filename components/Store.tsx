@@ -3,7 +3,6 @@
 import React, { ReactChildren, ReactElement, createContext, Dispatch, Reducer, useReducer } from 'react';
 import Cookies from 'js-cookie';
 import { IUser } from '../models/interface/Users';
-import { IProduct } from '../models/interface/Product';
 
 interface Actions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

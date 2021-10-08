@@ -8,6 +8,7 @@ module.exports = withTM({
     JWT_SECRET: process.env.JWT_SECRET,
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID,
     LOCAL_URL: process.env.LOCAL_URL,
+    NEXTAUTH_URL: process.env.LOCAL_URL,
     HOSTNAME_URL: process.env.HOSTNAME_URL,
     GOOGLE_ID: process.env.GOOGLE_ID,
     GOOGLE_SECRET: process.env.GOOGLE_SECRET,

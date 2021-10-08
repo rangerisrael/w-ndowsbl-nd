@@ -1,15 +1,18 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactChildren, ReactElement, useContext, useState, useEffect } from 'react';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { AppBar, Container, Link, Toolbar, Typography, CircularProgress, Box, Badge, Button } from '@mui/material';
+import { AppBar, Container, Link, Toolbar, Typography, CircularProgress, Box, Badge } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
+import { useSession } from 'next-auth/client';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { Store } from './Store';
 import { DayNightMode } from './SwitchMode';
+import UserIdentity from './ui-component/MenuItem';
 
 interface LayoutProps {
   titles: string;
@@ -42,6 +45,7 @@ const LayoutStyle = styled.div`
 
 // eslint-disable-next-line no-undef
 export default function Layout({ titles, children }: LayoutProps) {
+  const [session] = useSession();
   const { state, dispatch } = useContext(Store);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(10);
@@ -157,8 +161,20 @@ export default function Layout({ titles, children }: LayoutProps) {
                     </Link>
                   </NextLink>
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  {userInfo ? (
-                    <Button variant="contained">{userInfo.name.split(' ').slice(0, -1).join('')}</Button>
+                  {/* {!session
+                    ? ''
+                    : session?.user && <UserIdentity name={session.user.name.split(' ').slice(0, -1).join('')} />}
+                  {userInfo ? <UserIdentity name={userInfo.name.split(' ').slice(0, -1).join('')} /> : ''}
+                  {!userInfo ||
+                    (!session && (
+                      <NextLink href="/login" passHref>
+                        <Link>Login</Link>
+                      </NextLink>
+                    ))} */}
+                  {session?.user ? (
+                    <UserIdentity name={session.user.name.split(' ').slice(0, -1).join('')} />
+                  ) : userInfo ? (
+                    <UserIdentity name={userInfo.name.split(' ').slice(0, -1).join('')} />
                   ) : (
                     <NextLink href="/login" passHref>
                       <Link>Login</Link>
