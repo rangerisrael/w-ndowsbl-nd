@@ -70,7 +70,7 @@ const reducer: Reducer<PropTypes, Actions> = (state, action) => {
       return { ...state, userInfo: action.payload };
     }
     case 'USER_LOGOUT': {
-      return { ...state, cart: { cartItem: {} }, userInfo: null };
+      return { ...state, cart: { cartItem: [] }, userInfo: null };
     }
 
     default:

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-alert */
 /* eslint-disable react/no-unescaped-entities */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
@@ -17,20 +17,23 @@ export default function Login() {
 
   const { redirect } = router.query; // login?redirect=/shipping
 
+  console.log(redirect);
+
   const { state, dispatch } = useContext(Store);
 
   const { userInfo } = state;
 
-  if (userInfo) {
-    router.push('/');
-  }
+  useEffect(() => {
+    if (userInfo && !redirect) {
+      router.push('/');
+    }
+  }, [redirect, router, userInfo]);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const submitRequest = async (e: any) => {
     e.preventDefault();
-
     try {
       const { data } = await axios.post('/api/users/signIn', { email, password });
       alert('sign in sucees');
@@ -39,8 +42,8 @@ export default function Login() {
       console.log(data);
       dispatch({ type: 'USER_LOGIN', payload: data });
       Cookies.set('userInfo', JSON.stringify(data));
-      router.push(redirect || '/');
-    } catch (err) {
+      router.push(`${redirect || '/'}`);
+    } catch (err: any) {
       alert(err.response.data ? err.response.data.message : err.message);
     }
   };
