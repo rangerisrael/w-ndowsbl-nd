@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-param-reassign */
 const withTM = require('next-transpile-modules')(['@mui/material', '@mui/system']); // pass the modules you would like to see transpiled
@@ -14,6 +15,8 @@ module.exports = withTM({
     GOOGLE_SECRET: process.env.GOOGLE_SECRET,
     FACEBOOK_ID: process.env.FACEBOOK_ID,
     FACEBOOK_SECRET: process.env.FACEBOOK_SECRET,
+    GOOGLE_USER: process.env.GOOGLE_USER,
+    GOOGLE_PASSWORD: process.env.GOOGLE_PASSWORD,
   },
   reactStrictMode: true,
   webpack: (config) => {

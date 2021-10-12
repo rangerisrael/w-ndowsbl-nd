@@ -161,18 +161,8 @@ export default function Layout({ titles, children }: LayoutProps) {
                     </Link>
                   </NextLink>
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  {/* {!session
-                    ? ''
-                    : session?.user && <UserIdentity name={session.user.name.split(' ').slice(0, -1).join('')} />}
-                  {userInfo ? <UserIdentity name={userInfo.name.split(' ').slice(0, -1).join('')} /> : ''}
-                  {!userInfo ||
-                    (!session && (
-                      <NextLink href="/login" passHref>
-                        <Link>Login</Link>
-                      </NextLink>
-                    ))} */}
                   {session?.user ? (
-                    <UserIdentity name={session.user.name.split(' ').slice(0, -1).join('')} />
+                    <UserIdentity name={session.user.name} />
                   ) : userInfo ? (
                     <UserIdentity name={userInfo.name.split(' ').slice(0, -1).join('')} />
                   ) : (

@@ -10,7 +10,7 @@ const handler = nc();
 handler.get(async (_req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
 
-  const deleteItem = [Users.deleteMany(), Product.deleteMany()];
+  const deleteItem = [Users.deleteMany({}), Product.deleteMany({})];
   const insertItem = [Users.insertMany(data.users), Product.insertMany(data.products)];
 
   const deleted = deleteItem.map((x) => {

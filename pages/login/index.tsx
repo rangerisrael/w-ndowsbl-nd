@@ -97,7 +97,7 @@ export default function Login() {
                           onClick={(e) => {
                             e.preventDefault();
                             signIn('google', {
-                              callbackUrl: `${process.env.LOCAL_URL || router.push(`${redirect}`)}`,
+                              callbackUrl: `${process.env.LOCAL_URL}`,
                             });
                           }}
                         >
@@ -120,7 +120,7 @@ export default function Login() {
                           onClick={(e) => {
                             e.preventDefault();
                             signIn('facebook', {
-                              callbackUrl: `${process.env.LOCAL_URL || router.push(`${redirect}`)}`,
+                              callbackUrl: `${process.env.LOCAL_URL}`,
                             });
                           }}
                         >

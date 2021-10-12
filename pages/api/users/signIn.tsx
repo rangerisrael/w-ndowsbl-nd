@@ -20,6 +20,7 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
       name: users.name,
       email: users.email,
       role: users.role,
+      verify: users.verify,
     });
   } else {
     res.status(401).send({ message: 'Invalid credentials' });
