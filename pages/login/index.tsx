@@ -5,13 +5,13 @@ import React, { useContext, useState, useEffect } from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import { signIn } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
+import { LoginUser } from '../../queries/users.queries';
 
 export default function Login() {
   const router = useRouter();
@@ -36,13 +36,13 @@ export default function Login() {
   const submitRequest = async (e: any) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('/api/users/signIn', { email, password });
+      const data = await LoginUser(email, password);
       alert('sign in sucees');
       setEmail('');
       setPassword('');
-      console.log(data);
-      dispatch({ type: 'USER_LOGIN', payload: data });
-      Cookies.set('userInfo', JSON.stringify(data));
+
+      dispatch({ type: 'USER_LOGIN', payload: data.loginUser });
+      Cookies.set('userInfo', JSON.stringify(data.loginUser));
       router.push(`${redirect || '/'}`);
     } catch (err: any) {
       alert(err.response.data ? err.response.data.message : err.message);

@@ -113,9 +113,9 @@ export default function Layout({ titles, children }: LayoutProps) {
                   </NextLink>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   {session?.user ? (
-                    <UserIdentity name={session.user.name} />
+                    <UserIdentity name={session.user.name.split(' ')[0]} />
                   ) : userInfo ? (
-                    <UserIdentity name={userInfo.name.split(' ').slice(0, -1).join('')} />
+                    <UserIdentity name={userInfo.name.split(' ')[0]} />
                   ) : (
                     <NextLink href="/login" passHref>
                       <Link>Login</Link>

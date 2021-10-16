@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
-import axios from 'axios';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
+import { RegisterUser } from '../../queries/users.queries';
 
-export default function RegisterUser() {
+export default function RegisterUsers() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -18,17 +18,16 @@ export default function RegisterUser() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { data } = await axios.post('/api/users/signUp', { name, email, password });
+    const data = await RegisterUser(name, email, password);
 
-    console.log(data);
     try {
-      if (data.id === '') {
+      if (data.registerUser.id === '') {
         // eslint-disable-next-line no-alert
-        alert(data.message);
+        alert(data.registerUser.message);
       } else {
         // eslint-disable-next-line no-alert
-        alert(data.message);
-        router.push(`/verification/${data.id}`);
+        alert(data.registerUser.message);
+        router.push(`/verification/${data.registerUser.id}`);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

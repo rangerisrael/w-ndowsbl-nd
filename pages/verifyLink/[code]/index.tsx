@@ -2,15 +2,28 @@
 /* eslint-disable no-lonely-if */
 /* eslint-disable import/order */
 
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Grid, ListItem, Typography, List } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Layout from '../../../components/Layout';
 import { getUserByCode, VerifyingUserByLink } from '../../../queries/users.queries';
+import { useRouter } from 'next/router';
+import { Store } from '../../../components/Store';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ValidateCode({ users }: any) {
   const verify = true;
+  const router = useRouter();
+
+  const { state } = useContext(Store);
+
+  const { userInfo } = state;
+
+  useEffect(() => {
+    if (userInfo) {
+      router.push('/');
+    }
+  }, [router, userInfo]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const codeHandler = async (e: any) => {
@@ -30,6 +43,7 @@ export default function ValidateCode({ users }: any) {
       } else {
         // eslint-disable-next-line no-alert
         alert(data.verifyUserByLink.message);
+        router.push('/login');
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

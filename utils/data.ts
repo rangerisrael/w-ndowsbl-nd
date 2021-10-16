@@ -8,6 +8,7 @@ const data = {
       email: 'israel@gmail.com',
       verify: true,
       role: 'admin',
+      code: 1352,
     },
     {
       name: 'Rael Iva Ososila',
@@ -15,6 +16,7 @@ const data = {
       email: 'devisrael28@gmail.com',
       verify: true,
       role: 'seller',
+      code: 2345,
     },
     {
       name: 'Israel Ali',
@@ -22,6 +24,7 @@ const data = {
       email: 'rael@gmail.com',
       verify: true,
       role: 'deliverer',
+      code: 5735,
     },
     {
       name: 'Rael Israel',
@@ -29,6 +32,7 @@ const data = {
       email: 'israelali@gmail.com',
       verify: true,
       role: 'buyer',
+      code: 2314,
     },
   ],
   products: [

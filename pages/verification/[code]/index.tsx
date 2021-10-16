@@ -2,15 +2,28 @@
 /* eslint-disable no-lonely-if */
 /* eslint-disable import/order */
 
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Grid, ListItem, TextField, Typography, List } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Layout from '../../../components/Layout';
 import { getUserByCode, VerifyingUser, RequestNewCode } from '../../../queries/users.queries';
+import { useRouter } from 'next/router';
+import { Store } from '../../../components/Store';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ValidateCode({ users }: any) {
+  const router = useRouter();
   const [codes, setCode] = React.useState(null);
+
+  const { state } = useContext(Store);
+
+  const { userInfo } = state;
+
+  useEffect(() => {
+    if (userInfo) {
+      router.push('/');
+    }
+  }, [router, userInfo]);
 
   const verify = true;
   const randomCode = Math.floor(1000 + Math.random() * 9000);
@@ -37,6 +50,7 @@ export default function ValidateCode({ users }: any) {
         if (users.code === coded) {
           // eslint-disable-next-line no-alert
           alert(data.verifyUser.message);
+          router.push('/login');
         }
       }
 

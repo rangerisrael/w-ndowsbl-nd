@@ -15,6 +15,32 @@ export const getUserByCode = async (_id: IUser['_id']) =>
     }));
 
 // eslint-disable-next-line import/prefer-default-export
+export const LoginUser = async (email: IUser['email'], password: IUser['password']) =>
+  await axios
+    .post(`${`${process.env.LOCAL_URL}api/users/signIn`}`, { email, password })
+    .then((res) => ({
+      error: false,
+      loginUser: res.data,
+    }))
+    .catch(() => ({
+      error: true,
+      loginUser: null,
+    }));
+
+// eslint-disable-next-line import/prefer-default-export
+export const RegisterUser = async (name: IUser['name'], email: IUser['email'], password: IUser['password']) =>
+  await axios
+    .post(`${`${process.env.LOCAL_URL}api/users/signUp`}`, { name, email, password })
+    .then((res) => ({
+      error: false,
+      registerUser: res.data,
+    }))
+    .catch(() => ({
+      error: true,
+      registerUser: null,
+    }));
+
+// eslint-disable-next-line import/prefer-default-export
 export const VerifyingUser = async (_id: IUser['_id'], codes: number, verify: boolean) =>
   await axios
     .put(`${`${process.env.LOCAL_URL}api/activate/${_id}`}`, { codes, verify })

@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import Users from '../../../../models/Users';
+import { signToken } from '../../../../utils/authenticate';
 import db from '../../../../utils/databaseConfig';
 
 const handler = nc();
@@ -24,8 +25,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     if (user && user.code === req.body.codes) {
       await db.disconnect();
       res.send({ message: 'Email is already verified', id: user.id });
-    } 
-    else {
+    } else {
       if (req.body.codes === 0) {
         await db.disconnect();
         res.send({ message: 'Input a valid code first', id: '' });
@@ -39,7 +39,16 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       user.verify = req.body.verify;
       user.save();
       await db.disconnect();
-      res.send({ message: 'Congratulation Email is verified', id: user.id });
+      const token = signToken(user);
+      res.send({
+        token,
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        verify: user.verify,
+        message: 'Congratulation Email is verified',
+      });
     } else {
       if (req.body.codes === 0) {
         await db.disconnect();
