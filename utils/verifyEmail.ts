@@ -43,7 +43,7 @@ const sendConfirmEmail = function ({ newUser, userId, username, code }: UsersEma
     <h2>This is your code</h2>
     <h3>${code}</h3>
     <p>Option 2</p>
-    <p>Follow this link: <a target="_" href="${process.env.LOCAL_URL}/api/activate/user/${userId}">${process.env.LOCAL_URL}active</a></p>
+    <p>Follow this link to: <a target="_" href="${process.env.LOCAL_URL}/verifyLink/${userId}">Activate your account</a></p>
     <p>By Windowsblind Administrator</p>,
     <p>You received this messages, Cuz you are attempting to register in our platform</p>`,
   };

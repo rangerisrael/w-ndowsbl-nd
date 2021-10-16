@@ -26,3 +26,27 @@ export const VerifyingUser = async (_id: IUser['_id'], codes: number, verify: bo
       error: true,
       verifyUser: null,
     }));
+
+export const RequestNewCode = async (_id: IUser['_id'], randomCode: number) =>
+  await axios
+    .put(`${`${process.env.LOCAL_URL}api/request/${_id}`}`, { randomCode })
+    .then((res) => ({
+      error: false,
+      requestCode: res.data,
+    }))
+    .catch(() => ({
+      error: true,
+      requestCode: null,
+    }));
+
+export const VerifyingUserByLink = async (_id: IUser['_id'], verify: boolean) =>
+  await axios
+    .put(`${`${process.env.LOCAL_URL}api/request/${_id}`}`, { verify })
+    .then((res) => ({
+      error: false,
+      verifyUserByLink: res.data,
+    }))
+    .catch(() => ({
+      error: true,
+      verifyUserByLink: null,
+    }));

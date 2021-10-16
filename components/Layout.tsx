@@ -2,46 +2,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactChildren, ReactElement, useContext, useState, useEffect } from 'react';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { AppBar, Container, Link, Toolbar, Typography, CircularProgress, Box, Badge } from '@mui/material';
+import { AppBar, Container, Link, Toolbar, Typography, Badge } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { useSession } from 'next-auth/client';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import styled from 'styled-components';
 import { Store } from './Store';
 import { DayNightMode } from './SwitchMode';
+import LayoutStyle from './ui-component/LayoutStyle';
 import UserIdentity from './ui-component/MenuItem';
+import CircularProgressWithLabel from './ui-component/ProgressBar';
 
 interface LayoutProps {
   titles: string;
   children: ReactChildren | ReactElement;
 }
-
-const LayoutStyle = styled.div`
-  .appBar {
-    background: #4c4c4a;
-
-    a {
-      color: #f3f4f6;
-      text-decoration: none;
-      &:hover {
-        cursor: pointer;
-        text-decoration: underline;
-      }
-    }
-  }
-
-  .container {
-    min-height: 80vh;
-  }
-  .footer {
-    padding: 1rem 0;
-    background: rgb(76, 76, 72);
-    text-align: center;
-  }
-`;
 
 // eslint-disable-next-line no-undef
 export default function Layout({ titles, children }: LayoutProps) {
@@ -108,41 +85,14 @@ export default function Layout({ titles, children }: LayoutProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {!loading ? (
-          <Box sx={{ position: 'relative', background: 'transparent' }}>
-            <CircularProgress
-              thickness={1.5}
-              size={100}
-              sx={{
-                margin: 'auto',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0,
-              }}
-              value={progress}
-            />
-            <Typography
-              sx={{
-                height: '100vh',
-                display: 'flex', // make us of Flexbox
-                alignItems: 'center', // does vertically center the desired content
-                justifyContent: 'center', // horizontally centers single line items
-                textAlign: 'center', // optional, but helps horizontally center text that breaks into multiple lines
-              }}
-            >
-              {progress}%
-            </Typography>
-          </Box>
+          <CircularProgressWithLabel value={progress} />
         ) : (
           <>
             <AppBar className="appBar" position="static">
               <Toolbar>
                 <NextLink href="/">
                   <Link sx={{ color: '#f3f4f6' }}>
-                    <a>
-                      <Typography sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>W!ndowsBl!nd</Typography>
-                    </a>
+                    <Typography sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>W!ndowsBl!nd</Typography>
                   </Link>
                 </NextLink>
                 <div style={{ flexGrow: 1 }} />
@@ -151,6 +101,7 @@ export default function Layout({ titles, children }: LayoutProps) {
                 <div>
                   <NextLink href="/cart" passHref>
                     <Link>
+                      {' '}
                       {cart.cartItem.length > 0 ? (
                         <Badge badgeContent={cart.cartItem.length}>
                           <ShoppingCartIcon />{' '}

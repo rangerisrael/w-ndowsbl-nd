@@ -19,14 +19,35 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   const user = await Users.findById({ _id: req.query.code });
   console.log(req.query.code);
   // eslint-disable-next-line eqeqeq
-  if (user && user.code === req.body.codes) {
-    user.verify = req.body.verify;
-    user.save();
-    await db.disconnect();
-    res.send({ message: 'Congratulation Email is verified', id: user.id });
+
+  if (user.verify === true) {
+    if (user && user.code === req.body.codes) {
+      await db.disconnect();
+      res.send({ message: 'Email is already verified', id: user.id });
+    } 
+    else {
+      if (req.body.codes === 0) {
+        await db.disconnect();
+        res.send({ message: 'Input a valid code first', id: '' });
+      }
+      await db.disconnect();
+      res.send({ message: 'Please check your code', id: '' });
+    }
   } else {
-    await db.disconnect();
-    res.send({ message: 'Please check your code', id: '' });
+    // eslint-disable-next-line no-lonely-if
+    if (user && user.code === req.body.codes) {
+      user.verify = req.body.verify;
+      user.save();
+      await db.disconnect();
+      res.send({ message: 'Congratulation Email is verified', id: user.id });
+    } else {
+      if (req.body.codes === 0) {
+        await db.disconnect();
+        res.send({ message: 'Input a valid code first', id: '' });
+      }
+      await db.disconnect();
+      res.send({ message: 'Please check your code', id: '' });
+    }
   }
 });
 export default handler;

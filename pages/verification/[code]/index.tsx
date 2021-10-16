@@ -6,13 +6,15 @@ import React from 'react';
 import { Button, Grid, ListItem, TextField, Typography, List } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Layout from '../../../components/Layout';
-import { getUserByCode, VerifyingUser } from '../../../queries/users.queries';
+import { getUserByCode, VerifyingUser, RequestNewCode } from '../../../queries/users.queries';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ValidateCode({ users }: any) {
   const [codes, setCode] = React.useState(null);
 
   const verify = true;
+  const randomCode = Math.floor(1000 + Math.random() * 9000);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const codeHandler = async (e: any) => {
     e.preventDefault();
@@ -38,6 +40,23 @@ export default function ValidateCode({ users }: any) {
         }
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      // eslint-disable-next-line no-alert
+      alert(err);
+    }
+  };
+
+  const newCodeRequestHandler = async () => {
+    const data = await RequestNewCode(users._id, randomCode);
+    try {
+      if (data.requestCode.id === '') {
+        // eslint-disable-next-line no-alert
+        alert(data.requestCode.message);
+      } else {
+        // eslint-disable-next-line no-alert
+        alert(data.requestCode.message);
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       // eslint-disable-next-line no-alert
@@ -78,6 +97,16 @@ export default function ValidateCode({ users }: any) {
                 <ListItem>
                   <Button fullWidth variant="contained" type="submit">
                     Verify Code
+                  </Button>
+                </ListItem>
+
+                <ListItem>
+                  <Button
+                    sx={{ display: 'flex', justifyContent: 'flex-end', margin: '0 auto' }}
+                    variant="outlined"
+                    onClick={newCodeRequestHandler}
+                  >
+                    Request New Code
                   </Button>
                 </ListItem>
               </List>
