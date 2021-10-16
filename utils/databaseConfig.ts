@@ -45,6 +45,19 @@ const deleteAllUser = async () => {
   }
 };
 
+const deleteUser = async (id: string) => {
+  await Users.deleteOne({ id });
+};
+
+const updateCode = async (email: string) => {
+  // eslint-disable-next-line object-shorthand
+  const updateUser = await Users.findOne({ email: email });
+
+  updateUser.verify = true;
+
+  updateUser.save();
+};
+
 const deleteAllProduct = async () => {
   try {
     await Product.deleteMany();
@@ -62,5 +75,5 @@ const deleteAllProduct = async () => {
 //   return doc;
 // }
 
-const db = { connect, disconnect, deleteAllUser, deleteAllProduct };
+const db = { connect, disconnect, deleteAllUser, deleteAllProduct, deleteUser, updateCode };
 export default db;

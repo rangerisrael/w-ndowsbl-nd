@@ -5,6 +5,7 @@ export interface IUser {
   email: string;
   role: Roles;
   verify: boolean;
+  code: number;
 }
 
 export enum Roles {

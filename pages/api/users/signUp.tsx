@@ -15,29 +15,31 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
 
   const user = await Users.findOne({ email: _req.body.email });
 
-  if (user) {
-    res.send({ message: 'User already exist' });
-  } else {
+  if (!user) {
     const newUser = await new Users();
+    const randomCode = Math.floor(1000 + Math.random() * 9000);
+
     newUser.name = _req.body.name;
     newUser.email = _req.body.email;
     newUser.verify = false;
     newUser.password = bcrypt.hashSync(_req.body.password);
     newUser.role = Roles.buyer;
+    newUser.code = randomCode;
 
-    // await sendConfirmEmail({
-    //   newUser: _req.body.email,
-    //   userId: newUser._id,
-    //   username: _req.body.name,
-    // });
+    await sendConfirmEmail({
+      newUser: newUser.email,
+      userId: newUser._id,
+      username: newUser.name,
+      code: newUser.code,
+    });
 
-    // eslint-disable-next-line spaced-comment
     newUser.save();
-
-    res.send({ message: 'User created successfully' });
-
-    await db.disconnect();
+    res.send({ message: 'User created successfully', id: newUser.id });
+  } else {
+    res.send({ message: 'User already exist', id: '' });
   }
+
+  await db.disconnect();
 });
 
 export default handler;

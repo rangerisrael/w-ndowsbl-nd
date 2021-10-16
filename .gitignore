@@ -4,6 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
+/utils/sms.ts
+/pages/api/sms
+
 
 # testing
 /coverage

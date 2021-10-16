@@ -141,7 +141,7 @@ export default function Login() {
                 </ListItem>
                 <ListItem>
                   Don't have an account ? &nbsp;
-                  <NextLink href="/signup" passHref>
+                  <NextLink as="xxxsaddkasdkhasdksdasdskdasdsad" href="/register" passHref>
                     <Link>Register</Link>
                   </NextLink>
                 </ListItem>

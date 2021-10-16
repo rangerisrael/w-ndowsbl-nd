@@ -17,6 +17,8 @@ module.exports = withTM({
     FACEBOOK_SECRET: process.env.FACEBOOK_SECRET,
     GOOGLE_USER: process.env.GOOGLE_USER,
     GOOGLE_PASSWORD: process.env.GOOGLE_PASSWORD,
+    TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT,
+    TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
   },
   reactStrictMode: true,
   webpack: (config) => {
