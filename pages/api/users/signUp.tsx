@@ -19,7 +19,6 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
     const newUser = await new Users();
     const randomCode = Math.floor(1000 + Math.random() * 9000);
     // eslint-disable-next-line no-unused-expressions
-    newUser._id;
     newUser.name = _req.body.name;
     newUser.email = _req.body.email;
     newUser.verify = false;
