@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
-import Product from '../../models/Product';
+// import Product from '../../models/Product';
 import Users from '../../models/Users';
 import data from '../../utils/data';
 import db from '../../utils/databaseConfig';
