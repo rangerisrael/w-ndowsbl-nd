@@ -19,7 +19,7 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
   if (!user) {
     const newUser = await new Users();
     const randomCode = Math.floor(1000 + Math.random() * 9000);
-    newUser._id = new mongoose.Schema.Type.ObjectId();
+    newUser._id = new mongoose.Schema.Types.ObjectId();
     newUser.name = _req.body.name;
     newUser.email = _req.body.email;
     newUser.verify = false;
