@@ -17,8 +17,8 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
   const user = await Users.findOne({ email: _req.body.email });
 
   if (!user) {
-    const newUser = await new Users();
     const randomCode = Math.floor(1000 + Math.random() * 9000);
+    const newUser = await new Users();
     newUser._id = new mongoose.Types.ObjectId().toHexString();
     newUser.name = _req.body.name;
     newUser.email = _req.body.email;
@@ -27,7 +27,7 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
     newUser.role = Roles.buyer;
     newUser.code = randomCode;
 
-    console.log(newUser);
+    console.log(newUser._id);
 
     await sendConfirmEmail({
       newUser: newUser.email,
