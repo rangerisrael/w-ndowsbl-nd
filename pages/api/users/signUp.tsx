@@ -18,7 +18,6 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
   if (!user) {
     const newUser = await new Users();
     const randomCode = Math.floor(1000 + Math.random() * 9000);
-    // eslint-disable-next-line no-unused-expressions
     newUser.name = _req.body.name;
     newUser.email = _req.body.email;
     newUser.verify = false;
@@ -34,12 +33,13 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
     });
 
     newUser.save();
-    res.send({ message: 'User created successfully', id: newUser.id });
+
+    await db.disconnect();
+    res.send({ message: 'User created successfully', id: newUser._id });
   } else {
+    await db.disconnect();
     res.send({ message: 'User already exist', id: '' });
   }
-
-  await db.disconnect();
 });
 
 export default handler;

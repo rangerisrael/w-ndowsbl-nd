@@ -20,6 +20,8 @@ export default function RegisterUsers() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const data = await RegisterUser(name, email, password);
 
+    console.log(data.registerUser);
+
     try {
       if (data.registerUser.id === '') {
         // eslint-disable-next-line no-alert
