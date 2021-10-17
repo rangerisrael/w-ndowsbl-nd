@@ -58,6 +58,14 @@ const updateCode = async (email: string) => {
   updateUser.save();
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function convertDocToObj(doc: any) {
+  doc._id = doc._id.toString();
+  doc.createdAt = doc.createdAt.toString();
+  doc.updatedAt = doc.updatedAt.toString();
+  return doc;
+}
+
 const deleteAllProduct = async () => {
   try {
     await Product.deleteMany();
@@ -75,5 +83,5 @@ const deleteAllProduct = async () => {
 //   return doc;
 // }
 
-const db = { connect, disconnect, deleteAllUser, deleteAllProduct, deleteUser, updateCode };
+const db = { connect, disconnect, deleteAllUser, deleteAllProduct, deleteUser, updateCode, convertDocToObj };
 export default db;

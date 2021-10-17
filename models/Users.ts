@@ -1,9 +1,8 @@
 /* eslint-disable import/no-unresolved */
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
 const usersSchema = new mongoose.Schema(
-  { 
-    _id: { type: Schema.Types.ObjectId, required: true },
+  {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },

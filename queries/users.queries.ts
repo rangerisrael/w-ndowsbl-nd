@@ -28,9 +28,9 @@ export const LoginUser = async (email: IUser['email'], password: IUser['password
     }));
 
 // eslint-disable-next-line import/prefer-default-export
-export const RegisterUser = async (name: IUser['name'], email: IUser['email'], password: IUser['password']) =>
+export const RegisterUser = async ( name: string, email: string, password: string) =>
   await axios
-    .post(`${`${process.env.LOCAL_URL}api/users/signUp`}`, { name, email, password })
+    .post(`${`${process.env.LOCAL_URL}api/users/signUp`}`, {  name, email, password })
     .then((res) => ({
       error: false,
       registerUser: res.data,
