@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { Roles } from '../../../models/interface/Users';
@@ -25,21 +26,30 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
       role: Roles.buyer,
       code: randomCode,
     });
+
     // eslint-disable-next-line no-unused-expressions
     // newUser._id instanceof mongoose.Types.ObjectId;
 
-    console.log(newUser._id);
-
+    // eslint-disable-next-line no-unused-expressions
+    newUser._id instanceof mongoose.Types.ObjectId;
     await sendConfirmEmail({
       newUser: newUser.email,
-      userId: newUser._id,
+      userId: newUser.id,
       username: newUser.name,
       code: newUser.code,
     });
-
-    newUser.save();
+    console.log(newUser.id);
+    // eslint-disable-next-line no-shadow
+    newUser.save(async (err: any, user: any) => {
+      if (err) {
+        console.log(err);
+      }
+      if (user) {
+        console.log(user);
+      }
+    });
     await db.disconnect();
-    res.send({ message: 'User created successfully', id: newUser });
+    res.send({ message: 'User created successfully', id: newUser.id });
   } else {
     await db.disconnect();
     res.send({ message: 'User already exist', id: '' });
