@@ -28,6 +28,14 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     newUser.role = Roles.buyer;
     newUser.code = randomCode;
 
+    newUser.markModified('_id');
+    newUser.markModified('name');
+    newUser.markModified('email');
+    newUser.markModified('password');
+    newUser.markModified('verify');
+    newUser.markModified('role');
+    newUser.markModified('code');
+
     // eslint-disable-next-line no-unused-expressions
 
     await sendConfirmEmail({
