@@ -3,9 +3,8 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 const smtpConfig: SMTPTransport.Options = {
   host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  requireTLS: true,
+  port: 465,
+
   auth: {
     user: process.env.GOOGLE_USER,
     pass: process.env.GOOGLE_PASSWORD,
