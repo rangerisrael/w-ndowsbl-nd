@@ -35,8 +35,9 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       newUser: newUser.email,
       userId: newUser._id,
       username: newUser.name,
-      code: newUser.code,
+      code: randomCode,
     });
+
     console.log(newUser._id);
     // eslint-disable-next-line no-shadow
     await newUser.save();
