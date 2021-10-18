@@ -2,7 +2,10 @@ import nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 const smtpConfig: SMTPTransport.Options = {
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: false,
+  requireTLS: true,
   auth: {
     user: process.env.GOOGLE_USER,
     pass: process.env.GOOGLE_PASSWORD,
