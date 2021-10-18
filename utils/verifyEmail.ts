@@ -9,10 +9,10 @@ const smtpConfig: SMTPTransport.Options = {
   },
 };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sendMail(message: any) {
-  const transporter = nodemailer.createTransport(smtpConfig);
-  transporter.sendMail(message);
-}
+const sendMail = async (message: any) => {
+  const transporter = await nodemailer.createTransport(smtpConfig);
+  await transporter.sendMail(message);
+};
 
 // 3. Message configuration
 
@@ -28,7 +28,7 @@ interface UsersEmail {
 }
 
 // eslint-disable-next-line func-names
-const sendConfirmEmail = function ({ newUser, userId, username, code }: UsersEmail) {
+const sendConfirmEmail = async ({ newUser, userId, username, code }: UsersEmail) => {
   const message = {
     from: process.env.GOOGLE_USER,
     to: newUser,
@@ -44,7 +44,7 @@ const sendConfirmEmail = function ({ newUser, userId, username, code }: UsersEma
     <p>By Windowsblind Administrator</p>,
     <p>You received this messages, Cuz you are attempting to register in our platform</p>`,
   };
-  return sendMail(message);
+  await sendMail(message);
 };
 
 export default sendConfirmEmail;
