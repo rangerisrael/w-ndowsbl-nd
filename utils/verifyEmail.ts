@@ -3,7 +3,7 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 const smtpConfig: SMTPTransport.Options = {
   host: 'smtp.gmail.com',
-  port: 465,
+  port: 587,
   secure: false,
   requireTLS: true,
   auth: {
@@ -13,7 +13,7 @@ const smtpConfig: SMTPTransport.Options = {
 };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const sendMail = async (message: any) => {
-  const transporter = await nodemailer.createTransport(smtpConfig);
+  const transporter = nodemailer.createTransport(smtpConfig);
   await transporter.sendMail(message);
 };
 
