@@ -20,12 +20,13 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     // eslint-disable-next-line no-lonely-if
     if (user && req.body.verify) {
       user.verify = req.body.verify;
+      user.markModified('verify');
       user.save();
       await db.disconnect();
       const token = signToken(user);
       res.send({
         token,
-        id: user._id,
+        _id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
@@ -34,7 +35,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       });
     } else if (user && req.body.randomCode) {
       user.code = req.body.randomCode;
-
+      user.markModified('code');
       user.save();
 
       await sendConfirmEmail({
@@ -45,7 +46,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       await db.disconnect();
-      res.send({ message: 'Successfully created, Code must be sent in your email address', id: user.id });
+      res.send({ message: 'Successfully created, Code must be sent in your email address', id: user._id });
     } else {
       res.send({ message: 'Server Error:UnAuthorized request', id: '' });
     }

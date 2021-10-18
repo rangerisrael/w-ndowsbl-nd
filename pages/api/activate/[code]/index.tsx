@@ -37,6 +37,8 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     // eslint-disable-next-line no-lonely-if
     if (user && user.code === req.body.codes) {
       user.verify = req.body.verify;
+      user.markModified('verify');
+
       user.save();
       await db.disconnect();
       const token = signToken(user);
