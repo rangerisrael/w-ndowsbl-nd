@@ -11,23 +11,25 @@ import sendConfirmEmail from '../../../utils/verifyEmail';
 
 const handler = nc();
 
-handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
 
-  const user = await Users.findOne({ email: _req.body.email });
+  const user = await Users.findOne({ email: req.body.email });
 
   if (!user) {
     const randomCode = Math.floor(1000 + Math.random() * 9000);
-    const newUser = await new Users();
-
+    const newUser = await new Users({
+      name: req.body.name,
+      email: req.body.email,
+      verify: false,
+      password: bcrypt.hashSync(req.body.password),
+      role: Roles.buyer,
+      code: randomCode,
+    });
     // eslint-disable-next-line no-unused-expressions
     newUser._id instanceof mongoose.Types.ObjectId;
-    newUser.name = _req.body.name;
-    newUser.email = _req.body.email;
-    newUser.verify = false;
-    newUser.password = bcrypt.hashSync(_req.body.password);
-    newUser.role = Roles.buyer;
-    newUser.code = randomCode;
+
+    // eslint-disable-next-line no-unused-expressions
 
     await sendConfirmEmail({
       newUser: newUser.email,
