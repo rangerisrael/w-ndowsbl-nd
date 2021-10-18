@@ -37,15 +37,9 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
       code: newUser.code,
     });
 
-    // eslint-disable-next-line func-names
-    newUser.pre('save', async (err: any) => {
-      if (err) {
-        res.send({ message: err });
-        console.log(err);
-      }
-      await db.disconnect();
-      res.send({ message: 'User created successfully', id: newUser._id });
-    });
+    newUser.save();
+    await db.disconnect();
+    res.send({ message: 'User created successfully', id: newUser });
   } else {
     await db.disconnect();
     res.send({ message: 'User already exist', id: '' });
