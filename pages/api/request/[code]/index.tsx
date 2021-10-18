@@ -15,7 +15,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (user && user.verify === true) {
     await db.disconnect();
-    res.send({ message: 'Email is already verified', id: user.id });
+    res.send({ message: 'Email is already verified', id: user._id });
   } else {
     // eslint-disable-next-line no-lonely-if
     if (user && req.body.verify) {
