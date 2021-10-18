@@ -17,15 +17,16 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
 
   if (!user) {
     const randomCode = Math.floor(1000 + Math.random() * 9000);
-    const newUser = await new Users();
+    const newUser = await new Users({
+      name: _req.body.name,
+      email: _req.body.email,
+      verify: false,
+      password: bcrypt.hashSync(_req.body.password),
+      role: Roles.buyer,
+      code: randomCode,
+    });
     // eslint-disable-next-line no-unused-expressions
     // newUser._id instanceof mongoose.Types.ObjectId;
-    newUser.name = _req.body.name;
-    newUser.email = _req.body.email;
-    newUser.verify = false;
-    newUser.password = bcrypt.hashSync(_req.body.password);
-    newUser.role = Roles.buyer;
-    newUser.code = randomCode;
 
     console.log(newUser._id);
 
@@ -40,6 +41,7 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
     newUser.save(async (err: any) => {
       if (err) {
         res.send({ message: err });
+        console.log(err);
       }
       await db.disconnect();
       res.send({ message: 'User created successfully', id: newUser._id });
