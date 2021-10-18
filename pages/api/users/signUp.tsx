@@ -38,7 +38,7 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
     });
 
     // eslint-disable-next-line func-names
-    newUser.save(async (err: any) => {
+    newUser.pre('save', async (err: any) => {
       if (err) {
         res.send({ message: err });
         console.log(err);
