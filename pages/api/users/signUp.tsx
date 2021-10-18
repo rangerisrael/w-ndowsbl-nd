@@ -18,16 +18,15 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!user) {
     const randomCode = Math.floor(1000 + Math.random() * 9000);
-    const newUser = new Users({
-      name: req.body.name,
-      email: req.body.email,
-      verify: false,
-      password: bcrypt.hashSync(req.body.password),
-      role: Roles.buyer,
-      code: randomCode,
-    });
+    const newUser = new Users();
     // eslint-disable-next-line no-unused-expressions
     newUser._id instanceof mongoose.Types.ObjectId;
+    newUser.name = req.body.name;
+    newUser.email = req.body.email;
+    newUser.password = bcrypt.hashSync(req.body.password);
+    newUser.verify = false;
+    newUser.role = Roles.buyer;
+    newUser.code = randomCode;
 
     // eslint-disable-next-line no-unused-expressions
 
