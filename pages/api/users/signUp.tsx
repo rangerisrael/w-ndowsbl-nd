@@ -33,17 +33,17 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
     await sendConfirmEmail({
       newUser: newUser.email,
-      userId: newUser.id,
+      userId: newUser._id,
       username: newUser.name,
       code: randomCode,
     });
 
-    console.log(newUser.id);
+    console.log(newUser._id);
     // eslint-disable-next-line no-shadow
     await newUser.save();
 
     await db.disconnect();
-    res.send({ message: 'User created successfully', id: newUser.id });
+    res.send({ message: 'User created successfully', id: newUser._id });
   } else {
     await db.disconnect();
     res.send({ message: 'User already exist', id: '' });
