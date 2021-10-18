@@ -18,7 +18,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!user) {
     const randomCode = Math.floor(1000 + Math.random() * 9000);
-    const newUser = await new Users({
+    const newUser = new Users({
       name: req.body.name,
       email: req.body.email,
       verify: false,
@@ -39,7 +39,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     });
     console.log(newUser._id);
     // eslint-disable-next-line no-shadow
-    newUser.save();
+    await newUser.save();
+
     await db.disconnect();
     res.send({ message: 'User created successfully', id: newUser._id });
   } else {
