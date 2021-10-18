@@ -19,7 +19,8 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
   if (!user) {
     const randomCode = Math.floor(1000 + Math.random() * 9000);
     const newUser = await new Users();
-    new mongoose.Types.ObjectId(newUser._id).toHexString();
+    // eslint-disable-next-line no-unused-expressions
+    newUser._id instanceof mongoose.Types.ObjectId;
     newUser.name = _req.body.name;
     newUser.email = _req.body.email;
     newUser.verify = false;
