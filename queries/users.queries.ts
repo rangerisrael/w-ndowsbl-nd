@@ -42,9 +42,9 @@ export const RegisterUser = async (name: string, email: string, password: string
     }));
 
 // eslint-disable-next-line import/prefer-default-export
-export const VerifyingUser = async (id: string, codes: number, verify: boolean) =>
+export const VerifyingUser = async (_id: string, codes: number, verify: boolean) =>
   await axios
-    .put(`${`${process.env.LOCAL_URL}api/activate/${id}`}`, { codes, verify })
+    .put(`${`${process.env.LOCAL_URL}api/activate/${_id}`}`, { codes, verify })
     .then((res) => ({
       error: false,
       verifyUser: res.data,
@@ -66,9 +66,9 @@ export const RequestNewCode = async (_id: string, randomCode: number) =>
       requestCode: null,
     }));
 
-export const VerifyingUserByLink = async (id: string, verify: boolean) =>
+export const VerifyingUserByLink = async (_id: string, verify: boolean) =>
   await axios
-    .put(`${`${process.env.LOCAL_URL}api/request/${id}`}`, { verify })
+    .put(`${`${process.env.LOCAL_URL}api/request/${_id}`}`, { verify })
     .then((res) => ({
       error: false,
       verifyUserByLink: res.data,

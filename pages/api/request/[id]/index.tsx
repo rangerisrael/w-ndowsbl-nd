@@ -21,7 +21,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     if (user && req.body.verify) {
       user.verify = req.body.verify;
       user.markModified('verify');
-      user.save();
+      await user.save();
       await db.disconnect();
       const token = signToken(user);
       res.send({

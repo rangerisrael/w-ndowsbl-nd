@@ -21,7 +21,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   console.log(req.query.code);
   // eslint-disable-next-line eqeqeq
 
-  if (user.verify === true) {
+  if (user.verify === req.body.verify) {
     if (user && user.code === req.body.codes) {
       await db.disconnect();
       res.send({ message: 'Email is already verified' });
@@ -37,7 +37,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     // eslint-disable-next-line no-lonely-if
     if (user && user.code === req.body.codes) {
       user.verify = req.body.verify;
-      user.save();
+      await user.save();
       await db.disconnect();
       const token = signToken(user);
       res.send({
