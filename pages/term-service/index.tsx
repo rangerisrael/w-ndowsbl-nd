@@ -3,7 +3,7 @@ import Layout from '../../components/Layout';
 
 export default function TermService() {
   return (
-    <Layout titles="term-services">
+    <Layout titles="term-service">
       <Grid container>
         <Grid item md={8} xs={12} style={{ margin: '2rem auto' }}>
           <p>This is my personal project in nextjs</p>
