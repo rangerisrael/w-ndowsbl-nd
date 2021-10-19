@@ -37,7 +37,7 @@ export default function ValidateCode({ users }: any) {
     console.log(data);
 
     try {
-      if (!data.verifyUserByLink.id) {
+      if (!users._id) {
         // eslint-disable-next-line no-alert
         alert(data.verifyUserByLink.message);
       } else {
