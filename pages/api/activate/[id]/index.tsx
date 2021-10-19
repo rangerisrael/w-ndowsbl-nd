@@ -8,7 +8,7 @@ const handler = nc();
 
 handler.get(async (_req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
-  const users = await Users.findById(_req.query.id);
+  const users = await Users.findById({ _id: _req.query.id });
 
   await db.disconnect();
 
@@ -17,14 +17,14 @@ handler.get(async (_req: NextApiRequest, res: NextApiResponse) => {
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
-  const user = await Users.findById(req.query.id);
+  const user = await Users.findById({ _id: req.query.id });
   console.log(req.query.code);
   // eslint-disable-next-line eqeqeq
 
   if (user.verify === true) {
     if (user && user.code === req.body.codes) {
       await db.disconnect();
-      res.send({ message: 'Email is already verified', id: req.body.id });
+      res.send({ message: 'Email is already verified' });
     } else {
       if (req.body.codes === 0) {
         await db.disconnect();

@@ -9,13 +9,13 @@ const handler = nc();
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
-  const user = await Users.findById(req.query.id);
+  const user = await Users.findById({ _id: req.query.id });
   console.log(user._id);
   // eslint-disable-next-line eqeqeq
 
   if (user && user.verify === true) {
     await db.disconnect();
-    res.send({ message: 'Email is already verified', id: req.body.id });
+    res.send({ message: 'Email is already verified' });
   } else {
     // eslint-disable-next-line no-lonely-if
     if (user && req.body.verify) {
@@ -46,7 +46,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       await db.disconnect();
-      res.send({ message: 'Successfully created, Code must be sent in your email address', id: req.body.id });
+      res.send({ message: 'Successfully created, Code must be sent in your email address' });
     } else {
       res.send({ message: 'Server Error:UnAuthorized request' });
     }
