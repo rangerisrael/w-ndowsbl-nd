@@ -9,7 +9,7 @@ const handler = nc();
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
-  const user = await Users.findById({ _id: req.query.code });
+  const user = await Users.findById(req.query.code);
   console.log(req.query.code);
   // eslint-disable-next-line eqeqeq
 
