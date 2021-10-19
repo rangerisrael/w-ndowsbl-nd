@@ -8,7 +8,7 @@ const handler = nc();
 
 handler.get(async (_req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
-  const users = await Users.findById(_req.query.code);
+  const users = await Users.findById(_req.query.id);
 
   await db.disconnect();
 
@@ -17,7 +17,7 @@ handler.get(async (_req: NextApiRequest, res: NextApiResponse) => {
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
-  const user = await Users.findById(req.query.code);
+  const user = await Users.findById(req.query.id);
   console.log(req.query.code);
   // eslint-disable-next-line eqeqeq
 
@@ -37,8 +37,6 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     // eslint-disable-next-line no-lonely-if
     if (user && user.code === req.body.codes) {
       user.verify = req.body.verify;
-      user.markModified('verify');
-
       user.save();
       await db.disconnect();
       const token = signToken(user);

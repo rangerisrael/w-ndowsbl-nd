@@ -9,8 +9,8 @@ const handler = nc();
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
-  const user = await Users.findById(req.query.code);
-  console.log(req.query.code);
+  const user = await Users.findById(req.query.id);
+  console.log(user._id);
   // eslint-disable-next-line eqeqeq
 
   if (user && user.verify === true) {

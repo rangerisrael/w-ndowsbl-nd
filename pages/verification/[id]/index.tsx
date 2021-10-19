@@ -135,7 +135,7 @@ export default function ValidateCode({ users }: any) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
   // eslint-disable-next-line prefer-destructuring
-  const code = context.params.code;
+  const code = context.params.id;
 
   const userCode = await getUserByCode(code);
   // const res = await fetch(`http://localhost:3000/api/products/${slug}`);
