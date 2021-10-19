@@ -28,9 +28,9 @@ export const LoginUser = async (email: IUser['email'], password: IUser['password
     }));
 
 // eslint-disable-next-line import/prefer-default-export
-export const RegisterUser = async ( name: string, email: string, password: string) =>
+export const RegisterUser = async (name: string, email: string, password: string) =>
   await axios
-    .post(`${`${process.env.LOCAL_URL}api/users/signUp`}`, {  name, email, password })
+    .post(`${`${process.env.LOCAL_URL}api/users/signUp`}`, { name, email, password })
     .then((res) => ({
       error: false,
       registerUser: res.data,
@@ -43,7 +43,7 @@ export const RegisterUser = async ( name: string, email: string, password: strin
 // eslint-disable-next-line import/prefer-default-export
 export const VerifyingUser = async (_id: string, codes: number, verify: boolean) =>
   await axios
-    .put(`${`${process.env.LOCAL_URL}api/activate/${_id}`}`, { codes, verify })
+    .put(`${`${process.env.LOCAL_URL}api/activate/${_id}`}`, { _id, codes, verify })
     .then((res) => ({
       error: false,
       verifyUser: res.data,
@@ -53,7 +53,7 @@ export const VerifyingUser = async (_id: string, codes: number, verify: boolean)
       verifyUser: null,
     }));
 
-export const RequestNewCode = async (_id: IUser['_id'], randomCode: number) =>
+export const RequestNewCode = async (_id: string, randomCode: number) =>
   await axios
     .put(`${`${process.env.LOCAL_URL}api/request/${_id}`}`, { randomCode })
     .then((res) => ({
@@ -65,9 +65,9 @@ export const RequestNewCode = async (_id: IUser['_id'], randomCode: number) =>
       requestCode: null,
     }));
 
-export const VerifyingUserByLink = async (_id: IUser['_id'], verify: boolean) =>
+export const VerifyingUserByLink = async (_id: string, verify: boolean) =>
   await axios
-    .put(`${`${process.env.LOCAL_URL}api/request/${_id}`}`, { verify })
+    .put(`${`${process.env.LOCAL_URL}api/request/${_id}`}`, { _id, verify })
     .then((res) => ({
       error: false,
       verifyUserByLink: res.data,
