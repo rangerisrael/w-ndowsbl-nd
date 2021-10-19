@@ -65,9 +65,9 @@ export const RequestNewCode = async (_id: string, randomCode: number) =>
       requestCode: null,
     }));
 
-export const VerifyingUserByLink = async (_id: string, verify: boolean) =>
+export const VerifyingUserByLink = async (id: string, verify: boolean) =>
   await axios
-    .put(`${`${process.env.LOCAL_URL}api/request/${_id}`}`, { _id, verify })
+    .put(`${`${process.env.LOCAL_URL}api/request/${id}`}`, { id, verify })
     .then((res) => ({
       error: false,
       verifyUserByLink: res.data,
