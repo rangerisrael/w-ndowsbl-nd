@@ -26,7 +26,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       await db.disconnect();
       res.send({ message: 'Email is already verified' });
     } else {
-      if (!req.body.codes) {
+      if (req.body.codes === -1) {
         await db.disconnect();
         res.send({ message: 'Input a valid code first' });
       }
@@ -50,7 +50,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
         message: 'Congratulation Email is verified',
       });
     } else {
-      if (req.body.codes === 0) {
+      if (req.body.codes === -1) {
         await db.disconnect();
         res.send({ message: 'Input a valid code first' });
       }
