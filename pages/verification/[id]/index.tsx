@@ -43,7 +43,7 @@ export default function ValidateCode({ users }: any) {
     console.log(typeof users.code);
 
     try {
-      if (data.verifyUser.id === '') {
+      if (!data.verifyUser.id) {
         // eslint-disable-next-line no-alert
         alert(data.verifyUser.message);
       } else {
@@ -64,7 +64,7 @@ export default function ValidateCode({ users }: any) {
   const newCodeRequestHandler = async () => {
     const data = await RequestNewCode(users._id, randomCode);
     try {
-      if (data.requestCode.id === '') {
+      if (!data.requestCode.id) {
         // eslint-disable-next-line no-alert
         alert(data.requestCode.message);
       } else {

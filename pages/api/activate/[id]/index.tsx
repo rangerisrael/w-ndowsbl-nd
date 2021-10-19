@@ -24,14 +24,14 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   if (user.verify === true) {
     if (user && user.code === req.body.codes) {
       await db.disconnect();
-      res.send({ message: 'Email is already verified', id: req.body._id });
+      res.send({ message: 'Email is already verified', id: req.body.id });
     } else {
       if (req.body.codes === 0) {
         await db.disconnect();
-        res.send({ message: 'Input a valid code first', id: '' });
+        res.send({ message: 'Input a valid code first' });
       }
       await db.disconnect();
-      res.send({ message: 'Please check your code', id: '' });
+      res.send({ message: 'Please check your code' });
     }
   } else {
     // eslint-disable-next-line no-lonely-if
@@ -52,10 +52,10 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       if (req.body.codes === 0) {
         await db.disconnect();
-        res.send({ message: 'Input a valid code first', id: '' });
+        res.send({ message: 'Input a valid code first' });
       }
       await db.disconnect();
-      res.send({ message: 'Please check your code', id: '' });
+      res.send({ message: 'Please check your code' });
     }
   }
 });

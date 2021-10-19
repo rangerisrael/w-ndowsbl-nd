@@ -37,7 +37,7 @@ export default function ValidateCode({ users }: any) {
     console.log(data);
 
     try {
-      if (data.verifyUserByLink.id === '') {
+      if (!data.verifyUserByLink.id) {
         // eslint-disable-next-line no-alert
         alert(data.verifyUserByLink.message);
       } else {
@@ -82,7 +82,7 @@ export default function ValidateCode({ users }: any) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
   // eslint-disable-next-line prefer-destructuring
-  const code = context.params.code;
+  const code = context.params.id;
 
   const userCode = await getUserByCode(code);
   // const res = await fetch(`http://localhost:3000/api/products/${slug}`);
