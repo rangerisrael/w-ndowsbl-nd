@@ -15,7 +15,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (user && user.verify === true) {
     await db.disconnect();
-    res.send({ message: 'Email is already verified' });
+    res.send({ message: 'Email is already verified', id: user._id });
   } else {
     // eslint-disable-next-line no-lonely-if
     if (user && req.body.verify) {
@@ -46,9 +46,9 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       await db.disconnect();
-      res.send({ message: 'Successfully created, Code must be sent in your email address' });
+      res.send({ message: 'Successfully created, Code must be sent in your email address', id: user._id });
     } else {
-      res.send({ message: 'Server Error:UnAuthorized request' });
+      res.send({ message: 'Server Error:UnAuthorized request', id: '' });
     }
   }
 });
