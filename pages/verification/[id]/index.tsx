@@ -43,7 +43,7 @@ export default function ValidateCode({ users }: any) {
     console.log(typeof users.code);
 
     try {
-      if (!users._id) {
+      if (!data.verifyUser.id) {
         // eslint-disable-next-line no-alert
         alert(data.verifyUser.message);
       } else {

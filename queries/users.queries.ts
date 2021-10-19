@@ -49,9 +49,9 @@ export const VerifyingUser = async (_id: string, codes: number, verify: boolean)
       error: false,
       verifyUser: res.data,
     }))
-    .catch((err: any) => ({
+    .catch(() => ({
       error: true,
-      verifyUser: err,
+      verifyUser: null,
     }));
 
 export const RequestNewCode = async (_id: string, randomCode: number) =>
@@ -73,7 +73,7 @@ export const VerifyingUserByLink = async (_id: string, verify: boolean) =>
       error: false,
       verifyUserByLink: res.data,
     }))
-    .catch((err: any) => ({
+    .catch(() => ({
       error: true,
-      verifyUserByLink: err,
+      verifyUserByLink: null,
     }));

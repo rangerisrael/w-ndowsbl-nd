@@ -36,7 +36,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     } else if (user && req.body.randomCode) {
       user.code = req.body.randomCode;
       user.markModified('code');
-      user.save();
+      await user.save();
 
       await sendConfirmEmail({
         newUser: user.email,
@@ -48,7 +48,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       await db.disconnect();
       res.send({ message: 'Successfully created, Code must be sent in your email address', id: user._id });
     } else {
-      res.send({ message: 'Server Error:UnAuthorized request', id: '' });
+      res.send({ message: 'Server Error:UnAuthorized request' });
     }
   }
 });
