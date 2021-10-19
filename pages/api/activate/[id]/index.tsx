@@ -26,7 +26,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       await db.disconnect();
       res.send({ message: 'Email is already verified' });
     } else {
-      if (req.body.codes === 0 || req.body.codes === '') {
+      if (!req.body.codes) {
         await db.disconnect();
         res.send({ message: 'Input a valid code first' });
       }
