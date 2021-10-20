@@ -65,7 +65,7 @@ export default function RegisterUsers() {
   return (
     <Layout titles="Register">
       <Grid container>
-        <Grid   item md={8} xs={12} style={{ margin: '2rem auto' }}>
+        <Grid item md={8} xs={12} style={{ margin: '2rem auto' }}>
           {' '}
           <fieldset>
             <legend style={{ textAlign: 'center' }}>
@@ -94,7 +94,7 @@ export default function RegisterUsers() {
                         id="fullname"
                         name="fullname"
                         label="Fullname"
-                        inputProps={{ type: 'text' }}
+                        inputProps={{ type: 'text', style: { textAlign: 'center' } }}
                         error={Boolean(errors.name)}
                         helperText={
                           <span style={{ color: '#FF0000' }}>{errors.fullname ? 'Fullname is required' : ''}</span>
@@ -121,7 +121,7 @@ export default function RegisterUsers() {
                         id="email"
                         name="email"
                         label="Email xxxxx@gmail.com"
-                        inputProps={{ type: 'email' }}
+                        inputProps={{ type: 'email', style: { textAlign: 'center' } }}
                         error={Boolean(errors.email)}
                         helperText={
                           <span style={{ color: '#FF0000' }}>
@@ -159,7 +159,7 @@ export default function RegisterUsers() {
                         id="password"
                         name="password"
                         label="Password e.g. #PassWord@2021"
-                        inputProps={{ type: 'password' }}
+                        inputProps={{ type: 'password', style: { textAlign: 'center' } }}
                         error={Boolean(errors.password)}
                         helperText={
                           <span style={{ color: '#FF0000' }}>
