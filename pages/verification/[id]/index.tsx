@@ -8,13 +8,14 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Layout from '../../../components/Layout';
 import { getUserByCode, VerifyingUser, RequestNewCode } from '../../../queries/users.queries';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 import { Store } from '../../../components/Store';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ValidateCode({ users }: any) {
   const router = useRouter();
   const [codes, setCode] = React.useState(null);
-
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { state } = useContext(Store);
 
   const { userInfo } = state;
@@ -30,6 +31,7 @@ export default function ValidateCode({ users }: any) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const codeHandler = async (e: any) => {
+    closeSnackbar();
     e.preventDefault();
     const coded = Number(codes);
     // eslint-disable-next-line eqeqeq
@@ -37,19 +39,14 @@ export default function ValidateCode({ users }: any) {
     // const { data } = await axios.put(`http://localhost:3000/api/activate/${users._id}`, { codes, verify });
     const data = await VerifyingUser(users._id, coded, verify);
 
-    console.log(data);
-
-    console.log(typeof coded);
-    console.log(typeof users.code);
-
     try {
       if (!data.verifyUser.id) {
         // eslint-disable-next-line no-alert
-        alert(data.verifyUser.message);
+        enqueueSnackbar(data.verifyUser.message, { variant: 'error' });
       } else {
         if (users.code === coded) {
           // eslint-disable-next-line no-alert
-          alert(data.verifyUser.message);
+          enqueueSnackbar(data.verifyUser.message, { variant: 'success' });
           router.push('/login');
         }
       }
@@ -62,19 +59,20 @@ export default function ValidateCode({ users }: any) {
   };
 
   const newCodeRequestHandler = async () => {
+    closeSnackbar();
     const data = await RequestNewCode(users._id, randomCode);
     try {
       if (!data.requestCode.id) {
         // eslint-disable-next-line no-alert
-        alert(data.requestCode.message);
+        enqueueSnackbar(data.requestCode.message, { variant: 'error' });
       } else {
         // eslint-disable-next-line no-alert
-        alert(data.requestCode.message);
+        enqueueSnackbar(data.requestCode.message, { variant: 'success' });
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       // eslint-disable-next-line no-alert
-      alert(err);
+      enqueueSnackbar(err, { variant: 'error' });
     }
   };
 

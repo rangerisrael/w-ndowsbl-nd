@@ -7,6 +7,7 @@ import { Button, Grid, ListItem, Typography, List } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Layout from '../../../components/Layout';
 import { getUserByCode, VerifyingUserByLink } from '../../../queries/users.queries';
+import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { Store } from '../../../components/Store';
 
@@ -14,6 +15,7 @@ import { Store } from '../../../components/Store';
 export default function ValidateCode({ users }: any) {
   const verify = true;
   const router = useRouter();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const { state } = useContext(Store);
 
@@ -27,6 +29,7 @@ export default function ValidateCode({ users }: any) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const codeHandler = async (e: any) => {
+    closeSnackbar();
     e.preventDefault();
 
     // eslint-disable-next-line eqeqeq
@@ -39,10 +42,10 @@ export default function ValidateCode({ users }: any) {
     try {
       if (!data.verifyUserByLink.id) {
         // eslint-disable-next-line no-alert
-        alert(data.verifyUserByLink.message);
+        enqueueSnackbar(data.verifyUserByLink.message, { variant: 'error' });
       } else {
         // eslint-disable-next-line no-alert
-        alert(data.verifyUserByLink.message);
+        enqueueSnackbar(data.verifyUserByLink.message, { variant: 'success' });
         router.push('/login');
       }
 
