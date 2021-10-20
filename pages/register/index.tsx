@@ -1,20 +1,30 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable spaced-comment */
+/* eslint-disable no-useless-escape */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-alert */
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { Controller, useForm } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { RegisterUser } from '../../queries/users.queries';
 
 export default function RegisterUsers() {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const submitRequest = async (e: any) => {
-    e.preventDefault();
+  const submitRequest = async (name: any, email: any, password: any) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -48,40 +58,113 @@ export default function RegisterUsers() {
                 SignUp
               </Typography>
             </legend>
-            <form onSubmit={submitRequest}>
+            <form onSubmit={handleSubmit(submitRequest)}>
               <List>
                 <ListItem>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    id="username"
-                    name="username"
-                    label="Full Name"
-                    type="text"
-                    onChange={(e) => setName(e.target.value)}
-                  />
+                  <Controller
+                    name="name"
+                    control={control}
+                    defaultValue=""
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <TextField
+                        variant="filled"
+                        fullWidth
+                        id="name"
+                        name="name"
+                        label="Fullname"
+                        inputProps={{ type: 'text' }}
+                        error={Boolean(errors.name)}
+                        helperText={
+                          <span style={{ color: '#FF0000' }}>{errors.name ? 'Fullname is required' : ''}</span>
+                        }
+                        {...field}
+                      ></TextField>
+                    )}
+                  ></Controller>
                 </ListItem>
+
                 <ListItem>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    id="email"
+                  <Controller
                     name="email"
-                    label="Email"
-                    type="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                    control={control}
+                    defaultValue=""
+                    rules={{
+                      required: true,
+                      pattern: /^([a-zA-Z0-9]+)([.{1}])?([a-zA-Z0-9]+)\@(?:gmail)([\.])(?:com)$/,
+                    }}
+                    render={({ field }) => (
+                      <TextField
+                        variant="filled"
+                        fullWidth
+                        id="email"
+                        name="email"
+                        label="Email xxxxx@gmail.com"
+                        inputProps={{ type: 'email' }}
+                        error={Boolean(errors.email)}
+                        helperText={
+                          <span style={{ color: '#FF0000' }}>
+                            {errors.email
+                              ? errors.email.type === 'pattern'
+                                ? 'We must accepted gmail account only e.g.(xxxxx@gmail.com)'
+                                : 'Email is required'
+                              : ''}
+                          </span>
+                        }
+                        {...field}
+                      ></TextField>
+                    )}
+                  ></Controller>
                 </ListItem>
                 <ListItem>
-                  <TextField
-                    variant="filled"
-                    fullWidth
-                    id="password"
+                  <Controller
                     name="password"
-                    label="Passsword"
-                    type="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                    control={control}
+                    defaultValue=""
+                    rules={{
+                      required: true,
+                      minLength: 6,
+                      validate: {
+                        upperCase: (value) => /[A-Z]/.test(value),
+                        lowerCase: (value) => /[a-z]/.test(value),
+                        digit: (value) => /[0-9]/.test(value),
+                        specialChar: (value) => /[#?!@$^&*-]/.test(value),
+                      },
+                    }}
+                    render={({ field }) => (
+                      <TextField
+                        variant="filled"
+                        fullWidth
+                        id="password"
+                        name="password"
+                        label="Password e.g. #PassWord@2021"
+                        inputProps={{ type: 'password' }}
+                        error={Boolean(errors.password)}
+                        helperText={
+                          <span style={{ color: '#FF0000' }}>
+                            {errors.password
+                              ? errors.password.type === 'minLength'
+                                ? 'Password length is more than five'
+                                : errors.password.type === 'upperCase'
+                                ? 'Password must be at least one uppercase (A-Z)'
+                                : errors.password.type === 'lowerCase'
+                                ? 'Password must be at least one lowercase letter(a-z)'
+                                : errors.password.type === 'digit'
+                                ? 'Password must be at least one digit (0-9)'
+                                : errors.password.type === 'specialChar'
+                                ? 'Password must be at least one special character (#?!@$^&*-)'
+                                : errors.password.required
+                                ? 'Password is required'
+                                : 'Password is required'
+                              : ''}
+                          </span>
+                        }
+                        {...field}
+                      ></TextField>
+                    )}
+                  ></Controller>
                 </ListItem>
                 <ListItem>
                   <Button fullWidth variant="contained" type="submit">

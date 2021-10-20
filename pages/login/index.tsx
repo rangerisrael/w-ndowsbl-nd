@@ -87,7 +87,7 @@ export default function Login() {
                           <span style={{ color: '#FF0000' }}>
                             {errors.email
                               ? errors.email.type === 'pattern'
-                                ? 'We must accepted gmail account only (xxxxx@gmail.com)'
+                                ? 'We must accepted gmail account only e.g.(xxxxx@gmail.com)'
                                 : 'Email is required'
                               : ''}
                           </span>
