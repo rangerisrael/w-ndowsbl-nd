@@ -53,7 +53,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     res.send({ message: 'User created successfully', id: newUser._id });
   } else {
     await db.disconnect();
-    res.send({ message: 'User already exist', id: '' });
+    res.send({ message: 'User already exist' });
   }
 });
 

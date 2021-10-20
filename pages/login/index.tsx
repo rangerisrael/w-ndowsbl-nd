@@ -14,6 +14,7 @@ import Cookies from 'js-cookie';
 import { signIn } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
@@ -37,6 +38,7 @@ export default function Login() {
   console.log(redirect);
 
   const { state, dispatch } = useContext(Store);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const { userInfo } = state;
 
@@ -47,16 +49,17 @@ export default function Login() {
   }, [redirect, router, userInfo]);
 
   const submitRequest: SubmitHandler<FormValues> = async (data) => {
+    closeSnackbar();
     try {
       const user = await LoginUser(data.email, data.password);
 
       console.log(user);
       if (!user.loginUser.id) {
         // eslint-disable-next-line no-alert
-        alert(user.loginUser.message);
+        enqueueSnackbar(user.loginUser.message, { variant: 'error' });
       } else {
         // eslint-disable-next-line no-alert
-        alert(user.loginUser.message);
+        enqueueSnackbar(user.loginUser.message, { variant: 'success' });
         dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
         Cookies.set('userInfo', JSON.stringify(user.loginUser));
         router.push(`${redirect || '/'}`);
@@ -64,7 +67,7 @@ export default function Login() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       // eslint-disable-next-line no-alert
-      alert(err.response ? err.response.loginUser.message : err.loginUser.message);
+      enqueueSnackbar(err.response ? err.response.loginUser.message : err.loginUser.message, { variant: 'error' });
     }
   };
 

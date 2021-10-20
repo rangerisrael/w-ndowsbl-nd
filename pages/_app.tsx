@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Provider } from 'next-auth/client';
 import type { AppProps } from 'next/app';
 import StoreProvider from '../components/Store';
+import { SnackbarProvider } from 'notistack';
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -28,9 +29,11 @@ export default function MyApp(props: AppProps) {
       }}
       session={pageProps.session}
     >
-      <StoreProvider>
-        <Component {...pageProps} />
-      </StoreProvider>
+      <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <StoreProvider>
+          <Component {...pageProps} />
+        </StoreProvider>
+      </SnackbarProvider>
     </Provider>
   );
 }

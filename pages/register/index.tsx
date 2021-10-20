@@ -13,6 +13,7 @@ import React from 'react';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { RegisterUser } from '../../queries/users.queries';
@@ -29,25 +30,27 @@ export default function RegisterUsers() {
     control,
     formState: { errors },
   } = useForm<FormValues>();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const router = useRouter();
 
   const submitRequest: SubmitHandler<FormValues> = async (data) => {
+    closeSnackbar();
     try {
       const user = await RegisterUser(data.fullname, data.email, data.password);
 
       console.log(user);
-      if (user.registerUser.id === '') {
+      if (!user.registerUser.id) {
         // eslint-disable-next-line no-alert
-        alert(user.registerUser.message);
+        enqueueSnackbar(user.registerUser.message, { variant: 'error' });
       } else {
         // eslint-disable-next-line no-alert
-        alert(user.registerUser.message);
+        enqueueSnackbar(user.registerUser.message, { variant: 'success' });
         router.push(`/verification/${user.registerUser.id}`);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       // eslint-disable-next-line no-alert
-      alert(err);
+      enqueueSnackbar(err, { variant: 'error' });
     }
   };
   // eslint-disable-next-line no-alert
