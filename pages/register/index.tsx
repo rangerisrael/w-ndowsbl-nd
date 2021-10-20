@@ -65,7 +65,7 @@ export default function RegisterUsers() {
   return (
     <Layout titles="Register">
       <Grid container>
-        <Grid item md={8} xs={12} style={{ margin: '2rem auto' }}>
+        <Grid   item md={8} xs={12} style={{ margin: '2rem auto' }}>
           {' '}
           <fieldset>
             <legend style={{ textAlign: 'center' }}>

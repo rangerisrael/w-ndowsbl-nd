@@ -14,6 +14,7 @@ import { DayNightMode } from './SwitchMode';
 import LayoutStyle from './ui-component/LayoutStyle';
 import UserIdentity from './ui-component/MenuItem';
 import CircularProgressWithLabel from './ui-component/ProgressBar';
+import BreakPoint from './ui-component/Breakpoint';
 
 interface LayoutProps {
   titles: string;
@@ -124,7 +125,9 @@ export default function Layout({ titles, children }: LayoutProps) {
                 </div>
               </Toolbar>
             </AppBar>
-            <Container className="container">{children}</Container>
+            <BreakPoint>
+              <Container className="list-full container">{children}</Container>
+            </BreakPoint>
             <footer className="footer">
               <Typography component="h2" variant="h6" sx={{ color: '#f3f4f6' }}>
                 All right reserved &copy; 2021 <strong>w!ndowsbl!nd@shop</strong>{' '}

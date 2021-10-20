@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
+import BreakPoint from '../../components/ui-component/Breakpoint';
 import { LoginUser } from '../../queries/users.queries';
 
 export default function Login() {
@@ -54,165 +55,167 @@ export default function Login() {
 
   return (
     <Layout titles="Login">
-      <Grid container>
-        <Grid item md={8} xs={12} style={{ margin: '2rem auto' }}>
-          {' '}
-          <fieldset>
-            <legend style={{ textAlign: 'center' }}>
-              <Typography variant="h1" component="h1">
-                Login
-              </Typography>
-            </legend>
-            <form onSubmit={handleSubmit(submitRequest)}>
-              <List>
-                <ListItem>
-                  <Controller
-                    name="email"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: true,
-                      pattern: /^([a-zA-Z0-9]+)([.{1}])?([a-zA-Z0-9]+)\@(?:gmail)([\.])(?:com)$/,
-                    }}
-                    render={({ field }) => (
-                      <TextField
-                        variant="filled"
-                        fullWidth
-                        id="email"
-                        name="email"
-                        label="Email xxxxx@gmail.com"
-                        inputProps={{ type: 'email' }}
-                        error={Boolean(errors.email)}
-                        helperText={
-                          <span style={{ color: '#FF0000' }}>
-                            {errors.email
-                              ? errors.email.type === 'pattern'
-                                ? 'We must accepted gmail account only e.g.(xxxxx@gmail.com)'
-                                : 'Email is required'
-                              : ''}
-                          </span>
-                        }
-                        {...field}
-                      ></TextField>
-                    )}
-                  ></Controller>
-                </ListItem>
+      <BreakPoint>
+        <Grid container>
+          <Grid className="md-center" item md={8} xs={12}>
+            {' '}
+            <fieldset>
+              <legend style={{ textAlign: 'center' }}>
+                <Typography variant="h1" component="h1">
+                  Login
+                </Typography>
+              </legend>
+              <form onSubmit={handleSubmit(submitRequest)}>
+                <List>
+                  <ListItem>
+                    <Controller
+                      name="email"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: true,
+                        pattern: /^([a-zA-Z0-9]+)([.{1}])?([a-zA-Z0-9]+)\@(?:gmail)([\.])(?:com)$/,
+                      }}
+                      render={({ field }) => (
+                        <TextField
+                          variant="filled"
+                          fullWidth
+                          id="email"
+                          name="email"
+                          label="Email xxxxx@gmail.com"
+                          inputProps={{ type: 'email', style: { textAlign: 'center' } }}
+                          error={Boolean(errors.email)}
+                          helperText={
+                            <span style={{ color: '#FF0000' }}>
+                              {errors.email
+                                ? errors.email.type === 'pattern'
+                                  ? 'We must accepted gmail account only e.g.(xxxxx@gmail.com)'
+                                  : 'Email is required'
+                                : ''}
+                            </span>
+                          }
+                          {...field}
+                        ></TextField>
+                      )}
+                    ></Controller>
+                  </ListItem>
 
-                <ListItem>
-                  <Controller
-                    name="password"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: true,
-                      minLength: 6,
-                      validate: {
-                        upperCase: (value) => /[A-Z]/.test(value),
-                        lowerCase: (value) => /[a-z]/.test(value),
-                        digit: (value) => /[0-9]/.test(value),
-                        specialChar: (value) => /[#?!@$^&*-]/.test(value),
-                      },
-                    }}
-                    render={({ field }) => (
-                      <TextField
-                        variant="filled"
-                        fullWidth
-                        id="password"
-                        name="password"
-                        label="Password e.g. #PassWord@2021"
-                        inputProps={{ type: 'password' }}
-                        error={Boolean(errors.password)}
-                        helperText={
-                          <span style={{ color: '#FF0000' }}>
-                            {errors.password
-                              ? errors.password.type === 'minLength'
-                                ? 'Password length is more than five'
-                                : errors.password.type === 'upperCase'
-                                ? 'Password must be at least one uppercase (A-Z)'
-                                : errors.password.type === 'lowerCase'
-                                ? 'Password must be at least one lowercase letter(a-z)'
-                                : errors.password.type === 'digit'
-                                ? 'Password must be at least one digit (0-9)'
-                                : errors.password.type === 'specialChar'
-                                ? 'Password must be at least one special character (#?!@$^&*-)'
-                                : errors.password.required
-                                ? 'Password is required'
-                                : 'Password is required'
-                              : ''}
-                          </span>
-                        }
-                        {...field}
-                      ></TextField>
-                    )}
-                  ></Controller>
-                </ListItem>
+                  <ListItem>
+                    <Controller
+                      name="password"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: true,
+                        minLength: 6,
+                        validate: {
+                          upperCase: (value) => /[A-Z]/.test(value),
+                          lowerCase: (value) => /[a-z]/.test(value),
+                          digit: (value) => /[0-9]/.test(value),
+                          specialChar: (value) => /[#?!@$^&*-]/.test(value),
+                        },
+                      }}
+                      render={({ field }) => (
+                        <TextField
+                          variant="filled"
+                          fullWidth
+                          id="password"
+                          name="password"
+                          label="Password e.g. #PassWord@2021"
+                          inputProps={{ type: 'password', style: { textAlign: 'center' } }}
+                          error={Boolean(errors.password)}
+                          helperText={
+                            <span style={{ color: '#FF0000' }}>
+                              {errors.password
+                                ? errors.password.type === 'minLength'
+                                  ? 'Password length is more than five'
+                                  : errors.password.type === 'upperCase'
+                                  ? 'Password must be at least one uppercase (A-Z)'
+                                  : errors.password.type === 'lowerCase'
+                                  ? 'Password must be at least one lowercase letter(a-z)'
+                                  : errors.password.type === 'digit'
+                                  ? 'Password must be at least one digit (0-9)'
+                                  : errors.password.type === 'specialChar'
+                                  ? 'Password must be at least one special character (#?!@$^&*-)'
+                                  : errors.password.required
+                                  ? 'Password is required'
+                                  : 'Password is required'
+                                : ''}
+                            </span>
+                          }
+                          {...field}
+                        ></TextField>
+                      )}
+                    ></Controller>
+                  </ListItem>
 
-                <ListItem>
-                  <Button fullWidth variant="contained" type="submit">
-                    Login
-                  </Button>
-                </ListItem>
-                <ListItem sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Grid container>
-                    <Grid item md={6} xs={7}>
-                      <NextLink href="/api/auth/signin" passHref>
-                        <Link
-                          onClick={(e) => {
-                            e.preventDefault();
-                            signIn('google', {
-                              callbackUrl: `${process.env.LOCAL_URL}`,
-                            });
-                          }}
-                        >
-                          <Grid container>
-                            <Grid item md={2} xs={2}>
-                              {' '}
-                              <GoogleIcon sx={{ width: '50px' }} />
+                  <ListItem>
+                    <Button fullWidth variant="contained" type="submit">
+                      Login
+                    </Button>
+                  </ListItem>
+                  <ListItem sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Grid container>
+                      <Grid item md={6} xs={7}>
+                        <NextLink href="/api/auth/signin" passHref>
+                          <Link
+                            onClick={(e) => {
+                              e.preventDefault();
+                              signIn('google', {
+                                callbackUrl: `${process.env.LOCAL_URL}`,
+                              });
+                            }}
+                          >
+                            <Grid container>
+                              <Grid item md={2} xs={2}>
+                                {' '}
+                                <GoogleIcon sx={{ width: '50px' }} />
+                              </Grid>
+                              <Grid item md={5} xs={8}>
+                                {' '}
+                                <Typography className="button-signIn">Sign in with Google</Typography>
+                              </Grid>
                             </Grid>
-                            <Grid item md={5} xs={8}>
-                              {' '}
-                              <Typography>Sign in with Google</Typography>
+                          </Link>
+                        </NextLink>
+                      </Grid>
+                      <Grid item md={6} xs={5}>
+                        <NextLink href="/api/auth/signin" passHref>
+                          <Link
+                            onClick={(e) => {
+                              e.preventDefault();
+                              signIn('facebook', {
+                                callbackUrl: `${process.env.LOCAL_URL}`,
+                              });
+                            }}
+                          >
+                            <Grid container>
+                              <Grid item md={2} xs={3}>
+                                {' '}
+                                <FacebookIcon sx={{ width: '50px' }} />
+                              </Grid>
+                              <Grid item md={5} xs={5}>
+                                {' '}
+                                <Typography className="button-signIn">Facebook</Typography>
+                              </Grid>
                             </Grid>
-                          </Grid>
-                        </Link>
-                      </NextLink>
+                          </Link>
+                        </NextLink>
+                      </Grid>
                     </Grid>
-                    <Grid item md={6} xs={5}>
-                      <NextLink href="/api/auth/signin" passHref>
-                        <Link
-                          onClick={(e) => {
-                            e.preventDefault();
-                            signIn('facebook', {
-                              callbackUrl: `${process.env.LOCAL_URL}`,
-                            });
-                          }}
-                        >
-                          <Grid container>
-                            <Grid item md={2} xs={3}>
-                              {' '}
-                              <FacebookIcon sx={{ width: '50px' }} />
-                            </Grid>
-                            <Grid item md={5} xs={5}>
-                              {' '}
-                              <Typography>Facebook</Typography>
-                            </Grid>
-                          </Grid>
-                        </Link>
-                      </NextLink>
-                    </Grid>
-                  </Grid>
-                </ListItem>
-                <ListItem>
-                  Don't have an account ? &nbsp;
-                  <NextLink as="xxxsaddkasdkhasdksdasdskdasdsad" href="/register" passHref>
-                    <Link>Register</Link>
-                  </NextLink>
-                </ListItem>
-              </List>
-            </form>
-          </fieldset>
+                  </ListItem>
+                  <ListItem>
+                    Don't have an account ? &nbsp;
+                    <NextLink as="xxxsaddkasdkhasdksdasdskdasdsad" href="/register" passHref>
+                      <Link>Register</Link>
+                    </NextLink>
+                  </ListItem>
+                </List>
+              </form>
+            </fieldset>
+          </Grid>
         </Grid>
-      </Grid>
+      </BreakPoint>
     </Layout>
   );
 }
