@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { Provider } from 'next-auth/client';
 import type { AppProps } from 'next/app';
-import StoreProvider from '../components/Store';
 import { SnackbarProvider } from 'notistack';
+import StoreProvider from '../components/Store';
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
