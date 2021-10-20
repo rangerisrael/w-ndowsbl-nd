@@ -121,7 +121,7 @@ export default function RegisterUsers() {
                     defaultValue=""
                     rules={{
                       required: true,
-                      pattern: /^([a-zA-Z0-9]+)([.{1}])?([a-zA-Z0-9]+)\@(?:gmail)([\.])(?:com)$/,
+                      pattern: /^([a-zA-Z0-9]+)([.{1}])?([a-zA-Z0-9]+)\@(?:gmail|mailinator)([\.])(?:com)$/,
                     }}
                     render={({ field }) => (
                       <TextField
@@ -129,14 +129,14 @@ export default function RegisterUsers() {
                         fullWidth
                         id="email"
                         name="email"
-                        label="Email xxxxx@gmail.com"
+                        label="e.g. Email xxxxx@gmail.com | xxxxx@mailinator.com"
                         inputProps={{ type: 'email', style: { textAlign: 'center' } }}
                         error={Boolean(errors.email)}
                         helperText={
                           <span style={{ color: '#FF0000' }}>
                             {errors.email
                               ? errors.email.type === 'pattern'
-                                ? 'We must accepted gmail account only e.g.(xxxxx@gmail.com)'
+                                ? 'We must accepted gmail or mailinator account only to send a valid verification code e.g.(xxxxx@gmail.com|xxxxx@mailinator.com)'
                                 : 'Email is required'
                               : ''}
                           </span>
