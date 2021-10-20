@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable spaced-comment */
 /* eslint-disable no-useless-escape */
@@ -7,7 +8,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-alert */
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -23,16 +24,11 @@ export default function RegisterUsers() {
   } = useForm();
   const router = useRouter();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const submitRequest = async (name: any, email: any, password: any) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const data = await RegisterUser(name, email, password);
-
-    console.log(data);
-
+  const submitRequest = async (fullname: any, email: any, password: any) => {
     try {
+      const data = await RegisterUser(fullname, email, password);
+
+      console.log(data);
       if (data.registerUser.id === '') {
         // eslint-disable-next-line no-alert
         alert(data.registerUser.message);
@@ -41,12 +37,31 @@ export default function RegisterUsers() {
         alert(data.registerUser.message);
         router.push(`/verification/${data.registerUser.id}`);
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      // eslint-disable-next-line no-alert
-      alert(err);
+      alert(err.response.data.registerUser ? err.response.data.registerUser.message : err.registerUser.message);
     }
   };
+
+  // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // const submitRequest = async (fullname: any, email: any, password: any) => {
+  //   try {
+  //     const data = await RegisterUser(fullname, email, password);
+
+  //     console.log(data);
+  //     if (data.registerUser.id === '') {
+  //       // eslint-disable-next-line no-alert
+  //       alert(data.registerUser.message);
+  //     } else {
+  //       // eslint-disable-next-line no-alert
+  //       alert(data.registerUser.message);
+  //       router.push(`/verification/${data.registerUser.id}`);
+  //     }
+  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   } catch (err: any) {
+  //     // eslint-disable-next-line no-alert
+  //     alert(err);
+  //   }
+  // };
   return (
     <Layout titles="Register">
       <Grid container>
@@ -58,11 +73,15 @@ export default function RegisterUsers() {
                 SignUp
               </Typography>
             </legend>
-            <form onSubmit={handleSubmit(submitRequest)}>
+            <form
+              onSubmit={handleSubmit(() => {
+                submitRequest;
+              })}
+            >
               <List>
                 <ListItem>
                   <Controller
-                    name="name"
+                    name="fullname"
                     control={control}
                     defaultValue=""
                     rules={{
@@ -72,13 +91,13 @@ export default function RegisterUsers() {
                       <TextField
                         variant="filled"
                         fullWidth
-                        id="name"
-                        name="name"
+                        id="fullname"
+                        name="fullname"
                         label="Fullname"
                         inputProps={{ type: 'text' }}
                         error={Boolean(errors.name)}
                         helperText={
-                          <span style={{ color: '#FF0000' }}>{errors.name ? 'Fullname is required' : ''}</span>
+                          <span style={{ color: '#FF0000' }}>{errors.fullname ? 'Fullname is required' : ''}</span>
                         }
                         {...field}
                       ></TextField>

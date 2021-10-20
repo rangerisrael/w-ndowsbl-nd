@@ -48,7 +48,7 @@ export default function Login() {
       Cookies.set('userInfo', JSON.stringify(data.loginUser));
       router.push(`${redirect || '/'}`);
     } catch (err: any) {
-      alert(err.response.data ? err.response.data.message : err.message);
+      alert(err.response.data ? err.response.data.loginUser.message : err.loginUser.message);
     }
   };
 
