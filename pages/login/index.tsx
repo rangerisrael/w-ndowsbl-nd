@@ -14,11 +14,16 @@ import Cookies from 'js-cookie';
 import { signIn } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 import BreakPoint from '../../components/ui-component/Breakpoint';
 import { LoginUser } from '../../queries/users.queries';
+
+type FormValues = {
+  email: string;
+  password: string;
+};
 
 export default function Login() {
   const router = useRouter();
@@ -26,7 +31,7 @@ export default function Login() {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValues>();
   const { redirect } = router.query; // login?redirect=/shipping
 
   console.log(redirect);
@@ -41,15 +46,25 @@ export default function Login() {
     }
   }, [redirect, router, userInfo]);
 
-  const submitRequest = async (email: any, password: any) => {
+  const submitRequest: SubmitHandler<FormValues> = async (data) => {
     try {
-      const data = await LoginUser(email, password);
-      alert('sign in sucees');
-      dispatch({ type: 'USER_LOGIN', payload: data.loginUser });
-      Cookies.set('userInfo', JSON.stringify(data.loginUser));
-      router.push(`${redirect || '/'}`);
+      const user = await LoginUser(data.email, data.password);
+
+      console.log(user);
+      if (!user.loginUser.id) {
+        // eslint-disable-next-line no-alert
+        alert(user.loginUser.message);
+      } else {
+        // eslint-disable-next-line no-alert
+        alert(user.loginUser.message);
+        dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
+        Cookies.set('userInfo', JSON.stringify(user.loginUser));
+        router.push(`${redirect || '/'}`);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      alert(err.response.data ? err.response.data.loginUser.message : err.loginUser.message);
+      // eslint-disable-next-line no-alert
+      alert(err.response ? err.response.loginUser.message : err.loginUser.message);
     }
   };
 
@@ -137,8 +152,6 @@ export default function Login() {
                                   ? 'Password must be at least one digit (0-9)'
                                   : errors.password.type === 'specialChar'
                                   ? 'Password must be at least one special character (#?!@$^&*-)'
-                                  : errors.password.required
-                                  ? 'Password is required'
                                   : 'Password is required'
                                 : ''}
                             </span>

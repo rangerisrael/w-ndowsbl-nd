@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable spaced-comment */
@@ -12,35 +13,44 @@ import React from 'react';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { RegisterUser } from '../../queries/users.queries';
+
+type FormValues = {
+  fullname: string;
+  email: string;
+  password: string;
+};
 
 export default function RegisterUsers() {
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValues>();
   const router = useRouter();
 
-  const submitRequest = async (fullname: any, email: any, password: any) => {
+  const submitRequest: SubmitHandler<FormValues> = async (data) => {
     try {
-      const data = await RegisterUser(fullname, email, password);
+      const user = await RegisterUser(data.fullname, data.email, data.password);
 
-      console.log(data);
-      if (data.registerUser.id === '') {
+      console.log(user);
+      if (user.registerUser.id === '') {
         // eslint-disable-next-line no-alert
-        alert(data.registerUser.message);
+        alert(user.registerUser.message);
       } else {
         // eslint-disable-next-line no-alert
-        alert(data.registerUser.message);
-        router.push(`/verification/${data.registerUser.id}`);
+        alert(user.registerUser.message);
+        router.push(`/verification/${user.registerUser.id}`);
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      alert(err.response.data.registerUser ? err.response.data.registerUser.message : err.registerUser.message);
+      // eslint-disable-next-line no-alert
+      alert(err);
     }
   };
+  // eslint-disable-next-line no-alert
 
   // // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // const submitRequest = async (fullname: any, email: any, password: any) => {
@@ -73,11 +83,7 @@ export default function RegisterUsers() {
                 SignUp
               </Typography>
             </legend>
-            <form
-              onSubmit={handleSubmit(() => {
-                submitRequest;
-              })}
-            >
+            <form onSubmit={handleSubmit(submitRequest)}>
               <List>
                 <ListItem>
                   <Controller
@@ -95,7 +101,7 @@ export default function RegisterUsers() {
                         name="fullname"
                         label="Fullname"
                         inputProps={{ type: 'text', style: { textAlign: 'center' } }}
-                        error={Boolean(errors.name)}
+                        error={Boolean(errors.fullname)}
                         helperText={
                           <span style={{ color: '#FF0000' }}>{errors.fullname ? 'Fullname is required' : ''}</span>
                         }
@@ -174,8 +180,6 @@ export default function RegisterUsers() {
                                 ? 'Password must be at least one digit (0-9)'
                                 : errors.password.type === 'specialChar'
                                 ? 'Password must be at least one special character (#?!@$^&*-)'
-                                : errors.password.required
-                                ? 'Password is required'
                                 : 'Password is required'
                               : ''}
                           </span>

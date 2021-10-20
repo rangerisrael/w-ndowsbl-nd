@@ -11,10 +11,10 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import { Store } from './Store';
 import { DayNightMode } from './SwitchMode';
+import BreakPoint from './ui-component/Breakpoint';
 import LayoutStyle from './ui-component/LayoutStyle';
 import UserIdentity from './ui-component/MenuItem';
 import CircularProgressWithLabel from './ui-component/ProgressBar';
-import BreakPoint from './ui-component/Breakpoint';
 
 interface LayoutProps {
   titles: string;

@@ -10,7 +10,6 @@ const handler = nc();
 handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
   const users = await Users.findOne({ email: _req.body.email });
-  await db.disconnect();
 
   if (users && bcrypt.compareSync(_req.body.password, users.password)) {
     const token = signToken(users);
@@ -21,9 +20,13 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
       email: users.email,
       role: users.role,
       verify: users.verify,
+      message: 'Access Granted', id: users._id
     });
+    await db.disconnect();
+    
   } else {
-    res.status(401).send({ message: 'Invalid credentials' });
+    await db.disconnect();
+    res.send({ message: 'Invalid credentials' });
   }
 });
 
