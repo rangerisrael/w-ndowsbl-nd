@@ -129,7 +129,7 @@ export default function RegisterUsers() {
                         fullWidth
                         id="email"
                         name="email"
-                        label="e.g. Email xxxxx@gmail.com | xxxxx@mailinator.com"
+                        label="Email e.g. xxxxx@gmail.com | xxxxx@mailinator.com"
                         inputProps={{ type: 'email', style: { textAlign: 'center' } }}
                         error={Boolean(errors.email)}
                         helperText={
