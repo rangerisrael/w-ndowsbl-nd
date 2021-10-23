@@ -11,6 +11,7 @@ import { getUserById, RequestNewPassword } from '../../../queries/users.queries'
 import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
+import BreakPoint from '../../../components/ui-component/Breakpoint';
 
 type FormValues = {
   password: string;
@@ -52,115 +53,117 @@ export default function NewPassword({ users }: Props) {
 
   return (
     <Layout titles="request-password">
-      <Grid container>
-        <Grid item md={8} xs={12} style={{ margin: '4rem auto' }}>
-          <fieldset>
-            <legend style={{ display: 'flex', justifyContent: 'center', margin: '0 auto' }}> Request Password</legend>
-            <form onSubmit={handleSubmit(requestPassword)}>
-              <List>
-                <ListItem>
-                  <Controller
-                    name="password"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: true,
-                      minLength: 6,
-                      validate: {
-                        upperCase: (value) => /[A-Z]/.test(value),
-                        lowerCase: (value) => /[a-z]/.test(value),
-                        digit: (value) => /[0-9]/.test(value),
-                        specialChar: (value) => /[#?!@$^&*-]/.test(value),
-                      },
-                    }}
-                    render={({ field }) => (
-                      <TextField
-                        variant="filled"
-                        fullWidth
-                        id="password"
-                        name="password"
-                        label="Password e.g. #PassWord@2021"
-                        inputProps={{ type: 'password', style: { textAlign: 'center' } }}
-                        error={Boolean(errors.password)}
-                        helperText={
-                          <span style={{ color: '#FF0000' }}>
-                            {errors.password
-                              ? errors.password.type === 'minLength'
-                                ? 'Password length is more than five'
-                                : errors.password.type === 'upperCase'
-                                ? 'Password must be at least one uppercase (A-Z)'
-                                : errors.password.type === 'lowerCase'
-                                ? 'Password must be at least one lowercase letter(a-z)'
-                                : errors.password.type === 'digit'
-                                ? 'Password must be at least one digit (0-9)'
-                                : errors.password.type === 'specialChar'
-                                ? 'Password must be at least one special character (#?!@$^&*-)'
-                                : 'Password is required'
-                              : ''}
-                          </span>
-                        }
-                        {...field}
-                      />
-                    )}
-                  />
-                </ListItem>
+      <BreakPoint>
+        <Grid container>
+          <Grid item md={8} xs={12} style={{ margin: '4rem auto' }}>
+            <fieldset>
+              <legend style={{ display: 'flex', justifyContent: 'center', margin: '0 auto' }}> Request Password</legend>
+              <form onSubmit={handleSubmit(requestPassword)}>
+                <List>
+                  <ListItem>
+                    <Controller
+                      name="password"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: true,
+                        minLength: 6,
+                        validate: {
+                          upperCase: (value) => /[A-Z]/.test(value),
+                          lowerCase: (value) => /[a-z]/.test(value),
+                          digit: (value) => /[0-9]/.test(value),
+                          specialChar: (value) => /[#?!@$^&*-]/.test(value),
+                        },
+                      }}
+                      render={({ field }) => (
+                        <TextField
+                          variant="filled"
+                          fullWidth
+                          id="password"
+                          name="password"
+                          label="Password e.g. #PassWord@2021"
+                          inputProps={{ type: 'password', style: { textAlign: 'center' } }}
+                          error={Boolean(errors.password)}
+                          helperText={
+                            <span style={{ color: '#FF0000' }}>
+                              {errors.password
+                                ? errors.password.type === 'minLength'
+                                  ? 'Password length is more than five'
+                                  : errors.password.type === 'upperCase'
+                                  ? 'Password must be at least one uppercase (A-Z)'
+                                  : errors.password.type === 'lowerCase'
+                                  ? 'Password must be at least one lowercase letter(a-z)'
+                                  : errors.password.type === 'digit'
+                                  ? 'Password must be at least one digit (0-9)'
+                                  : errors.password.type === 'specialChar'
+                                  ? 'Password must be at least one special character (#?!@$^&*-)'
+                                  : 'Password is required'
+                                : ''}
+                            </span>
+                          }
+                          {...field}
+                        />
+                      )}
+                    />
+                  </ListItem>
 
-                <ListItem>
-                  <Controller
-                    name="cpassword"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: true,
-                      minLength: 6,
-                      validate: {
-                        upperCase: (value) => /[A-Z]/.test(value),
-                        lowerCase: (value) => /[a-z]/.test(value),
-                        digit: (value) => /[0-9]/.test(value),
-                        specialChar: (value) => /[#?!@$^&*-]/.test(value),
-                      },
-                    }}
-                    render={({ field }) => (
-                      <TextField
-                        variant="filled"
-                        fullWidth
-                        id="cpassword"
-                        name="cpassword"
-                        label="Confirm Password e.g. #PassWord@2021"
-                        inputProps={{ type: 'password', style: { textAlign: 'center' } }}
-                        error={Boolean(errors.password)}
-                        helperText={
-                          <span style={{ color: '#FF0000' }}>
-                            {errors.password
-                              ? errors.password.type === 'minLength'
-                                ? 'Password length is more than five'
-                                : errors.password.type === 'upperCase'
-                                ? 'Password must be at least one uppercase (A-Z)'
-                                : errors.password.type === 'lowerCase'
-                                ? 'Password must be at least one lowercase letter(a-z)'
-                                : errors.password.type === 'digit'
-                                ? 'Password must be at least one digit (0-9)'
-                                : errors.password.type === 'specialChar'
-                                ? 'Password must be at least one special character (#?!@$^&*-)'
-                                : 'Password is required'
-                              : ''}
-                          </span>
-                        }
-                        {...field}
-                      />
-                    )}
-                  />
-                </ListItem>
-                <ListItem>
-                  <Button fullWidth variant="contained" type="submit">
-                    Request password
-                  </Button>
-                </ListItem>
-              </List>
-            </form>
-          </fieldset>
+                  <ListItem>
+                    <Controller
+                      name="cpassword"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: true,
+                        minLength: 6,
+                        validate: {
+                          upperCase: (value) => /[A-Z]/.test(value),
+                          lowerCase: (value) => /[a-z]/.test(value),
+                          digit: (value) => /[0-9]/.test(value),
+                          specialChar: (value) => /[#?!@$^&*-]/.test(value),
+                        },
+                      }}
+                      render={({ field }) => (
+                        <TextField
+                          variant="filled"
+                          fullWidth
+                          id="cpassword"
+                          name="cpassword"
+                          label="Confirm Password e.g. #PassWord@2021"
+                          inputProps={{ type: 'password', style: { textAlign: 'center' } }}
+                          error={Boolean(errors.password)}
+                          helperText={
+                            <span style={{ color: '#FF0000' }}>
+                              {errors.password
+                                ? errors.password.type === 'minLength'
+                                  ? 'Password length is more than five'
+                                  : errors.password.type === 'upperCase'
+                                  ? 'Password must be at least one uppercase (A-Z)'
+                                  : errors.password.type === 'lowerCase'
+                                  ? 'Password must be at least one lowercase letter(a-z)'
+                                  : errors.password.type === 'digit'
+                                  ? 'Password must be at least one digit (0-9)'
+                                  : errors.password.type === 'specialChar'
+                                  ? 'Password must be at least one special character (#?!@$^&*-)'
+                                  : 'Password is required'
+                                : ''}
+                            </span>
+                          }
+                          {...field}
+                        />
+                      )}
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <Button fullWidth variant="contained" type="submit">
+                      Request password
+                    </Button>
+                  </ListItem>
+                </List>
+              </form>
+            </fieldset>
+          </Grid>
         </Grid>
-      </Grid>
+      </BreakPoint>
     </Layout>
   );
 }
