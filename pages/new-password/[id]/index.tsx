@@ -19,7 +19,7 @@ type FormValues = {
 
 type Props = {
   users: {
-    id: string;
+    _id: string;
   };
 };
 
