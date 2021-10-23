@@ -3,16 +3,28 @@
 import { IUser } from '../models/interface/Users';
 
 // eslint-disable-next-line import/prefer-default-export
-export const getUserByCode = async (_id: IUser['_id']) =>
+export const getUserById = async (_id: IUser['_id']) =>
   await axios
     .get(`${`${process.env.LOCAL_URL}api/activate/${_id}`}`)
     .then((res) => ({
       error: false,
-      usercode: res.data,
+      userById: res.data,
     }))
     .catch(() => ({
       error: true,
-      usercode: null,
+      userById: null,
+    }));
+
+export const getUserByEmail = async (id: IUser['email']) =>
+  await axios
+    .get(`${`${process.env.LOCAL_URL}api/reset-password/${id}`}`)
+    .then((res) => ({
+      error: false,
+      getEmail: res.data,
+    }))
+    .catch(() => ({
+      error: true,
+      getEmail: null,
     }));
 
 // eslint-disable-next-line import/prefer-default-export
@@ -76,4 +88,16 @@ export const VerifyingUserByLink = async (_id: string, verify: boolean) =>
     .catch(() => ({
       error: true,
       verifyUserByLink: null,
+    }));
+
+export const RequestNewPassword = async (id: string, password: string) =>
+  await axios
+    .put(`${`${process.env.LOCAL_URL}api/reset-password/${id}`}`, { password })
+    .then((res) => ({
+      error: false,
+      requestPassword: res.data,
+    }))
+    .catch(() => ({
+      error: true,
+      requestPassword: null,
     }));

@@ -24,7 +24,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   if (user.verify === true) {
     if (user && user.code === req.body.codes) {
       await db.disconnect();
-      res.send({ message: 'Email is already verified' });
+      res.send({ message: 'Email is already verified', id: user._id });
     } else {
       if (req.body.codes === -1) {
         await db.disconnect();
@@ -42,12 +42,13 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       const token = signToken(user);
       res.send({
         token,
-        id: user._id,
+        _id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
         verify: user.verify,
         message: 'Congratulation Email is verified',
+        id: user._id,
       });
     } else {
       if (req.body.codes === -1) {

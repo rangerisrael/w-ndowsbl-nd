@@ -12,18 +12,27 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
   const users = await Users.findOne({ email: _req.body.email });
 
   if (users && bcrypt.compareSync(_req.body.password, users.password)) {
-    const token = signToken(users);
-    res.send({
-      token,
-      _id: users._id,
-      name: users.name,
-      email: users.email,
-      role: users.role,
-      verify: users.verify,
-      message: 'Access Granted', id: users._id
-    });
-    await db.disconnect();
-    
+    if (!bcrypt.compareSync(_req.body.password, users.password)) {
+      await db.disconnect();
+      res.send({ message: 'Invalid credentials' });
+    } else if (!users.verify) {
+      await db.disconnect();
+      res.send({ message: 'Email is not verified', verify: false, id: users.id });
+    } else {
+      const token = signToken(users);
+      res.send({
+        token,
+        _id: users._id,
+        name: users.name,
+        email: users.email,
+        role: users.role,
+        verify: users.verify,
+        message: 'Access Granted',
+        id: users._id,
+      });
+      await db.disconnect();
+      res.send({ message: 'Access Granted', verify: true, id: users.id });
+    }
   } else {
     await db.disconnect();
     res.send({ message: 'Invalid credentials' });

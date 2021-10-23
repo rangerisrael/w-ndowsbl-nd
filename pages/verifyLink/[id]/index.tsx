@@ -6,7 +6,7 @@ import React, { useContext, useEffect } from 'react';
 import { Button, Grid, ListItem, Typography, List } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Layout from '../../../components/Layout';
-import { getUserByCode, VerifyingUserByLink } from '../../../queries/users.queries';
+import { getUserById, VerifyingUserByLink } from '../../../queries/users.queries';
 import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { Store } from '../../../components/Store';
@@ -87,11 +87,11 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
   // eslint-disable-next-line prefer-destructuring
   const code = context.params.id;
 
-  const userCode = await getUserByCode(code);
+  const userCode = await getUserById(code);
   // const res = await fetch(`http://localhost:3000/api/products/${slug}`);
   // const product = await res.json();
 
   return {
-    props: { users: userCode.usercode },
+    props: { users: userCode.userById },
   };
 };

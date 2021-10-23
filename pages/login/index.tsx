@@ -55,18 +55,21 @@ export default function Login() {
 
       console.log(user);
       if (!user.loginUser.id) {
-        // eslint-disable-next-line no-alert
         enqueueSnackbar(user.loginUser.message, { variant: 'error' });
       } else {
-        // eslint-disable-next-line no-alert
-        enqueueSnackbar(user.loginUser.message, { variant: 'success' });
-        dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
-        Cookies.set('userInfo', JSON.stringify(user.loginUser));
-        router.push(`${redirect || '/'}`);
+        // eslint-disable-next-line no-lonely-if
+        if (!user.loginUser.verify) {
+          enqueueSnackbar(user.loginUser.message, { variant: 'error' });
+          router.push(`/verification/${user.loginUser.id}`);
+        } else {
+          enqueueSnackbar(user.loginUser.message, { variant: 'success' });
+          dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
+          Cookies.set('userInfo', JSON.stringify(user.loginUser));
+          router.push(`${redirect || '/'}`);
+        }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      // eslint-disable-next-line no-alert
       enqueueSnackbar(err.response ? err.response.loginUser.message : err.loginUser.message, { variant: 'error' });
     }
   };
@@ -107,7 +110,7 @@ export default function Login() {
                             <span style={{ color: '#FF0000' }}>
                               {errors.email
                                 ? errors.email.type === 'pattern'
-                                  ? 'We must accepted gmail or mailinator account only to send a valid verification code e.g.(xxxxx@gmail.com|xxxxx@mailinator.com)'
+                                  ? 'We must accepted gmail or mailinator account only e.g.(xxxxx@gmail.com|xxxxx@mailinator.com)'
                                   : 'Email is required'
                                 : ''}
                             </span>
@@ -165,6 +168,13 @@ export default function Login() {
                     ></Controller>
                   </ListItem>
 
+                  <ListItem sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <NextLink href="/request-password" passHref>
+                      <Link>
+                        <Typography>Forgot Password</Typography>
+                      </Link>
+                    </NextLink>
+                  </ListItem>
                   <ListItem>
                     <Button fullWidth variant="contained" type="submit">
                       Login

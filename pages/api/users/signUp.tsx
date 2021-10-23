@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { Roles } from '../../../models/interface/Users';
 import Users from '../../../models/Users';
 import db from '../../../utils/databaseConfig';
 // eslint-disable-next-line import/default
@@ -24,14 +23,13 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     newUser.name = req.body.name;
     newUser.email = req.body.email;
     newUser.password = bcrypt.hashSync(req.body.password);
-    newUser.verify = false;
-    newUser.role = Roles.buyer;
     newUser.code = randomCode;
 
     newUser.markModified('_id');
     newUser.markModified('name');
     newUser.markModified('email');
     newUser.markModified('password');
+    newUser.markModified('oldpassword');
     newUser.markModified('verify');
     newUser.markModified('role');
     newUser.markModified('code');

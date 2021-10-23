@@ -15,7 +15,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (user && user.verify === true) {
     await db.disconnect();
-    res.send({ message: 'Email is already verified' });
+    res.send({ message: 'Email is already verified', id: user._id });
   } else {
     // eslint-disable-next-line no-lonely-if
     if (user && req.body.verify) {
@@ -32,6 +32,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
         role: user.role,
         verify: user.verify,
         message: 'Congratulation Email is verified',
+        id: user._id,
       });
     } else if (user && req.body.randomCode) {
       user.code = req.body.randomCode;
