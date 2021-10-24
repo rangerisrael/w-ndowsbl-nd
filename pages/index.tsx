@@ -32,9 +32,7 @@ export default function Index({ products }: Props) {
     if (session) {
       Cookies.set('userInfo', JSON.stringify(session.user));
     }
-    if (session === null) {
-      router.push('/');
-    }
+
     // eslint-disable-next-line react/destructuring-assignment
   }, [router, session]);
 
