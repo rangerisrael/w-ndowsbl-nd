@@ -48,6 +48,9 @@ export default function Login() {
     if (userInfo) {
       router.push('/');
     }
+    if (redirect) {
+      router.push('/shipping');
+    }
 
     // eslint-disable-next-line react/destructuring-assignment
   }, [redirect, router, userInfo]);
