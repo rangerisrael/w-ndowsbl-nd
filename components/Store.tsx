@@ -15,7 +15,7 @@ interface PropTypes {
   cart: {
     cartItem: [] | any;
   };
-  userInfo: IUser;
+  userInfo: IUser | any;
 }
 
 interface InitContextProps {

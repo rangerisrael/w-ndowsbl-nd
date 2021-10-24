@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable spaced-comment */
 /* eslint-disable no-useless-escape */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -44,11 +45,11 @@ export default function Login(session: any) {
   const { userInfo } = state;
 
   useEffect(() => {
-    if (!redirect && (session.user || userInfo)) {
+    if (!redirect && userInfo) {
       router.push('/');
     }
     // eslint-disable-next-line react/destructuring-assignment
-  }, [redirect, router, session.user, userInfo]);
+  }, [redirect, router, userInfo]);
 
   const submitRequest: SubmitHandler<FormValues> = async (data) => {
     closeSnackbar();
@@ -74,6 +75,23 @@ export default function Login(session: any) {
     } catch (err: any) {
       enqueueSnackbar(err.response ? err.response.loginUser.message : err.loginUser.message, { variant: 'error' });
     }
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const googleHandler = async (e: any) => {
+    e.preventDefault();
+    signIn('google', {
+      callbackUrl: `${process.env.LOCAL_URL}`,
+    });
+    Cookies.set('userInfo', JSON.stringify(session.user));
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const facebookHandler = async (e: any) => {
+    e.preventDefault();
+    signIn('facebook', {
+      callbackUrl: `${process.env.LOCAL_URL}`,
+    });
+    Cookies.set('userInfo', JSON.stringify(session.user));
   };
 
   return (
@@ -186,14 +204,7 @@ export default function Login(session: any) {
                     <Grid container>
                       <Grid item md={6} xs={7}>
                         <NextLink href="/api/auth/signin" passHref>
-                          <Link
-                            onClick={(e) => {
-                              e.preventDefault();
-                              signIn('google', {
-                                callbackUrl: `${process.env.LOCAL_URL}`,
-                              });
-                            }}
-                          >
+                          <Link onClick={googleHandler}>
                             <Grid container>
                               <Grid item md={2} xs={2}>
                                 {' '}
@@ -209,14 +220,7 @@ export default function Login(session: any) {
                       </Grid>
                       <Grid item md={6} xs={5}>
                         <NextLink href="/api/auth/signin" passHref>
-                          <Link
-                            onClick={(e) => {
-                              e.preventDefault();
-                              signIn('facebook', {
-                                callbackUrl: `${process.env.LOCAL_URL}`,
-                              });
-                            }}
-                          >
+                          <Link onClick={facebookHandler}>
                             <Grid container>
                               <Grid item md={2} xs={3}>
                                 {' '}

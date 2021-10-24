@@ -19,12 +19,12 @@ export default function ShippingAddress(session: any) {
   const { userInfo } = state;
 
   useEffect(() => {
-    if (!userInfo && session === null) {
+    if (!userInfo) {
       router.push('/login?redirect=/shipping');
     }
 
     // eslint-disable-next-line react/destructuring-assignment
-  }, [router, session, userInfo]);
+  }, [router, userInfo]);
 
   return (
     <Layout titles="shipping">
