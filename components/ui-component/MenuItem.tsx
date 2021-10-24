@@ -11,8 +11,8 @@ type Props = {
 };
 
 export default function UserIdentity({ name = '' }: Props) {
-  const { dispatch } = useContext(Store);
   const router = useRouter();
+  const { dispatch } = useContext(Store);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -25,11 +25,11 @@ export default function UserIdentity({ name = '' }: Props) {
   };
 
   const handleLogoutHandler = () => {
+    router.push('/login');
     setAnchorEl(null);
     dispatch({ type: 'USER_LOGOUT', payload: undefined });
     Cookies.remove('userInfo');
     Cookies.remove('cartItems');
-    router.push('/');
     signOut();
   };
   return (
