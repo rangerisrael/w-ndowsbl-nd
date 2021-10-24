@@ -21,8 +21,6 @@ export default function ShippingAddress(session: any) {
   useEffect(() => {
     if (!userInfo && session === null) {
       router.push('/login?redirect=/shipping');
-    } else if (userInfo || session !== null) {
-      router.push('/shipping');
     }
 
     // eslint-disable-next-line react/destructuring-assignment
