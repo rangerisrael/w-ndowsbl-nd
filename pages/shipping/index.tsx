@@ -22,7 +22,8 @@ export default function ShippingAddress(session: any) {
     if (!userInfo && !session.user) {
       router.push('/login?redirect=/shipping');
     }
-  }, [router, userInfo, session]);
+    // eslint-disable-next-line react/destructuring-assignment
+  }, [router, session.user, userInfo]);
 
   return (
     <Layout titles="shipping">
