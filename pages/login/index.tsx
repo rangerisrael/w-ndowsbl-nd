@@ -47,7 +47,8 @@ export default function Login(session: any) {
     if (!redirect && (session.user || userInfo)) {
       router.push('/');
     }
-  }, [redirect, router, userInfo, session]);
+    // eslint-disable-next-line react/destructuring-assignment
+  }, [redirect, router, session.user, userInfo]);
 
   const submitRequest: SubmitHandler<FormValues> = async (data) => {
     closeSnackbar();
