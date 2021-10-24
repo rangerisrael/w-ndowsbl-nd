@@ -29,8 +29,8 @@ export default function UserIdentity({ name = '' }: Props) {
     dispatch({ type: 'USER_LOGOUT', payload: undefined });
     Cookies.remove('userInfo');
     Cookies.remove('cartItems');
-    signOut();
     router.push('/');
+    signOut();
   };
   return (
     <>
