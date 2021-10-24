@@ -45,8 +45,10 @@ export default function Login() {
   const { userInfo } = state;
 
   useEffect(() => {
-    if (userInfo && redirect) {
+    if (userInfo && !redirect) {
       router.push('/');
+    } else if (redirect) {
+      router.push('/login?redirect=/shipping');
     }
 
     // eslint-disable-next-line react/destructuring-assignment

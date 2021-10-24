@@ -10,9 +10,7 @@ import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 
-export default function ShippingAddress(session: any) {
-  console.log(session);
-
+export default function ShippingAddress() {
   const router = useRouter();
   const { state } = useContext(Store);
 
