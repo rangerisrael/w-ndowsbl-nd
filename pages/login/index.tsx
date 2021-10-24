@@ -79,19 +79,19 @@ export default function Login(session: any) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const googleHandler = async (e: any) => {
+    Cookies.set('userInfo', session.user);
     e.preventDefault();
     signIn('google', {
       callbackUrl: `${process.env.LOCAL_URL}`,
     });
-    Cookies.set('userInfo', JSON.stringify(session.user));
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const facebookHandler = async (e: any) => {
+    Cookies.set('userInfo', session.user);
     e.preventDefault();
     signIn('facebook', {
       callbackUrl: `${process.env.LOCAL_URL}`,
     });
-    Cookies.set('userInfo', JSON.stringify(session.user));
   };
 
   return (
