@@ -25,7 +25,6 @@ export default function UserIdentity({ name = '' }: Props) {
   };
 
   const handleLogoutHandler = () => {
-    router.push('/login?redirect=/shipping');
     setAnchorEl(null);
     dispatch({ type: 'USER_LOGOUT', payload: undefined });
     Cookies.remove('userInfo');

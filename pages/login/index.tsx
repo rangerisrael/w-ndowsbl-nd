@@ -13,7 +13,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
 import Cookies from 'js-cookie';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { getSession, signIn } from 'next-auth/client';
+import { getSession, signIn, useSession } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
@@ -28,7 +28,8 @@ type FormValues = {
   password: string;
 };
 
-export default function Login(session: any) {
+export default function Login(sesion: any) {
+  const [session] = useSession();
   const router = useRouter();
   const {
     handleSubmit,
@@ -255,6 +256,6 @@ export default function Login(session: any) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
   return {
-    props: { session: await getSession(context) },
+    props: { sesion: await getSession(context) },
   };
 };
