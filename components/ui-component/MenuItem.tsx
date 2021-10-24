@@ -25,12 +25,12 @@ export default function UserIdentity({ name = '' }: Props) {
   };
 
   const handleLogoutHandler = () => {
-    router.push('/login');
     setAnchorEl(null);
     dispatch({ type: 'USER_LOGOUT', payload: undefined });
     Cookies.remove('userInfo');
     Cookies.remove('cartItems');
     signOut();
+    router.push('/login');
   };
   return (
     <>

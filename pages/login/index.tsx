@@ -47,8 +47,6 @@ export default function Login() {
   useEffect(() => {
     if (userInfo && !redirect) {
       router.push('/');
-    } else if (redirect) {
-      router.push('/login?redirect=/shipping');
     }
 
     // eslint-disable-next-line react/destructuring-assignment
@@ -82,6 +80,7 @@ export default function Login() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const googleHandler = async (e: any) => {
+    router.push(`${redirect || '/'}`);
     e.preventDefault();
     await signIn('google', {
       callbackUrl: `${process.env.LOCAL_URL}`,
@@ -89,6 +88,7 @@ export default function Login() {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const facebookHandler = async (e: any) => {
+    router.push(`${redirect || '/'}`);
     e.preventDefault();
     await signIn('facebook', {
       callbackUrl: `${process.env.LOCAL_URL}`,
