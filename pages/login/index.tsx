@@ -50,7 +50,7 @@ export default function Login() {
     }
 
     // eslint-disable-next-line react/destructuring-assignment
-  }, [redirect, router, userInfo]);
+  }, [router, userInfo]);
 
   const submitRequest: SubmitHandler<FormValues> = async (data) => {
     closeSnackbar();
