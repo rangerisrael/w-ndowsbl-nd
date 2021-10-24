@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Button, Menu, MenuItem } from '@mui/material';
 import Cookies from 'js-cookie';
 import { signOut } from 'next-auth/client';
+import { useRouter } from 'next/router';
 import { Store } from '../Store';
 
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export default function UserIdentity({ name = '' }: Props) {
+  const router = useRouter();
   const { dispatch } = useContext(Store);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -23,6 +25,7 @@ export default function UserIdentity({ name = '' }: Props) {
   };
 
   const handleLogoutHandler = () => {
+    router.push('/login?redirect=/shipping');
     setAnchorEl(null);
     dispatch({ type: 'USER_LOGOUT', payload: undefined });
     Cookies.remove('userInfo');
