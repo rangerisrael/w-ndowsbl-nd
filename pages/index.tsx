@@ -32,8 +32,11 @@ export default function Index({ products }: Props) {
     if (session) {
       Cookies.set('userInfo', JSON.stringify(session.user));
     }
+    if (session === null) {
+      router.push('/');
+    }
     // eslint-disable-next-line react/destructuring-assignment
-  }, [session]);
+  }, [router, session]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const addToCartHandler = async (product: any) => {
