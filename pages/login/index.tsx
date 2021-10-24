@@ -11,7 +11,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
 import Cookies from 'js-cookie';
-import { signIn } from 'next-auth/client';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { getSession, signIn } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
@@ -26,7 +27,7 @@ type FormValues = {
   password: string;
 };
 
-export default function Login() {
+export default function Login(session: any) {
   const router = useRouter();
   const {
     handleSubmit,
@@ -43,10 +44,10 @@ export default function Login() {
   const { userInfo } = state;
 
   useEffect(() => {
-    if (userInfo && !redirect) {
+    if (!redirect && (session.user || userInfo)) {
       router.push('/');
     }
-  }, [redirect, router, userInfo]);
+  }, [redirect, router, userInfo, session]);
 
   const submitRequest: SubmitHandler<FormValues> = async (data) => {
     closeSnackbar();
@@ -245,3 +246,10 @@ export default function Login() {
     </Layout>
   );
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
+  return {
+    props: { session: await getSession(context) },
+  };
+};

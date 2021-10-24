@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React, { ReactChildren, ReactElement, useContext, useState, useEffect } from 'react';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AppBar, Container, Link, Toolbar, Typography, Badge } from '@mui/material';
