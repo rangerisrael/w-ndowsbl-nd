@@ -28,7 +28,7 @@ type FormValues = {
   password: string;
 };
 
-export default function Login(sesion: any) {
+export default function Login() {
   const [session] = useSession();
   const router = useRouter();
   const {
