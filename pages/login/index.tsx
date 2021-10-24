@@ -44,11 +44,11 @@ export default function Login(session: any) {
   const { userInfo } = state;
 
   useEffect(() => {
-    if (!redirect && (session.user || userInfo)) {
+    if (!redirect && (session !== null || userInfo)) {
       router.push('/');
     }
     // eslint-disable-next-line react/destructuring-assignment
-  }, [redirect, router, session.user, userInfo]);
+  }, [redirect, router, session, userInfo]);
 
   const submitRequest: SubmitHandler<FormValues> = async (data) => {
     closeSnackbar();
