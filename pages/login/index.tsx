@@ -60,19 +60,19 @@ export default function Login() {
       if (!user.loginUser.id) {
         enqueueSnackbar(user.loginUser.message, { variant: 'error' });
       } else if (!user.loginUser.verify) {
-          enqueueSnackbar(user.loginUser.message, { variant: 'error' });
-          router.push(`/verification/${user.loginUser.id}`);
+        enqueueSnackbar(user.loginUser.message, { variant: 'error' });
+        router.push(`/verification/${user.loginUser.id}`);
+      } else {
+        enqueueSnackbar(user.loginUser.message, { variant: 'success' });
+        dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
+        Cookies.set('userInfo', JSON.stringify(user.loginUser));
+        if (redirect) {
+          router.push(`${redirect}`);
         } else {
-          enqueueSnackbar(user.loginUser.message, { variant: 'success' });
-          dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
-          Cookies.set('userInfo', JSON.stringify(user.loginUser));
-          if (redirect) {
-            router.push(`${redirect}`);
-          } else {
-            router.push('/');
-          }
+          router.push('/');
         }
       }
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       enqueueSnackbar(err, { variant: 'error' });
