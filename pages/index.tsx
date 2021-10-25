@@ -60,7 +60,7 @@ export default function Index({ products }: Props) {
       <Typography variant="h4" component="h1" gutterBottom>
         Product
       </Typography>
-      {products && (
+      {!products && (
         <Grid container spacing={3}>
           {products.map((product) => (
             <Grid item md={4} key={product.name}>
