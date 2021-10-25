@@ -45,7 +45,7 @@ export default function Login() {
   const { userInfo } = state;
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo || !redirect) {
       router.push('/');
     }
 
@@ -80,10 +80,10 @@ export default function Login() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const googleHandler = async (e: any) => {
-    router.push(`${redirect || '/'}`);
+    // router.push(`${redirect || '/'}`);
     e.preventDefault();
     await signIn('google', {
-      callbackUrl: `${process.env.LOCAL_URL}`,
+      callbackUrl: `${process.env.LOCAL_URL || redirect}`,
     });
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -91,7 +91,7 @@ export default function Login() {
     router.push(`${redirect || '/'}`);
     e.preventDefault();
     await signIn('facebook', {
-      callbackUrl: `${process.env.LOCAL_URL}`,
+      callbackUrl: `${process.env.LOCAL_URL || redirect}`,
     });
   };
 
