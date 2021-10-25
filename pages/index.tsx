@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect } from 'react';
 import {
   Card,
@@ -12,7 +11,7 @@ import {
   Button,
 } from '@mui/material';
 import Cookies from 'js-cookie';
-import { getSession } from 'next-auth/client';
+import { useSession } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
@@ -22,15 +21,14 @@ import { ProductQueries, ProductQueriesById } from '../queries/product-queries';
 
 type Props = {
   products: IProduct[];
-  session: any;
 };
 
-export default function Index({ products, session }: Props) {
+export default function Index({ products }: Props) {
   const { state, dispatch } = useContext(Store);
-
+  const [session] = useSession();
   const router = useRouter();
 
-  console.log(`test ${router.query}`);
+  console.log(router.query);
   useEffect(() => {
     if (session) {
       Cookies.set('userInfo', JSON.stringify(session.user));
@@ -96,12 +94,10 @@ export default function Index({ products, session }: Props) {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getServerSideProps = async (ctx: any) => {
+export const getServerSideProps = async () => {
   const products = await ProductQueries();
 
   return {
     props: products,
-    session: await getSession(ctx),
   };
 };
