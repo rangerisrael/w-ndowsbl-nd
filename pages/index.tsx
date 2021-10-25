@@ -31,6 +31,8 @@ export default function Index({ products }: Props) {
   useEffect(() => {
     if (session) {
       Cookies.set('userInfo', JSON.stringify(session.user));
+    } else {
+      router.push('/');
     }
 
     // eslint-disable-next-line react/destructuring-assignment
