@@ -26,11 +26,11 @@ export default function UserIdentity({ name = '' }: Props) {
 
   const handleLogoutHandler = () => {
     setAnchorEl(null);
+    signOut();
     dispatch({ type: 'USER_LOGOUT', payload: undefined });
     Cookies.remove('userInfo');
     Cookies.remove('cartItems');
     router.push('/');
-    signOut();
   };
   return (
     <>
