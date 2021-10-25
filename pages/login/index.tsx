@@ -67,7 +67,11 @@ export default function Login() {
           enqueueSnackbar(user.loginUser.message, { variant: 'success' });
           dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
           Cookies.set('userInfo', JSON.stringify(user.loginUser));
-          router.push(`${redirect || '/'}`);
+          if (redirect) {
+            router.push(redirect);
+          } else {
+            router.push('/');
+          }
         }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
