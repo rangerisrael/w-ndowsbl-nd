@@ -14,7 +14,7 @@ import {
 // import { useSession } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-// import Layout from '../components/Layout';
+import Layout from '../components/Layout';
 import { Store } from '../components/Store';
 import { IProduct } from '../models/interface/Product';
 import { ProductQueries, ProductQueriesById } from '../queries/product-queries';
@@ -56,41 +56,50 @@ export default function Index({ products }: Props) {
   };
 
   return (
-    <Box sx={{ my: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Product
-      </Typography>
-      {!products && (
-        <Grid container spacing={3}>
-          {products.map((product) => (
-            <Grid item md={4} key={product.name}>
-              <Card>
-                <NextLink href={`/product/${product.slug}`} passHref>
-                  <CardActionArea>
-                    <CardMedia component="img" image={product.image} title={product.name} />
-                    <CardContent
-                      sx={{ display: 'flex', justifyContent: 'space-around', color: '#f3f4f6', background: '#506E7F' }}
-                    >
-                      <Typography variant="h6" component="h1">
-                        &#8369;{product.price}
-                      </Typography>
-                      <Typography variant="h5" component="h1">
-                        {product.name}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </NextLink>
-                <CardActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                  <Button fullWidth variant="contained" onClick={() => addToCartHandler(product)}>
-                    Add to Basket
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      )}
-    </Box>
+    <Layout titles="list-item">
+      <Box sx={{ my: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Product
+        </Typography>
+        {products ? (
+          <Grid container spacing={3}>
+            {products.map((product) => (
+              <Grid item md={4} key={product.name}>
+                <Card>
+                  <NextLink href={`/product/${product.slug}`} passHref>
+                    <CardActionArea>
+                      <CardMedia component="img" image={product.image} title={product.name} />
+                      <CardContent
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-around',
+                          color: '#f3f4f6',
+                          background: '#506E7F',
+                        }}
+                      >
+                        <Typography variant="h6" component="h1">
+                          &#8369;{product.price}
+                        </Typography>
+                        <Typography variant="h5" component="h1">
+                          {product.name}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </NextLink>
+                  <CardActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                    <Button fullWidth variant="contained" onClick={() => addToCartHandler(product)}>
+                      Add to Basket
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          ''
+        )}
+      </Box>
+    </Layout>
   );
 }
 
@@ -98,6 +107,6 @@ export const getServerSideProps = async () => {
   const products = await ProductQueries();
 
   return {
-    props: { products: products.product },
+    props: products,
   };
 };
