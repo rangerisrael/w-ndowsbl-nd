@@ -59,9 +59,7 @@ export default function Login() {
       console.log(user);
       if (!user.loginUser.id) {
         enqueueSnackbar(user.loginUser.message, { variant: 'error' });
-      } else {
-        // eslint-disable-next-line no-lonely-if
-        if (!user.loginUser.verify) {
+      } else if (!user.loginUser.verify) {
           enqueueSnackbar(user.loginUser.message, { variant: 'error' });
           router.push(`/verification/${user.loginUser.id}`);
         } else {
