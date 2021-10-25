@@ -46,6 +46,8 @@ export default function Login() {
   useEffect(() => {
     if (userInfo && !redirect) {
       router.push('/');
+    } else if (userInfo && redirect) {
+      router.push('/shipping');
     }
   }, [redirect, router, userInfo]);
 
@@ -83,28 +85,16 @@ export default function Login() {
   const googleHandler = async (e: any) => {
     e.preventDefault();
 
-    if (redirect) {
-      await signIn('google', {
-        callbackUrl: `${redirect}`,
-      });
-    } else {
-      await signIn('google', {
-        callbackUrl: `${process.env.LOCAL_URL}`,
-      });
-    }
+    await signIn('google', {
+      callbackUrl: `${redirect || process.env.LOCAL_URL}`,
+    });
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const facebookHandler = async (e: any) => {
     e.preventDefault();
-    if (redirect) {
-      await signIn('facebook', {
-        callbackUrl: `${redirect}`,
-      });
-    } else {
-      await signIn('facebook', {
-        callbackUrl: `${process.env.LOCAL_URL}`,
-      });
-    }
+    await signIn('facebook', {
+      callbackUrl: `${redirect || process.env.LOCAL_URL}`,
+    });
   };
 
   return (
