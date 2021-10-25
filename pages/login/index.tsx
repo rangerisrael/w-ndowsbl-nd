@@ -68,7 +68,7 @@ export default function Login() {
           dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
           Cookies.set('userInfo', JSON.stringify(user.loginUser));
           if (redirect) {
-            router.push(redirect);
+            router.push(`${redirect}`);
           } else {
             router.push('/');
           }
