@@ -64,7 +64,7 @@ export default function Index({ products }: Props) {
         <Typography variant="h4" component="h1" gutterBottom>
           Product
         </Typography>
-        {products.products.length > 0 && (
+        {products.products && (
           <Grid container spacing={3}>
             {products.products.map((product) => (
               <Grid item md={4} key={product.name}>
