@@ -12,8 +12,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import { Button, List, ListItem, TextField, Typography, Grid, Link } from '@mui/material';
 import Cookies from 'js-cookie';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { getSession, signIn } from 'next-auth/client';
+import { signIn } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
@@ -254,10 +253,3 @@ export default function Login() {
     </Layout>
   );
 }
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
-  return {
-    props: { sesion: await getSession(context) },
-  };
-};
