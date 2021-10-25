@@ -29,9 +29,12 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
       });
       await db.disconnect();
       res.send({ message: 'Access Granted', verify: true, id: users.id });
-    } else {
+    } else if (users.verify === false) {
       await db.disconnect();
       res.send({ message: 'Email is not verified', verify: false, id: users.id });
+    } else {
+      await db.disconnect();
+      res.send({ message: 'Invalid credentials' });
     }
   } else {
     await db.disconnect();
