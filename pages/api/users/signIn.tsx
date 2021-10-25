@@ -11,11 +11,14 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
   await db.connect();
   const users = await Users.findOne({ email: _req.body.email });
 
-  if (users && bcrypt.compareSync(_req.body.password, users.password)) {
+  if (users) {
     if (bcrypt.compareSync(_req.body.password, users.oldpassword)) {
       await db.disconnect();
-      res.send({ message: 'This is your old password type new one', id: users._id });
-    } else if (!users.verify) {
+      res.send({ message: 'This is your previous password' });
+    }
+    if (bcrypt.compareSync(_req.body.password, users.password)) {
+
+     if(!users.verify) {
       await db.disconnect();
       res.send({ message: 'Email is not verified', verify: false, id: users._id });
     } else {
@@ -32,7 +35,8 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
       });
       await db.disconnect();
       res.send({ message: 'Access Granted', verify: true, id: users._id });
-    }
+    } 
+    
   } else {
     await db.disconnect();
     res.send({ message: 'Invalid credentials' });
