@@ -76,7 +76,7 @@ export default function Login() {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      enqueueSnackbar(err.response ? err.response.loginUser.message : err.loginUser.message, { variant: 'error' });
+      enqueueSnackbar(err, { variant: 'error' });
     }
   };
 
