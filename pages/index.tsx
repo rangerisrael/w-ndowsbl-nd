@@ -106,10 +106,19 @@ export default function Index({ products }: Props) {
   );
 }
 
-export const getServerSideProps = async () => {
+// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function getServerSideProps({ res }) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  res as any;
+  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+
   const products = await ProductQueries();
 
   return {
     props: { products },
   };
-};
+}
