@@ -11,7 +11,8 @@ import {
   Button,
 } from '@mui/material';
 import Cookies from 'js-cookie';
-import { useSession } from 'next-auth/client';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { getSession } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
@@ -21,11 +22,13 @@ import { ProductQueries, ProductQueriesById } from '../queries/product-queries';
 
 type Props = {
   products: IProduct[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  session: any;
 };
 
-export default function Index({ products }: Props) {
+export default function Index({ products, session }: Props) {
   const { state, dispatch } = useContext(Store);
-  const [session] = useSession();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -91,10 +94,11 @@ export default function Index({ products }: Props) {
   );
 }
 
-export const getServerSideProps = async () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
   const products = await ProductQueries();
 
   return {
-    props: products,
+    props: { props: products, session: await getSession(context) },
   };
 };
