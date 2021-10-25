@@ -58,18 +58,18 @@ export default function Login() {
       console.log(user);
       if (!user.loginUser.id) {
         enqueueSnackbar(user.loginUser.message, { variant: 'error' });
-      } else if (!user.loginUser.verify) {
-        enqueueSnackbar(user.loginUser.message, { variant: 'error' });
-        router.push(`/verification/${user.loginUser.id}`);
       } else {
-        enqueueSnackbar(user.loginUser.message, { variant: 'success' });
+        if (!user.loginUser.verify) {
+          enqueueSnackbar(user.loginUser.message, { variant: 'error' });
+          router.push(`/verification/${user.loginUser.id}`);
+        } else if (redirect) {
+          router.push(`${redirect}`);
+        }
+
         dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
         Cookies.set('userInfo', JSON.stringify(user.loginUser));
-        if (redirect) {
-          router.push(`${redirect}`);
-        } else {
-          router.push('/');
-        }
+        enqueueSnackbar(user.loginUser.message, { variant: 'success' });
+        router.push('/');
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
