@@ -107,11 +107,11 @@ export default function Index({ products }: Props) {
   );
 }
 
-export const getServerSideProps = async (_req: NextApiRequest, res: NextApiResponse) => {
+export async function getServerSideProps(_req: NextApiRequest, res: NextApiResponse) {
   res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
   const products = await ProductQueries();
 
   return {
     props: { products },
   };
-};
+}
