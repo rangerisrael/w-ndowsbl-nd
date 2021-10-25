@@ -14,7 +14,6 @@ const BreakPoint = styled.div`
     }
     .list-full {
       width: 100% !important;
-      padding: 1rem 0 !important;
     }
   }
 
