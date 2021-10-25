@@ -18,10 +18,8 @@ export default function ShippingAddress() {
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login');
+      router.push('/login?redirect=/shipping');
     }
-
-    // eslint-disable-next-line react/destructuring-assignment
   }, [router, userInfo]);
 
   return (
