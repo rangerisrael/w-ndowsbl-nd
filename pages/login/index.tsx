@@ -5,7 +5,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-alert */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useContext, useEffect } from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
