@@ -13,7 +13,7 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
 
   if (users && bcrypt.compareSync(_req.body.password, users.oldpassword)) {
     await db.disconnect();
-    res.send({ message: 'This is your old password', id: users.id });
+    res.send({ message: 'This is your old password' });
   } else if (users && bcrypt.compareSync(_req.body.password, users.password)) {
     if (!users.verify) {
       await db.disconnect();
