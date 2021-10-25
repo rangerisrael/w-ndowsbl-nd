@@ -28,12 +28,9 @@ export default function Index({ products }: Props) {
   const [session] = useSession();
   const router = useRouter();
 
-  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (session) {
       Cookies.set('userInfo', JSON.stringify(session.user));
-    } else if (session === null) {
-      return false;
     }
   }, [router, session]);
 
