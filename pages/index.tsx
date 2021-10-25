@@ -28,14 +28,13 @@ export default function Index({ products }: Props) {
   const [session] = useSession();
   const router = useRouter();
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (session) {
       Cookies.set('userInfo', JSON.stringify(session.user));
-    } else {
-      router.push('/');
+    } else if (!session) {
+      return null;
     }
-
-    // eslint-disable-next-line react/destructuring-assignment
   }, [router, session]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
