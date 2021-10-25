@@ -28,6 +28,7 @@ export default function Index({ products }: Props) {
   // const [session] = useSession();
   const router = useRouter();
 
+  console.log(router.query);
   // useEffect(() => {
   //   if (session) {
   //     Cookies.set('userInfo', JSON.stringify(session.user));
