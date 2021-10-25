@@ -18,7 +18,7 @@ export default function ShippingAddress() {
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login?redirect=/shipping');
+      router.push('/login');
     }
 
     // eslint-disable-next-line react/destructuring-assignment
