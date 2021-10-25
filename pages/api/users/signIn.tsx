@@ -15,24 +15,28 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
     if (bcrypt.compareSync(_req.body.password, users.oldpassword)) {
       await db.disconnect();
       res.send({ message: 'This is your previous password' });
-    } else if (bcrypt.compareSync(_req.body.password, users.password)) {
-      if (!users.verify) {
-        await db.disconnect();
-        res.send({ message: 'Email is not verified', verify: false, id: users._id });
-      } else {
-        const token = signToken(users);
-        res.send({
-          token,
-          _id: users._id,
-          name: users.name,
-          email: users.email,
-          role: users.role,
-          verify: users.verify,
-          message: 'Access Granted',
-          id: users._id,
-        });
-        await db.disconnect();
-        res.send({ message: 'Access Granted', verify: true, id: users._id });
+    } 
+    else {
+      // eslint-disable-next-line no-lonely-if
+      if (bcrypt.compareSync(_req.body.password, users.password)) {
+        if (!users.verify) {
+          await db.disconnect();
+          res.send({ message: 'Email is not verified', verify: false, id: users._id });
+        } else {
+          const token = signToken(users);
+          res.send({
+            token,
+            _id: users._id,
+            name: users.name,
+            email: users.email,
+            role: users.role,
+            verify: users.verify,
+            message: 'Access Granted',
+            id: users._id,
+          });
+          await db.disconnect();
+          res.send({ message: 'Access Granted', verify: true, id: users._id });
+        }
       }
     }
   } else {
