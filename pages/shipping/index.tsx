@@ -17,8 +17,11 @@ export default function ShippingAddress() {
   const { userInfo } = state;
 
   useEffect(() => {
-    if (!userInfo) {
+    if (userInfo) {
       router.push('/login?redirect=/shipping');
+    }
+    if (!userInfo) {
+      router.push('/login');
     }
   }, [router, userInfo]);
 
