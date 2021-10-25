@@ -83,17 +83,30 @@ export default function Login() {
   const googleHandler = async (e: any) => {
     // router.push(`${redirect || '/'}`);
     e.preventDefault();
-    await signIn('google', {
-      callbackUrl: `${process.env.LOCAL_URL || redirect}`,
-    });
+
+    if (redirect) {
+      await signIn('google', {
+        callbackUrl: `${redirect}`,
+      });
+    } else {
+      await signIn('google', {
+        callbackUrl: `${process.env.LOCAL_URL}`,
+      });
+    }
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const facebookHandler = async (e: any) => {
     router.push(`${redirect || '/'}`);
     e.preventDefault();
-    await signIn('facebook', {
-      callbackUrl: `${process.env.LOCAL_URL || redirect}`,
-    });
+    if (redirect) {
+      await signIn('facebook', {
+        callbackUrl: `${redirect}`,
+      });
+    } else {
+      await signIn('facebook', {
+        callbackUrl: `${process.env.LOCAL_URL}`,
+      });
+    }
   };
 
   return (
