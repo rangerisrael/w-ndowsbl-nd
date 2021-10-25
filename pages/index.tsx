@@ -21,8 +21,8 @@ import { ProductQueries, ProductQueriesById } from '../queries/product-queries';
 
 type Props = {
   products: {
-    products:IProduct[];
-  }
+    products: IProduct[];
+  };
 };
 
 export default function Index({ products }: Props) {
@@ -64,7 +64,7 @@ export default function Index({ products }: Props) {
         <Typography variant="h4" component="h1" gutterBottom>
           Product
         </Typography>
-        {products && (
+        {products.products.length > 0 && (
           <Grid container spacing={3}>
             {products.products.map((product) => (
               <Grid item md={4} key={product.name}>
@@ -108,6 +108,6 @@ export const getServerSideProps = async () => {
   const products = await ProductQueries();
 
   return {
-    props: {  products },
+    props: { products },
   };
 };
