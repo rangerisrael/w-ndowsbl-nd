@@ -14,7 +14,7 @@ import {
 // import { useSession } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import Layout from '../components/Layout';
+// import Layout from '../components/Layout';
 import { Store } from '../components/Store';
 import { IProduct } from '../models/interface/Product';
 import { ProductQueries, ProductQueriesById } from '../queries/product-queries';
