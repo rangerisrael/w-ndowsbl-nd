@@ -32,8 +32,8 @@ export default function Index({ products }: Props) {
   useEffect(() => {
     if (session) {
       Cookies.set('userInfo', JSON.stringify(session.user));
-    } else if (!session) {
-      return null;
+    } else if (session === null) {
+      return false;
     }
   }, [router, session]);
 
