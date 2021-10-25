@@ -35,9 +35,9 @@ export const LoginUser = async (email: string, password: string) =>
       error: false,
       loginUser: res.data,
     }))
-    .catch(() => ({
+    .catch((err: any) => ({
       error: true,
-      loginUser: null,
+      loginUser: err,
     }));
 
 // eslint-disable-next-line import/prefer-default-export
