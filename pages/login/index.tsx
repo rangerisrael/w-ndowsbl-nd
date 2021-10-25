@@ -5,6 +5,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-alert */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useContext, useEffect } from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -59,30 +60,38 @@ export default function Login() {
       if (!user.loginUser.id) {
         enqueueSnackbar(user.loginUser.message, { variant: 'error' });
       } else {
-        dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
-        Cookies.set('userInfo', JSON.stringify(user.loginUser));
-        enqueueSnackbar(user.loginUser.message, { variant: 'success' });
-        router.push('/');
+        // eslint-disable-next-line no-lonely-if
+        if (!user.loginUser.verify) {
+          enqueueSnackbar(user.loginUser.message, { variant: 'error' });
+          router.push(`/verification/${user.loginUser.id}`);
+        } else {
+          enqueueSnackbar(user.loginUser.message, { variant: 'success' });
+          dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
+          Cookies.set('userInfo', JSON.stringify(user.loginUser));
+          router.push(`${redirect || '/'}`);
+        }
       }
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      enqueueSnackbar(err, { variant: 'error' });
+      enqueueSnackbar(err.response ? err.response.loginUser.message : err.loginUser.message, { variant: 'error' });
     }
   };
-
+  //  React.FormEvent<HTMLFormElement>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const googleHandler = async (e: any) => {
+  const googleHandler = async (e: React.MouseEvent<HTMLElement>) => {
+    /// router.push(`${redirect || '/'}`);
     e.preventDefault();
-
     await signIn('google', {
-      callbackUrl: `${redirect || process.env.LOCAL_URL}`,
+      callbackUrl: `${process.env.LOCAL_URL}`,
     });
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const facebookHandler = async (e: any) => {
+  const facebookHandler = async (e: React.MouseEvent<HTMLElement>) => {
+    // router.push(`${redirect || '/'}`);
     e.preventDefault();
     await signIn('facebook', {
-      callbackUrl: `${redirect || process.env.LOCAL_URL}`,
+      callbackUrl: `${process.env.LOCAL_URL}`,
     });
   };
 

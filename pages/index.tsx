@@ -20,13 +20,17 @@ import { IProduct } from '../models/interface/Product';
 import { ProductQueries, ProductQueriesById } from '../queries/product-queries';
 
 type Props = {
-  products: IProduct[];
+  products: {
+    products:IProduct[];
+  }
 };
 
 export default function Index({ products }: Props) {
   const { state, dispatch } = useContext(Store);
   const [session] = useSession();
   const router = useRouter();
+
+  console.log(products);
 
   useEffect(() => {
     if (session) {
@@ -60,9 +64,9 @@ export default function Index({ products }: Props) {
         <Typography variant="h4" component="h1" gutterBottom>
           Product
         </Typography>
-        {!products && (
+        {products && (
           <Grid container spacing={3}>
-            {products.map((product) => (
+            {products.products.map((product) => (
               <Grid item md={4} key={product.name}>
                 <Card>
                   <NextLink href={`/product/${product.slug}`} passHref>
@@ -104,6 +108,6 @@ export const getServerSideProps = async () => {
   const products = await ProductQueries();
 
   return {
-    props: { products: products.product },
+    props: {  products },
   };
 };

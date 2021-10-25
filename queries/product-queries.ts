@@ -7,11 +7,11 @@ export const ProductQueries = async () =>
     .get(`${`${process.env.LOCAL_URL}api/product`}`)
     .then((res) => ({
       error: false,
-      product: res.data,
+      products: res.data,
     }))
     .catch(() => ({
       error: true,
-      product: null,
+      products: null,
     }));
 
 export const ProductQueriesBySlug = async (slug: IProduct['slug']) =>

@@ -17,7 +17,7 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
   } else if (users && bcrypt.compareSync(_req.body.password, users.password)) {
     if (!users.verify) {
       await db.disconnect();
-      res.send({ message: 'Email is not verified' });
+      res.send({ message: 'Email is not verified', verify: false });
     } else {
       const token = signToken(users);
       res.send({
