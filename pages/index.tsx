@@ -17,7 +17,7 @@ import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import { Store } from '../components/Store';
 import { IProduct } from '../models/interface/Product';
-import { ProductQueriesById } from '../queries/product-queries';
+import { ProductQueries, ProductQueriesById } from '../queries/product-queries';
 
 type Props = {
   products: IProduct[];
@@ -94,10 +94,10 @@ export default function Index({ products }: Props) {
   );
 }
 
-// export const getServerSideProps = async () => {
-//   const products = await ProductQueries();
+export const getServerSideProps = async () => {
+  const products = await ProductQueries();
 
-//   return {
-//     props: products,
-//   };
-// };
+  return {
+    props: products.product,
+  };
+};
