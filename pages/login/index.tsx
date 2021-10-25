@@ -45,10 +45,10 @@ export default function Login() {
   const { userInfo } = state;
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && !redirect) {
       router.push('/');
     }
-  }, [router, userInfo]);
+  }, [redirect, router, userInfo]);
 
   const submitRequest: SubmitHandler<FormValues> = async (data) => {
     closeSnackbar();
