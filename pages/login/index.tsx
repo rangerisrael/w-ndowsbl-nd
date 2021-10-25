@@ -81,7 +81,6 @@ export default function Login() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const googleHandler = async (e: any) => {
-    // router.push(`${redirect || '/'}`);
     e.preventDefault();
 
     if (redirect) {
@@ -96,7 +95,6 @@ export default function Login() {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const facebookHandler = async (e: any) => {
-    router.push(`${redirect || '/'}`);
     e.preventDefault();
     if (redirect) {
       await signIn('facebook', {
