@@ -104,6 +104,6 @@ export const getServerSideProps = async () => {
   const products = await ProductQueries();
 
   return {
-    props: products,
+    props: { products: products.product },
   };
 };
