@@ -13,9 +13,12 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
 
   if (users && bcrypt.compareSync(_req.body.password, users.oldpassword)) {
     await db.disconnect();
-    res.send({ message: 'Email is not verified', verify: false, id: users.id });
+    res.send({ message: 'This is your old password', id: users.id });
   } else if (users && bcrypt.compareSync(_req.body.password, users.password)) {
-    if (users.verify === true) {
+    if (!users.verify) {
+      await db.disconnect();
+      res.send({ message: 'Email is not verified', verify: false, id: users.id });
+    } else {
       const token = signToken(users);
       res.send({
         token,
@@ -29,12 +32,6 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
       });
       await db.disconnect();
       res.send({ message: 'Access Granted', verify: true, id: users.id });
-    } else if (users.verify === false) {
-      await db.disconnect();
-      res.send({ message: 'Email is not verified', verify: false, id: users.id });
-    } else {
-      await db.disconnect();
-      res.send({ message: 'Invalid credentials' });
     }
   } else {
     await db.disconnect();
