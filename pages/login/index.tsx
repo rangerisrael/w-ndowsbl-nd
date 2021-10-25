@@ -45,12 +45,12 @@ export default function Login() {
   const { userInfo } = state;
 
   useEffect(() => {
-    if (userInfo || !redirect) {
+    if (userInfo && !redirect) {
       router.push('/');
     }
 
     // eslint-disable-next-line react/destructuring-assignment
-  }, [router, userInfo]);
+  }, [redirect, router, userInfo]);
 
   const submitRequest: SubmitHandler<FormValues> = async (data) => {
     closeSnackbar();
