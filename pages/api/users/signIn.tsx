@@ -12,9 +12,9 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
   const users = await Users.findOne({ email: _req.body.email });
 
   if (users && bcrypt.compareSync(_req.body.password, users.password)) {
-    if (!bcrypt.compareSync(_req.body.password, users.password)) {
+    if (bcrypt.compareSync(_req.body.password, users.oldpassword)) {
       await db.disconnect();
-      res.send({ message: 'Invalid credentials' });
+      res.send({ message: 'This is your old password type new one' });
     } else if (!users.verify) {
       await db.disconnect();
       res.send({ message: 'Email is not verified', verify: false, id: users.id });
