@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Card,
   Typography,
@@ -10,8 +10,8 @@ import {
   CardActions,
   Button,
 } from '@mui/material';
-// import Cookies from 'js-cookie';
-// import { useSession } from 'next-auth/client';
+import Cookies from 'js-cookie';
+import { useSession } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
@@ -25,17 +25,16 @@ type Props = {
 
 export default function Index({ products }: Props) {
   const { state, dispatch } = useContext(Store);
-  // const [session] = useSession();
+  const [session] = useSession();
   const router = useRouter();
 
-  // console.log(router.query);
-  // useEffect(() => {
-  //   if (session) {
-  //     Cookies.set('userInfo', JSON.stringify(session.user));
-  //   }
+  useEffect(() => {
+    if (session) {
+      Cookies.set('userInfo', JSON.stringify(session.user));
+    }
 
-  //   // eslint-disable-next-line react/destructuring-assignment
-  // }, [router, session]);
+    // eslint-disable-next-line react/destructuring-assignment
+  }, [router, session]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const addToCartHandler = async (product: any) => {
@@ -61,7 +60,7 @@ export default function Index({ products }: Props) {
         <Typography variant="h4" component="h1" gutterBottom>
           Product
         </Typography>
-        {products ? (
+        {!products && (
           <Grid container spacing={3}>
             {products.map((product) => (
               <Grid item md={4} key={product.name}>
@@ -95,8 +94,6 @@ export default function Index({ products }: Props) {
               </Grid>
             ))}
           </Grid>
-        ) : (
-          ''
         )}
       </Box>
     </Layout>
