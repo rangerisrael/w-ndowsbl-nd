@@ -15,10 +15,7 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
     await db.disconnect();
     res.send({ message: 'Email is not verified', verify: false, id: users.id });
   } else if (users && bcrypt.compareSync(_req.body.password, users.password)) {
-    if (!users.verify) {
-      await db.disconnect();
-      res.send({ message: 'Email is not verified', verify: false, id: users.id });
-    } else {
+    if (users.verify === true) {
       const token = signToken(users);
       res.send({
         token,
@@ -32,6 +29,9 @@ handler.post(async (_req: NextApiRequest, res: NextApiResponse) => {
       });
       await db.disconnect();
       res.send({ message: 'Access Granted', verify: true, id: users.id });
+    } else {
+      await db.disconnect();
+      res.send({ message: 'Email is not verified', verify: false, id: users.id });
     }
   } else {
     await db.disconnect();
