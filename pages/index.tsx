@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect } from 'react';
 import {
   Card,
@@ -22,7 +23,6 @@ import { ProductQueries, ProductQueriesById } from '../queries/product-queries';
 
 type Props = {
   products: IProduct[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   session: any;
 };
 
@@ -99,6 +99,6 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
   const products = await ProductQueries();
 
   return {
-    props: { props: products, session: await getSession(context) },
+    props: { products, session: await getSession(context) },
   };
 };
