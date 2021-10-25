@@ -64,13 +64,19 @@ export default function Login() {
           enqueueSnackbar(user.loginUser.message, { variant: 'error' });
           router.push(`/verification/${user.loginUser.id}`);
         } else {
-          dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
-          Cookies.set('userInfo', JSON.stringify(user.loginUser));
-          enqueueSnackbar(user.loginUser.message, { variant: 'success' });
+          // eslint-disable-next-line no-lonely-if
           if (redirect) {
+            dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
+            Cookies.set('userInfo', JSON.stringify(user.loginUser));
+            enqueueSnackbar(user.loginUser.message, { variant: 'success' });
             router.push(`${redirect}`);
+          } else {
+            dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
+            Cookies.set('userInfo', JSON.stringify(user.loginUser));
+            enqueueSnackbar(user.loginUser.message, { variant: 'success' });
+
+            router.push('/');
           }
-          router.push('/');
         }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
