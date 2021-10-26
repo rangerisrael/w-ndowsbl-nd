@@ -36,17 +36,17 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   if (user) {
     if (bcrypt.compareSync(req.body.password, user.oldpassword)) {
       await db.disconnect();
-      res.send({ message: 'This is your previous password' });
+      res.status(406).send({ message: 'This is your previous password' });
     } else if (bcrypt.compareSync(req.body.password, user.password)) {
       await db.disconnect();
-      res.send({ message: 'Password is same as before' });
+      res.status(406).send({ message: 'Password is same as before' });
     } else {
       user.oldpassword = user.password;
       user.password = bcrypt.hashSync(req.body.password);
       await user.save();
 
       await db.disconnect();
-      res.send({ message: 'Password successfully change', id: user._id, email: user.email });
+      res.status(202).send({ message: 'Password successfully change', id: user._id, email: user.email });
     }
   }
 });

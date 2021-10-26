@@ -62,16 +62,14 @@ export default function ValidateCode({ users }: any) {
 
   const newCodeRequestHandler = async () => {
     closeSnackbar();
-    const data = await RequestNewCode(users._id, randomCode);
-    try {
-      if (!data.requestCode.id) {
-        enqueueSnackbar(data.requestCode.message, { variant: 'error' });
-      } else {
-        enqueueSnackbar(data.requestCode.message, { variant: 'success' });
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      enqueueSnackbar(err, { variant: 'error' });
+    const newCode = await RequestNewCode(users._id, randomCode);
+    const { error, requestCode } = newCode;
+    const { data, statusText, status } = requestCode.response ? requestCode.response : requestCode;
+
+    if (error && !data.id) {
+      handlerMessage(statusText, status, data.message, 'error');
+    } else {
+      handlerMessage(statusText, status, data.message, 'success');
     }
   };
 

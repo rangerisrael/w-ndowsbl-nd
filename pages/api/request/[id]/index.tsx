@@ -15,16 +15,15 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (user && user.verify === true) {
     await db.disconnect();
-    res.send({ message: 'Email is already verified', id: user._id });
+    res.status(406).send({ message: 'Email is already verified' });
   } else {
     // eslint-disable-next-line no-lonely-if
     if (user && req.body.verify) {
       user.verify = req.body.verify;
-      user.markModified('verify');
       await user.save();
       await db.disconnect();
       const token = signToken(user);
-      res.send({
+      res.status(201).send({
         token,
         _id: user._id,
         name: user.name,
@@ -35,21 +34,27 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
         id: user._id,
       });
     } else if (user && req.body.randomCode) {
-      user.code = req.body.randomCode;
-      user.markModified('code');
-      await user.save();
+      if (!sendConfirmEmail) {
+        res.status(401).send({ message: 'Email is not delivered' });
+      } else {
+        user.code = req.body.randomCode;
+        await user.save();
 
-      await sendConfirmEmail({
-        newUser: user.email,
-        userId: user._id,
-        username: user.name,
-        code: req.body.randomCode,
-      });
+        await sendConfirmEmail({
+          newUser: user.email,
+          userId: user._id,
+          username: user.name,
+          code: req.body.randomCode,
+        });
 
-      await db.disconnect();
-      res.send({ message: 'Successfully created, Code must be sent in your email address', id: user._id });
+        await db.disconnect();
+        res.status(201).send({
+          message: `Successfully created, Code must be sent in your email address ${user.email}`,
+          id: user._id,
+        });
+      }
     } else {
-      res.send({ message: 'Server Error:UnAuthorized request' });
+      res.status(401).send({ message: 'Invalid Credentials' });
     }
   }
 });

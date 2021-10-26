@@ -71,11 +71,11 @@ export const RequestNewCode = async (_id: string, randomCode: number) =>
     .put(`${`${process.env.LOCAL_URL}api/request/${_id}`}`, { randomCode })
     .then((res) => ({
       error: false,
-      requestCode: res.data,
+      requestCode: res,
     }))
-    .catch(() => ({
+    .catch((err: any) => ({
       error: true,
-      requestCode: null,
+      requestCode: err,
     }));
 
 export const VerifyingUserByLink = async (_id: string, verify: boolean) =>
