@@ -20,11 +20,11 @@ export const getUserByEmail = async (id: IUser['email']) =>
     .get(`${`${process.env.LOCAL_URL}api/reset-password/${id}`}`)
     .then((res) => ({
       error: false,
-      getEmail: res.data,
+      getEmail: res,
     }))
-    .catch(() => ({
+    .catch((err: any) => ({
       error: true,
-      getEmail: null,
+      getEmail: err,
     }));
 
 // eslint-disable-next-line import/prefer-default-export
@@ -95,9 +95,9 @@ export const RequestNewPassword = async (id: string, password: string) =>
     .put(`${`${process.env.LOCAL_URL}api/reset-password/${id}`}`, { password })
     .then((res) => ({
       error: false,
-      requestPassword: res.data,
+      newpassword: res,
     }))
-    .catch(() => ({
+    .catch((err: any) => ({
       error: true,
-      requestPassword: null,
+      newpassword: err,
     }));

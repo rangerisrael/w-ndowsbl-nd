@@ -18,13 +18,13 @@ handler.get(async (_req: NextApiRequest, res: NextApiResponse) => {
       username: user.name,
     });
     await db.disconnect();
-    res.send({
+    res.status(202).send({
       message: `Congratulation new password delivered in your email address ${user.email}`,
       id: user._id,
     });
   } else {
     await db.disconnect();
-    res.send({ message: 'Invalid credentials' });
+    res.status(400).send({ message: 'Invalid credentials' });
   }
 });
 

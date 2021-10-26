@@ -1,17 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-lonely-if */
-/* eslint-disable import/order */
-
 import { Button, Grid, ListItem, List, TextField } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import Layout from '../../../components/Layout';
-import { getUserById, RequestNewPassword } from '../../../queries/users.queries';
-import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
+import Layout from '../../../components/Layout';
 import BreakPoint from '../../../components/ui-component/Breakpoint';
+import { getUserById, RequestNewPassword } from '../../../queries/users.queries';
 
 type FormValues = {
   password: string;
@@ -24,6 +20,8 @@ type Props = {
   };
 };
 
+type MessageType = 'default' | 'error' | 'success' | 'warning' | 'info';
+
 export default function NewPassword({ users }: Props) {
   const {
     handleSubmit,
@@ -34,18 +32,24 @@ export default function NewPassword({ users }: Props) {
   const router = useRouter();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const requestPassword: SubmitHandler<FormValues> = async (data) => {
+  const handlerMessage = async (statusText: string, status: number, message: string, type: MessageType) => {
+    const response = `${statusText} ${status} : ${message}`;
+    enqueueSnackbar(response, { variant: type });
+  };
+
+  const requestPassword: SubmitHandler<FormValues> = async (formData) => {
     closeSnackbar();
 
-    if (data.password !== data.cpassword) {
+    if (formData.password !== formData.cpassword) {
       enqueueSnackbar('Make sure password and confirm password is matched', { variant: 'error' });
     } else {
-      const user = await RequestNewPassword(users._id, data.password);
-
-      if (!user.requestPassword.id) {
-        enqueueSnackbar(user.requestPassword.message, { variant: 'error' });
+      const password = await RequestNewPassword(users._id, formData.password);
+      const { error, newpassword } = password;
+      const { data, statusText, status } = newpassword.response ? newpassword.response : newpassword;
+      if (error && !data.id) {
+        handlerMessage(statusText, status, data.message, 'error');
       } else {
-        enqueueSnackbar(user.requestPassword.message, { variant: 'success' });
+        handlerMessage(statusText, status, data.message, 'success');
         router.push(`/login`);
       }
     }
@@ -168,6 +172,7 @@ export default function NewPassword({ users }: Props) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
   // eslint-disable-next-line prefer-destructuring
   const request = context.params.id;

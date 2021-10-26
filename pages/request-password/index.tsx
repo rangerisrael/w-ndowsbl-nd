@@ -17,7 +17,8 @@ type FormValues = {
   email: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type MessageType = 'default' | 'error' | 'success' | 'warning' | 'info';
+
 export default function RequestPassword() {
   const {
     handleSubmit,
@@ -27,14 +28,21 @@ export default function RequestPassword() {
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const requestPassword: SubmitHandler<FormValues> = async (data) => {
-    closeSnackbar();
-    const user = await getUserByEmail(data.email);
+  const handlerMessage = async (statusText: string, status: number, message: string, type: MessageType) => {
+    const response = `${statusText} ${status} : ${message}`;
+    enqueueSnackbar(response, { variant: type });
+  };
 
-    if (!user.getEmail.id) {
-      enqueueSnackbar(user.getEmail.message, { variant: 'error' });
+  const requestPassword: SubmitHandler<FormValues> = async (formData) => {
+    closeSnackbar();
+    const getUser = await getUserByEmail(formData.email);
+    const { error, getEmail } = getUser;
+    const { data, statusText, status } = getEmail.response ? getEmail.response : getEmail;
+
+    if (error && !data.id) {
+      handlerMessage(statusText, status, data.message, 'error');
     } else {
-      enqueueSnackbar(user.getEmail.message, { variant: 'success' });
+      handlerMessage(statusText, status, data.message, 'success');
     }
   };
 
