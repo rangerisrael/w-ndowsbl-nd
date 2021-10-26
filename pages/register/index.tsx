@@ -23,6 +23,7 @@ type FormValues = {
   email: string;
   password: string;
 };
+type MessageType = 'default' | 'error' | 'success' | 'warning' | 'info';
 
 export default function RegisterUsers() {
   const {
@@ -33,48 +34,27 @@ export default function RegisterUsers() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const router = useRouter();
 
-  const submitRequest: SubmitHandler<FormValues> = async (data) => {
-    closeSnackbar();
-    try {
-      const user = await RegisterUser(data.fullname, data.email, data.password);
+  const handlerMessage = async (statusText: string, status: number, message: string, type: MessageType) => {
+    const response = `${statusText} ${status} : ${message}`;
+    enqueueSnackbar(response, { variant: type });
+  };
 
-      console.log(user);
-      if (!user.registerUser.id) {
-        // eslint-disable-next-line no-alert
-        enqueueSnackbar(user.registerUser.message, { variant: 'error' });
-      } else {
-        // eslint-disable-next-line no-alert
-        enqueueSnackbar(user.registerUser.message, { variant: 'success' });
-        router.push(`/verification/${user.registerUser.id}`);
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      // eslint-disable-next-line no-alert
-      enqueueSnackbar(err, { variant: 'error' });
+  const submitRequest: SubmitHandler<FormValues> = async (formData) => {
+    closeSnackbar();
+
+    const user = await RegisterUser(formData.fullname, formData.email, formData.password);
+
+    const { error, registerUser } = user;
+    const { data, statusText, status } = registerUser.response ? registerUser.response : registerUser;
+
+    if (error && !data.id) {
+      handlerMessage(statusText, status, data.message, 'error');
+    } else {
+      handlerMessage(statusText, status, data.message, 'success');
+      router.push(`/verification/${data.id}`);
     }
   };
-  // eslint-disable-next-line no-alert
 
-  // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // const submitRequest = async (fullname: any, email: any, password: any) => {
-  //   try {
-  //     const data = await RegisterUser(fullname, email, password);
-
-  //     console.log(data);
-  //     if (data.registerUser.id === '') {
-  //       // eslint-disable-next-line no-alert
-  //       alert(data.registerUser.message);
-  //     } else {
-  //       // eslint-disable-next-line no-alert
-  //       alert(data.registerUser.message);
-  //       router.push(`/verification/${data.registerUser.id}`);
-  //     }
-  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   } catch (err: any) {
-  //     // eslint-disable-next-line no-alert
-  //     alert(err);
-  //   }
-  // };
   return (
     <Layout titles="Register">
       <Grid container>

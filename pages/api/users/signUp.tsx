@@ -26,22 +26,22 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     newUser.oldpassword = 'null';
     newUser.code = randomCode;
 
-    // await sendConfirmEmail({
-    //   newUser: newUser.email,
-    //   userId: newUser._id,
-    //   username: newUser.name,
-    //   code: randomCode,
-    // });
+    await sendConfirmEmail({
+      newUser: newUser.email,
+      userId: newUser._id,
+      username: newUser.name,
+      code: randomCode,
+    });
 
     console.log(newUser._id);
-    // eslint-disable-next-line no-shadow
+
     await newUser.save();
 
     await db.disconnect();
-    res.send({ message: 'User created successfully', id: newUser._id });
+    res.status(201).send({ message: 'User created successfully', id: newUser._id });
   } else {
     await db.disconnect();
-    res.send({ message: 'User already exist' });
+    res.status(406).send({ message: 'User already exist' });
   }
 });
 

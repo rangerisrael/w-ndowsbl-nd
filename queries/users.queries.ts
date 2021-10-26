@@ -46,11 +46,11 @@ export const RegisterUser = async (name: string, email: string, password: string
     .post(`${`${process.env.LOCAL_URL}api/users/signUp`}`, { name, email, password })
     .then((res) => ({
       error: false,
-      registerUser: res.data,
+      registerUser: res,
     }))
-    .catch(() => ({
+    .catch((err: any) => ({
       error: true,
-      registerUser: null,
+      registerUser: err,
     }));
 
 // eslint-disable-next-line import/prefer-default-export
