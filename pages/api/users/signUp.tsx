@@ -23,18 +23,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     newUser.name = req.body.name;
     newUser.email = req.body.email;
     newUser.password = bcrypt.hashSync(req.body.password);
+    newUser.oldpassword = 'null';
     newUser.code = randomCode;
-
-    newUser.markModified('_id');
-    newUser.markModified('name');
-    newUser.markModified('email');
-    newUser.markModified('password');
-    newUser.markModified('oldpassword');
-    newUser.markModified('verify');
-    newUser.markModified('role');
-    newUser.markModified('code');
-
-    // eslint-disable-next-line no-unused-expressions
 
     await sendConfirmEmail({
       newUser: newUser.email,

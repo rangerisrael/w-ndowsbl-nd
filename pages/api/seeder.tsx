@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
-// import Product from '../../models/Product';
-import Users from '../../models/Users';
+import Product from '../../models/Product';
+// import Users from '../../models/Users';
 import data from '../../utils/data';
 import db from '../../utils/databaseConfig';
 
@@ -24,10 +24,10 @@ handler.get(async (_req: NextApiRequest, res: NextApiResponse) => {
   // await db.disconnect();
   // res.send({ message: 'seeded created successfully' });
   await db.connect();
-  await Users.deleteMany();
-  await Users.insertMany(data.users);
-  // await Product.deleteMany();
-  // await Product.insertMany(data.products);
+  // await Users.deleteMany();
+  // await Users.insertMany(data.users);
+  await Product.deleteMany();
+  await Product.insertMany(data.products);
   await db.disconnect();
   res.send({ message: 'seeded successfully' });
 });

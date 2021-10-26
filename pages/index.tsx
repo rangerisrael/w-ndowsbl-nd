@@ -11,7 +11,6 @@ import {
   Button,
 } from '@mui/material';
 import Cookies from 'js-cookie';
-import { NextApiRequest, NextApiResponse } from 'next';
 import { useSession } from 'next-auth/client';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -107,11 +106,10 @@ export default function Index({ products }: Props) {
   );
 }
 
-export async function getServerSideProps(_req: NextApiRequest, res: NextApiResponse) {
-  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+export const getServerSideProps = async () => {
   const products = await ProductQueries();
 
   return {
     props: { products },
   };
-}
+};
