@@ -27,6 +27,8 @@ type FormValues = {
   password: string;
 };
 
+type MessageType = 'default' | 'error' | 'success' | 'warning' | 'info';
+
 export default function Login() {
   const router = useRouter();
   const {
@@ -51,32 +53,34 @@ export default function Login() {
     }
   }, [redirect, router, userInfo]);
 
-  const submitRequest: SubmitHandler<FormValues> = async (data) => {
+  const handlerMessage = async (statusText: string, status: number, message: string, type: MessageType) => {
+    const response = `${statusText} ${status} : ${message}`;
+    enqueueSnackbar(response, { variant: type });
+  };
+
+  const submitRequest: SubmitHandler<FormValues> = async (formData) => {
     closeSnackbar();
-    try {
-      const user = await LoginUser(data.email, data.password);
+    const user = await LoginUser(formData.email, formData.password);
 
-      console.log(user);
-      if (!user.loginUser.id) {
-        enqueueSnackbar(user.loginUser.message, { variant: 'error' });
-      } else {
-        // eslint-disable-next-line no-lonely-if
-        if (!user.loginUser.verify) {
-          enqueueSnackbar(user.loginUser.message, { variant: 'error' });
-          router.push(`/verification/${user.loginUser.id}`);
-        } else {
-          enqueueSnackbar(user.loginUser.message, { variant: 'success' });
-          dispatch({ type: 'USER_LOGIN', payload: user.loginUser });
-          Cookies.set('userInfo', JSON.stringify(user.loginUser));
-          router.push(`${redirect || '/'}`);
-        }
-      }
+    const { error, loginUser } = user;
+    const { data, statusText, status } = loginUser.response ? loginUser.response : loginUser;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      enqueueSnackbar(err.response ? err.response.loginUser.message : err.loginUser.message, { variant: 'error' });
+    if (error && !data.id) {
+      console.log(data);
+      handlerMessage(statusText, status, data.message, 'error');
+    } else if (error && data.id && !data.verify) {
+      console.log(data);
+      handlerMessage(statusText, status, data.message, 'error');
+      router.push(`/verification/${data.id}`);
+    } else {
+      console.log(loginUser);
+      handlerMessage(statusText, status, data.message, 'success');
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      Cookies.set('userInfo', JSON.stringify(data));
+      router.push(`${redirect || '/'}`);
     }
   };
+
   //  React.FormEvent<HTMLFormElement>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const googleHandler = async (e: React.MouseEvent<HTMLElement>) => {

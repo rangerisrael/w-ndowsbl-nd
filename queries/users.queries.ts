@@ -33,11 +33,11 @@ export const LoginUser = async (email: string, password: string) =>
     .post(`${`${process.env.LOCAL_URL}api/users/signIn`}`, { email, password })
     .then((res) => ({
       error: false,
-      loginUser: res.data,
+      loginUser: res,
     }))
-    .catch(() => ({
+    .catch((err: any) => ({
       error: true,
-      loginUser: null,
+      loginUser: err,
     }));
 
 // eslint-disable-next-line import/prefer-default-export

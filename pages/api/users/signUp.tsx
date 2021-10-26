@@ -26,12 +26,12 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     newUser.oldpassword = 'null';
     newUser.code = randomCode;
 
-    await sendConfirmEmail({
-      newUser: newUser.email,
-      userId: newUser._id,
-      username: newUser.name,
-      code: randomCode,
-    });
+    // await sendConfirmEmail({
+    //   newUser: newUser.email,
+    //   userId: newUser._id,
+    //   username: newUser.name,
+    //   code: randomCode,
+    // });
 
     console.log(newUser._id);
     // eslint-disable-next-line no-shadow
