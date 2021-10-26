@@ -24,14 +24,14 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   if (user.verify === true) {
     if (user && user.code === req.body.codes) {
       await db.disconnect();
-      res.send({ message: 'Email is already verified', id: user._id });
+      res.status(406).send({ message: 'Email is already verified' });
     } else {
       if (req.body.codes === -1) {
         await db.disconnect();
-        res.send({ message: 'Input a valid code first' });
+        res.status(406).send({ message: 'Input a valid code first' });
       }
       await db.disconnect();
-      res.send({ message: 'Please check your code' });
+      res.status(406).send({ message: 'Please check your code' });
     }
   } else {
     // eslint-disable-next-line no-lonely-if
@@ -40,23 +40,23 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       await user.save();
       await db.disconnect();
       const token = signToken(user);
-      res.send({
+      res.status(201).send({
         token,
-        _id: user._id,
+        id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
         verify: user.verify,
+        code: user.code,
         message: 'Congratulation Email is verified',
-        id: user._id,
       });
     } else {
-      if (req.body.codes === -1) {
+      if (!req.body.codes) {
         await db.disconnect();
-        res.send({ message: 'Input a valid code first' });
+        res.status(400).send({ message: 'Input a valid code first' });
       }
       await db.disconnect();
-      res.send({ message: 'Please check your code' });
+      res.status(400).send({ message: 'Please check your code' });
     }
   }
 });

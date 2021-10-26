@@ -59,11 +59,11 @@ export const VerifyingUser = async (_id: string, codes: number, verify: boolean)
     .put(`${`${process.env.LOCAL_URL}api/activate/${_id}`}`, { codes, verify })
     .then((res) => ({
       error: false,
-      verifyUser: res.data,
+      verifyUser: res,
     }))
-    .catch(() => ({
+    .catch((err: any) => ({
       error: true,
-      verifyUser: null,
+      verifyUser: err,
     }));
 
 export const RequestNewCode = async (_id: string, randomCode: number) =>

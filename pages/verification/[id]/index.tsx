@@ -11,6 +11,8 @@ import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { Store } from '../../../components/Store';
 
+type MessageType = 'default' | 'error' | 'success' | 'warning' | 'info';
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ValidateCode({ users }: any) {
   const router = useRouter();
@@ -26,8 +28,13 @@ export default function ValidateCode({ users }: any) {
     }
   }, [router, userInfo]);
 
-  const verify = true;
+  const verify = false;
   const randomCode = Math.floor(1000 + Math.random() * 9000);
+
+  const handlerMessage = async (statusText: string, status: number, message: string, type: MessageType) => {
+    const response = `${statusText} ${status} : ${message}`;
+    enqueueSnackbar(response, { variant: type });
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const codeHandler = async (e: any) => {
@@ -37,24 +44,19 @@ export default function ValidateCode({ users }: any) {
     // eslint-disable-next-line eqeqeq
 
     // const { data } = await axios.put(`http://localhost:3000/api/activate/${users._id}`, { codes, verify });
-    const data = await VerifyingUser(users._id, coded, verify);
+    const userVerify = await VerifyingUser(users._id, coded, verify);
 
-    try {
-      if (!data.verifyUser.id) {
-        // eslint-disable-next-line no-alert
-        enqueueSnackbar(data.verifyUser.message, { variant: 'error' });
-      } else {
-        if (users.code === coded) {
-          // eslint-disable-next-line no-alert
-          enqueueSnackbar(data.verifyUser.message, { variant: 'success' });
-          router.push('/login');
-        }
+    const { error, verifyUser } = userVerify;
+    const { data, statusText, status } = verifyUser.response ? verifyUser.response : verifyUser;
+
+    if (error && !data.id) {
+      handlerMessage(statusText, status, data.message, 'error');
+    } else {
+      console.log(data);
+      if (data.code === coded) {
+        handlerMessage(statusText, status, data.message, 'success');
+        router.push('/login');
       }
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      // eslint-disable-next-line no-alert
-      alert(err);
     }
   };
 
@@ -63,15 +65,12 @@ export default function ValidateCode({ users }: any) {
     const data = await RequestNewCode(users._id, randomCode);
     try {
       if (!data.requestCode.id) {
-        // eslint-disable-next-line no-alert
         enqueueSnackbar(data.requestCode.message, { variant: 'error' });
       } else {
-        // eslint-disable-next-line no-alert
         enqueueSnackbar(data.requestCode.message, { variant: 'success' });
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      // eslint-disable-next-line no-alert
       enqueueSnackbar(err, { variant: 'error' });
     }
   };
