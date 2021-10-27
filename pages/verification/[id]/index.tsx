@@ -28,7 +28,7 @@ export default function ValidateCode({ users }: any) {
     }
   }, [router, userInfo]);
 
-  const verify = false;
+  const verify = true;
   const randomCode = Math.floor(1000 + Math.random() * 9000);
 
   const handlerMessage = async (statusText: string, status: number, message: string, type: MessageType) => {
@@ -49,13 +49,17 @@ export default function ValidateCode({ users }: any) {
     const { error, verifyUser } = userVerify;
     const { data, statusText, status } = verifyUser.response ? verifyUser.response : verifyUser;
 
-    if (error && !data.id) {
-      handlerMessage(statusText, status, data.message, 'error');
+    if (codes === '') {
+      enqueueSnackbar('Input valid code first', { variant: 'error' });
     } else {
-      console.log(data);
-      if (data.code === coded) {
-        handlerMessage(statusText, status, data.message, 'success');
-        router.push('/login');
+      if (error && !data.id) {
+        handlerMessage(statusText, status, data.message, 'error');
+      } else {
+        console.log(data);
+        if (data.code === coded) {
+          handlerMessage(statusText, status, data.message, 'success');
+          router.push('/login');
+        }
       }
     }
   };
