@@ -1,18 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-lonely-if */
-/* eslint-disable import/order */
-
 import React, { useContext, useEffect } from 'react';
 import { Button, Grid, ListItem, Typography, List } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import Layout from '../../../components/Layout';
-import { getUserById, VerifyingUserByLink } from '../../../queries/users.queries';
-import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
+import Layout from '../../../components/Layout';
 import { Store } from '../../../components/Store';
+import { getUserById, VerifyingUserByLink } from '../../../queries/users.queries';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function ValidateCode({ users }: any) {
+type MessageType = 'default' | 'error' | 'success' | 'warning' | 'info';
+
+export default function ValidateCode(users: { _id: string; email: string }) {
+  const { _id, email } = users;
+
   const verify = true;
   const router = useRouter();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -27,32 +26,28 @@ export default function ValidateCode({ users }: any) {
     }
   }, [router, userInfo]);
 
+  const handlerMessage = async (statusText: string, status: number, message: string, type: MessageType) => {
+    const response = `${statusText} ${status} : ${message}`;
+    enqueueSnackbar(response, { variant: type });
+  };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const codeHandler = async (e: any) => {
+  const codeHandler = async (e: React.MouseEvent<HTMLElement>) => {
     closeSnackbar();
     e.preventDefault();
 
-    // eslint-disable-next-line eqeqeq
-
     // const { data } = await axios.put(`http://localhost:3000/api/activate/${users._id}`, { codes, verify });
-    const data = await VerifyingUserByLink(users._id, verify);
+    const verifyLink = await VerifyingUserByLink(_id, verify);
+    const { error, verifyUserByLink } = verifyLink;
+    const { data, statusText, status } = verifyUserByLink.response ? verifyUserByLink.response : verifyUserByLink;
 
     console.log(data);
 
-    try {
-      if (!data.verifyUserByLink.id) {
-        // eslint-disable-next-line no-alert
-        enqueueSnackbar(data.verifyUserByLink.message, { variant: 'error' });
-      } else {
-        // eslint-disable-next-line no-alert
-        enqueueSnackbar(data.verifyUserByLink.message, { variant: 'success' });
-        router.push('/login');
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      // eslint-disable-next-line no-alert
-      alert(err);
+    if (error && !data.id) {
+      handlerMessage(data, statusText, status, 'error');
+    } else {
+      handlerMessage(data, statusText, status, 'success');
+      router.push('/login');
     }
   };
 
@@ -63,7 +58,7 @@ export default function ValidateCode({ users }: any) {
           <fieldset>
             <legend style={{ display: 'flex', justifyContent: 'center', margin: '0 auto' }}>
               {' '}
-              Email verification {users.email}
+              Email verification {email}
             </legend>
             <Typography sx={{ display: 'flex', justifyContent: 'center' }} component="h2" variant="h2">
               Thank you for registering to our platform

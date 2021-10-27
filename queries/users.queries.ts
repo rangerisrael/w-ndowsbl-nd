@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-return-await */ import axios from 'axios';
+/* eslint-disable no-return-await */
+import axios from 'axios';
 import { IUser } from '../models/interface/Users';
 
-// eslint-disable-next-line import/prefer-default-export
 export const getUserById = async (_id: IUser['_id']) =>
   await axios
     .get(`${`${process.env.LOCAL_URL}api/activate/${_id}`}`)
@@ -27,7 +27,6 @@ export const getUserByEmail = async (id: IUser['email']) =>
       getEmail: err,
     }));
 
-// eslint-disable-next-line import/prefer-default-export
 export const LoginUser = async (email: string, password: string) =>
   await axios
     .post(`${`${process.env.LOCAL_URL}api/users/signIn`}`, { email, password })
@@ -40,7 +39,6 @@ export const LoginUser = async (email: string, password: string) =>
       loginUser: err,
     }));
 
-// eslint-disable-next-line import/prefer-default-export
 export const RegisterUser = async (name: string, email: string, password: string) =>
   await axios
     .post(`${`${process.env.LOCAL_URL}api/users/signUp`}`, { name, email, password })
@@ -53,7 +51,6 @@ export const RegisterUser = async (name: string, email: string, password: string
       registerUser: err,
     }));
 
-// eslint-disable-next-line import/prefer-default-export
 export const VerifyingUser = async (_id: string, codes: number, verify: boolean) =>
   await axios
     .put(`${`${process.env.LOCAL_URL}api/activate/${_id}`}`, { codes, verify })
@@ -83,11 +80,11 @@ export const VerifyingUserByLink = async (_id: string, verify: boolean) =>
     .put(`${`${process.env.LOCAL_URL}api/request/${_id}`}`, { verify })
     .then((res) => ({
       error: false,
-      verifyUserByLink: res.data,
+      verifyUserByLink: res,
     }))
-    .catch(() => ({
+    .catch((err: any) => ({
       error: true,
-      verifyUserByLink: null,
+      verifyUserByLink: err,
     }));
 
 export const RequestNewPassword = async (id: string, password: string) =>
