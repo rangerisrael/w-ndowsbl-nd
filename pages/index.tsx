@@ -41,9 +41,9 @@ export default function Index({ products }: Props) {
   }, [router, session]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const addToCartHandler = async (product: any) => {
+  const addToCartHandler = async (product: IProduct) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const existItem = state.cart.cartItem.find((x: { _id: any }) => x._id === product._id);
+    const existItem = state.cart.cartItem.find((x: { _id?: string }) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
     const productData = await ProductQueriesById(product._id);

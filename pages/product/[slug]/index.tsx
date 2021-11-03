@@ -1,36 +1,18 @@
-/* eslint-disable import/order */
 
 import React, { useContext } from 'react';
-import Image from 'next/image';
 import { Grid, List, ListItem, Typography, Card, Button, Box, Rating, Link } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { Store } from '../../../components/Store';
-import { ProductQueriesById, ProductQueriesBySlug } from '../../../queries/product-queries';
-import Layout from '../../../components/Layout';
 import { useRouter } from 'next/dist/client/router';
+import Image from 'next/image';
+import Layout from '../../../components/Layout';
+import { Store } from '../../../components/Store';
+import { IProduct } from '../../../models/interface/Product';
+import { ProductQueriesById, ProductQueriesBySlug } from '../../../queries/product-queries';
 
-interface IProduct {
-  _id: string;
-  name: string;
-  slug: string;
-  category: string;
-  image: string;
-  price: number;
-  brand: string;
-  rating: number;
-  numReviews: number;
-  countInStock: number;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-type Props = {
-  product: IProduct;
-};
-
-export default function ProductDetails({ product }: Props) {
+export default function ProductDetails(product: IProduct) {
   const router = useRouter();
+
+  const { _id, name, category, image, price, brand, rating, numReviews, countInStock, description } = product;
 
   // console.log(product);
   // const { slug } = router.query;
@@ -38,10 +20,10 @@ export default function ProductDetails({ product }: Props) {
   const { state, dispatch } = useContext(Store);
 
   const addToCartHandler = async () => {
-    const existItem = state.cart.cartItem.find((x: { _id: string }) => x._id === product._id);
+    const existItem = state.cart.cartItem.find((x: { _id?: string }) => x._id === _id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
-    const productData = await ProductQueriesById(product._id);
+    const productData = await ProductQueriesById(_id);
 
     if (productData.product.countInStock < quantity) {
       // eslint-disable-next-line no-alert
@@ -54,7 +36,7 @@ export default function ProductDetails({ product }: Props) {
   };
 
   return (
-    <Layout titles={product ? product.name : ''}>
+    <Layout titles={product ? name : ''}>
       <Box>
         {!product ? (
           'Product Not Found'
@@ -63,38 +45,38 @@ export default function ProductDetails({ product }: Props) {
             <br />
             <Grid container>
               <Grid item md={6} xs={12}>
-                <Image src={product.image} alt={product.name} width={500} height={500} layout="responsive" />
+                <Image src={image} alt={name} width={500} height={500} layout="responsive" />
               </Grid>
 
               <Grid item md={4} xs={12}>
                 <List>
                   <ListItem>
                     <Typography component="h1" variant="h4">
-                      {product.name}
+                      {name}
                     </Typography>
                   </ListItem>
 
                   <ListItem>
                     <Typography>
-                      Category:<strong>{product.category}</strong>
+                      Category:<strong>{category}</strong>
                     </Typography>
                   </ListItem>
                   <ListItem>
                     <Typography>
-                      Brand:<strong>{product.brand}</strong>
+                      Brand:<strong>{brand}</strong>
                     </Typography>
                   </ListItem>
                   <ListItem>
                     <Typography>
-                      <Rating value={product.rating} readOnly />
+                      <Rating value={rating} readOnly />
                     </Typography>
                     <Link href="#reviews">
-                      <Typography>({product.numReviews} reviews)</Typography>
+                      <Typography>({numReviews} reviews)</Typography>
                     </Link>
                   </ListItem>
                   <ListItem>
                     <Typography>
-                      Description:<strong>{product.description}</strong>
+                      Description:<strong>{description}</strong>
                     </Typography>
                   </ListItem>
                 </List>
@@ -109,10 +91,7 @@ export default function ProductDetails({ product }: Props) {
                           <Typography> Price </Typography>
                         </Grid>
                         <Grid item>
-                          <Typography sx={{ fontWeight: 'bold', fontSize: '0.99rem' }}>
-                            {' '}
-                            &#8369;{product.price}
-                          </Typography>
+                          <Typography sx={{ fontWeight: 'bold', fontSize: '0.99rem' }}> &#8369;{price}</Typography>
                         </Grid>
                       </Grid>
                     </ListItem>
@@ -123,8 +102,7 @@ export default function ProductDetails({ product }: Props) {
                         </Grid>
                         <Grid item>
                           <Typography sx={{ fontWeight: 'bold', fontSize: '0.99rem' }}>
-                            {product.countInStock > 0 ? 'in stock' : 'out of stock'} (
-                            {product.countInStock > 0 ? product.countInStock : ''})
+                            {countInStock > 0 ? 'in stock' : 'out of stock'} ({countInStock > 0 ? countInStock : ''})
                           </Typography>
                         </Grid>
                       </Grid>

@@ -10,6 +10,13 @@ export interface IProduct {
   numReviews: number;
   countInStock: number;
   description: string;
+  quantity?: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ShippingAddress {
+  address: string;
+  city: string;
+  zipCode: number;
 }

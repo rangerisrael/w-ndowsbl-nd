@@ -2,9 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
+import { Typography, CircularProgress } from '@mui/material';
 
 type Props = {
   value: number;
@@ -12,7 +10,7 @@ type Props = {
 
 export default function CircularProgressWithLabel({ value }: Props) {
   return (
-    <Box sx={{ position: 'relative', background: 'transparent' }}>
+    <div style={{ position: 'relative', background: 'transparent' }}>
       <CircularProgress
         sx={{
           margin: 'auto',
@@ -37,6 +35,6 @@ export default function CircularProgressWithLabel({ value }: Props) {
       >
         {`${Math.round(value)}%`}
       </Typography>
-    </Box>
+    </div>
   );
 }

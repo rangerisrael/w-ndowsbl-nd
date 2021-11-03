@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactChildren, ReactElement, createContext, Dispatch, Reducer, useReducer } from 'react';
 import Cookies from 'js-cookie';
+import { IProduct, ShippingAddress } from '../models/interface/Product';
 import { IUser } from '../models/interface/Users';
 
 interface Actions {
@@ -13,9 +14,10 @@ interface Actions {
 interface PropTypes {
   darkMode: boolean;
   cart: {
-    cartItem: [] | any;
+    cartItem: IProduct[];
   };
-  userInfo: IUser | any;
+  userInfo: IUser;
+  shippingAddress: ShippingAddress;
 }
 
 interface InitContextProps {
@@ -36,6 +38,7 @@ const initialState: PropTypes = {
     cartItem: Cookies.get('cartItems') ? JSON.parse(`${Cookies.get('cartItems')}`) : [],
   },
   userInfo: Cookies.get('userInfo') ? JSON.parse(`${Cookies.get('userInfo')}`) : null,
+  shippingAddress: Cookies.get('shippingAddress') ? JSON.parse(`${Cookies.get('shippingAddress')}`) : {},
 };
 
 const reducer: Reducer<PropTypes, Actions> = (state, action) => {
@@ -48,7 +51,7 @@ const reducer: Reducer<PropTypes, Actions> = (state, action) => {
     case 'ADD_TO_CART': {
       const newItem = action.payload;
       // if exist
-      const existItem: any = state.cart.cartItem.find((item: { _id: string }) => item._id === newItem._id);
+      const existItem: any = state.cart.cartItem.find((item: { _id?: string }) => item._id === newItem._id);
 
       // if item on the list
 
@@ -60,14 +63,19 @@ const reducer: Reducer<PropTypes, Actions> = (state, action) => {
       return { ...state, cart: { ...state.cart, cartItem } };
     }
     case 'REMOVE_CART': {
-      const cartItem = state.cart.cartItem.filter((item: { _id: string }) => item._id !== action.payload._id);
+      const cartItem = state.cart.cartItem.filter((item: { _id?: string }) => item._id !== action.payload._id);
       Cookies.set('cartItems', JSON.stringify(cartItem));
       return { ...state, cart: { ...state.cart, cartItem } };
+    }
+
+    case 'SHIPPING_ADDRESS': {
+      return { ...state, shippingAddress: action.payload };
     }
 
     case 'USER_LOGIN': {
       return { ...state, userInfo: action.payload };
     }
+
     case 'USER_LOGOUT': {
       return { ...state, cart: { cartItem: [] }, userInfo: null };
     }

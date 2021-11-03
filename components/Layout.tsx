@@ -14,7 +14,7 @@ import { DayNightMode } from './SwitchMode';
 import BreakPoint from './ui-component/Breakpoint';
 import LayoutStyle from './ui-component/LayoutStyle';
 import UserIdentity from './ui-component/MenuItem';
-import CircularProgressWithLabel from './ui-component/ProgressBar';
+// import CircularProgressWithLabel from './ui-component/ProgressBar';
 
 interface LayoutProps {
   titles: string;
@@ -86,7 +86,17 @@ export default function Layout({ titles, children }: LayoutProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {!loading ? (
-          <CircularProgressWithLabel value={progress} />
+          <Typography
+            sx={{
+              height: '100vh',
+              display: 'flex', // make us of Flexbox
+              alignItems: 'center', // does vertically center the desired content
+              justifyContent: 'center', // horizontally centers single line items
+              textAlign: 'center', // optional, but helps horizontally center text that breaks into multiple lines
+            }}
+          >
+            {`${Math.round(progress)}%`}
+          </Typography>
         ) : (
           <>
             <AppBar className="appBar" position="static">

@@ -22,6 +22,9 @@ const LayoutStyle = styled.div`
     background: rgb(76, 76, 72);
     text-align: center;
   }
+
+  
+
 `;
 
 export default LayoutStyle;
