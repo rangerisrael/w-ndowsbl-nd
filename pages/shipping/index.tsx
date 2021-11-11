@@ -7,17 +7,10 @@ import { List, ListItem, Typography, Button, Box } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-// import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
 import { getProvince, getRegion, getCities, getBrgy } from '../../queries/addresses-queries';
-
-// type ShippingForm = {
-//   address: string;
-//   city: string;
-//   zipCode: number;
-// };
 
 type Regionss = {
   id: number;
@@ -51,18 +44,10 @@ type Barangays = {
   citymunCode: string;
 };
 
-// const url = 'https://rangerisrael.github.io/address-api/jsonAddress/region.json';
-
 export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: Cities[]; b: Barangays[] }) {
   const router = useRouter();
   const { state } = useContext(Store);
-  // const {
-  //   handleSubmit,
-  //   getValues,
-  //   register,
-  //   control,
-  //   formState: { errors },
-  // } = useForm<ShippingForm>();
+
   const { userInfo } = state;
 
   const [province, setProvince] = useState([]);
@@ -94,8 +79,8 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
       setPurokValue('');
     } else {
       // event.target.options[event.target.selectedIndex].text
-      // setRegionValue(e.target.selectedOptions[0].text);
-      setRegionValue(e.target.value.substring(2));
+      setRegionValue(e.target.selectedOptions[0].text);
+      // setRegionValue(e.target.value.substring(2));
       setProvinceValue('');
       setCitiesValue('');
       setBrgyValue('');
@@ -103,8 +88,6 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
     }
     console.log(e.target.value);
     const splitted = e.target.value;
-    //  const splices = splitted.split(/(.{2})/).filter((a: any) => a);
-
     const filterProvinces = r.p.filter((prov: any) => prov.regCode == splitted).map((value: any) => value);
     setProvince(filterProvinces);
     setCities([]);
@@ -116,7 +99,6 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
     setCitiesValue('');
     setBrgyValue('');
     setPurokValue('');
-    // r.c.filter((cb: any) => cb.provCode === e.target.value).map((value: any) => setCities(value.citymunDesc));
     const filterCity = r.c.filter((prov: any) => prov.provCode == e.target.value).map((value: any) => value);
     setCities(filterCity);
     setBrgy([]);
@@ -126,7 +108,6 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
     setCitiesValue(e.target.selectedOptions[0].text);
     setBrgyValue('');
     setPurokValue('');
-    // r.b.filter((bry: any) => bry.citymunCode === e.target.value).map((value: any) => setBrgy(value.brgyDesc));
     const filterBrgy = r.b.filter((prov: any) => prov.citymunCode == e.target.value).map((value: any) => value);
     setBrgy(filterBrgy);
   };
@@ -135,10 +116,6 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
     setBrgyValue(e.target.selectedOptions[0].text);
     setPurok(true);
   };
-
-  // const shippingFormHandler: SubmitHandler<ShippingForm> = async (formData) => {
-  //   console.log(formData);
-  // };
 
   return (
     <Layout titles="shipping">
@@ -243,7 +220,6 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
               </ListItem>
 
               <div style={{ textAlign: 'center' }}>
-                {/* {JSON.stringify(getValues(), null, 4)} */}
                 {purokValue}&nbsp; {brgyValue}&nbsp;
                 {citiesValue}&nbsp; {provinceValue}&nbsp;
                 {regionValue}
