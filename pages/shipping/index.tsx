@@ -14,7 +14,7 @@ import axios from 'axios';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+// import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
@@ -70,13 +70,13 @@ type Barangays = {
 export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: Cities[]; b: Barangays[] }) {
   const router = useRouter();
   const { state } = useContext(Store);
-  const {
-    handleSubmit,
-    getValues,
-    register,
-    control,
-    formState: { errors },
-  } = useForm<ShippingForm>();
+  // const {
+  //   handleSubmit,
+  //   getValues,
+  //   register,
+  //   control,
+  //   formState: { errors },
+  // } = useForm<ShippingForm>();
   const { userInfo } = state;
 
   const [province, setProvince] = useState([]);
@@ -150,9 +150,9 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
     setPurok(true);
   };
 
-  const shippingFormHandler: SubmitHandler<ShippingForm> = async (formData) => {
-    console.log(formData);
-  };
+  // const shippingFormHandler: SubmitHandler<ShippingForm> = async (formData) => {
+  //   console.log(formData);
+  // };
 
   return (
     <Layout titles="shipping">
