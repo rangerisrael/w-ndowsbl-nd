@@ -1,16 +1,9 @@
-/* eslint-disable eqeqeq */
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-redeclare */
 /* eslint-disable jsx-a11y/no-onchange */
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-nested-ternary */
+/* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/self-closing-comp */
 import React, { useContext, useEffect, useState } from 'react';
 import { List, ListItem, Typography, Button, Box } from '@mui/material';
-import axios from 'axios';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
@@ -20,18 +13,11 @@ import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
 import { getProvince, getRegion, getCities, getBrgy } from '../../queries/addresses-queries';
 
-type ShippingForm = {
-  address: string;
-  city: string;
-  zipCode: number;
-};
-
-interface Address {
-  regions: Regionss[];
-  provinces: Provincess[];
-  citises: Cities[];
-  barangay: Barangays[];
-}
+// type ShippingForm = {
+//   address: string;
+//   city: string;
+//   zipCode: number;
+// };
 
 type Regionss = {
   id: number;
@@ -167,25 +153,6 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
           </legend>
           <form>
             <List>
-              {/* <ListItem>
-                <TextField
-                  select
-                  fullWidth
-                  label="Address"
-                  inputProps={register('address', {
-                    required: 'Please enter address',
-                  })}
-                  onChange={provinceData}
-                  helperText={errors.address?.message}
-                >
-                  {r.r.map((data: Regionss, index: number) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <MenuItem key={data.regCode} value={data.regCode}>
-                      {data.regDesc}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </ListItem> */}
               <ListItem>
                 <select
                   style={{ width: '100%', margin: '0 auto', padding: '0.5rem 0', textAlign: 'center' }}
@@ -195,7 +162,7 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
                   <option disabled key=" value=">
                     Choose Region
                   </option>
-                  <option key=" value="></option>
+                  <option key=" value=" />
 
                   {r.r.map((data: Regionss) => (
                     <option key={data.id} value={data.regCode}>
@@ -213,7 +180,7 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
                   <option disabled key=" value=">
                     Choose City/Provinces
                   </option>
-                  <option key=" value="></option>
+                  <option key=" value=" />
 
                   {province
                     .sort((a: any, b: any) => (a.provDesc > b.provDesc ? 1 : -1))
@@ -233,7 +200,7 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
                   <option disabled key=" value=">
                     Choose Municipalities
                   </option>
-                  <option style={{ borderBottom: '1px solid black' }} key=" value="></option>
+                  <option style={{ borderBottom: '1px solid black' }} key=" value=" />
 
                   {cities
                     .sort((a: any, b: any) => (a.citymunDesc > b.citymunDesc ? 1 : -1))
@@ -253,7 +220,7 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
                   <option disabled key=" value=">
                     Choose Barangay
                   </option>
-                  <option key=" value="></option>
+                  <option key=" value=" />
                   {brgy
                     .sort((a: any, b: any) => (a.brgyDesc > b.brgyDesc ? 1 : -1))
                     .map((data: Barangays) => (
