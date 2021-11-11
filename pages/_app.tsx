@@ -1,20 +1,24 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
-import { StylesProvider, createGenerateClassName } from '@mui/styles';
+import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Provider } from 'next-auth/client';
-import type { AppProps } from 'next/app';
+import { AppProps } from 'next/app';
 import { SnackbarProvider } from 'notistack';
 import StoreProvider from '../components/Store';
+import createEmotionCache from '../styles/createEmotionCache';
 
-export default function MyApp(props: AppProps) {
-  const { Component, pageProps } = props;
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache();
 
-  const generateClassName = createGenerateClassName({
-    productionPrefix: 'c',
-  });
+interface MyAppProps extends AppProps {
+  // eslint-disable-next-line react/require-default-props
+  emotionCache?: EmotionCache;
+}
 
+export default function MyApp(props: MyAppProps) {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
-    <StylesProvider generateClassName={generateClassName}>
+    <CacheProvider value={emotionCache}>
       <Provider
         // Provider options are not required but can be useful in situations where
         // you have a short session maxAge time. Shown here with default values.
@@ -41,6 +45,6 @@ export default function MyApp(props: AppProps) {
           </StoreProvider>
         </SnackbarProvider>
       </Provider>
-    </StylesProvider>
+    </CacheProvider>
   );
 }

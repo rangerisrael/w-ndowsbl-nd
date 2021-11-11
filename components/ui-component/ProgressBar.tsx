@@ -38,3 +38,15 @@ export default function CircularProgressWithLabel({ value }: Props) {
     </div>
   );
 }
+
+// <Typography
+//   sx={{
+//     height: '100vh',
+//     display: 'flex', // make us of Flexbox
+//     alignItems: 'center', // does vertically center the desired content
+//     justifyContent: 'center', // horizontally centers single line items
+//     textAlign: 'center', // optional, but helps horizontally center text that breaks into multiple lines
+//   }}
+// >
+//   {`${Math.round(progress)}%`}
+// </Typography>

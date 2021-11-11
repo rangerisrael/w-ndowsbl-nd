@@ -38,6 +38,7 @@
     "import/no-unresolved": "error",
     "no-use-before-define": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
+    "eslint-disable react/jsx-props-no-spreading",
     "import/order": [
       "error",
       {
