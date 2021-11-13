@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const BreakPoint = styled.div`
   @media only screen and (min-width: 900px) {

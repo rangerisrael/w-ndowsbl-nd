@@ -1,16 +1,7 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-redeclare */
-/* eslint-disable jsx-a11y/no-onchange */
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-nested-ternary */
+/* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/self-closing-comp */
 import React, { useContext, useEffect, useState } from 'react';
-import { List, ListItem, Typography, Button, Box, MenuItem, TextField } from '@mui/material';
-import axios from 'axios';
+import { List, ListItem, Typography, Button, Box } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
@@ -20,18 +11,11 @@ import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
 import { getProvince, getRegion, getCities, getBrgy } from '../../queries/addresses-queries';
 
-type ShippingForm = {
-  address: string;
-  city: string;
-  zipCode: number;
-};
-
-interface Address {
-  regions: Regionss[];
-  provinces: Provincess[];
-  citises: Cities[];
-  barangay: Barangays[];
-}
+// type ShippingForm = {
+//   address: string;
+//   city: string;
+//   zipCode: number;
+// };
 
 type Regionss = {
   id: number;
@@ -67,9 +51,11 @@ type Barangays = {
 
 // const url = 'https://rangerisrael.github.io/address-api/jsonAddress/region.json';
 
-export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: Cities[]; b: Barangays[] }) {
+export default function ShippingAddress(address: { r: Regionss[]; p: Provincess[]; c: Cities[]; b: Barangays[] }) {
   const router = useRouter();
   const { state } = useContext(Store);
+  // eslint-disable-next-line no-redeclare
+  const { r, p, c, b } = address;
   // const {
   //   handleSubmit,
   //   getValues,
@@ -119,7 +105,7 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
     const splitted = e.target.value;
     //  const splices = splitted.split(/(.{2})/).filter((a: any) => a);
 
-    const filterProvinces = r.p.filter((prov: any) => prov.regCode == splitted).map((value: any) => value);
+    const filterProvinces = p.filter((prov: any) => prov.regCode === splitted).map((value: any) => value);
     setProvince(filterProvinces);
     setCities([]);
     setBrgy([]);
@@ -131,7 +117,7 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
     setBrgyValue('');
     setPurokValue('');
     // r.c.filter((cb: any) => cb.provCode === e.target.value).map((value: any) => setCities(value.citymunDesc));
-    const filterCity = r.c.filter((prov: any) => prov.provCode == e.target.value).map((value: any) => value);
+    const filterCity = c.filter((prov: any) => prov.provCode === e.target.value).map((value: any) => value);
     setCities(filterCity);
     setBrgy([]);
   };
@@ -141,7 +127,7 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
     setBrgyValue('');
     setPurokValue('');
     // r.b.filter((bry: any) => bry.citymunCode === e.target.value).map((value: any) => setBrgy(value.brgyDesc));
-    const filterBrgy = r.b.filter((prov: any) => prov.citymunCode == e.target.value).map((value: any) => value);
+    const filterBrgy = b.filter((prov: any) => prov.citymunCode === e.target.value).map((value: any) => value);
     setBrgy(filterBrgy);
   };
 
@@ -168,39 +154,17 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
           <form>
             <List>
               <ListItem>
-                {/* <TextField
-                  select
-                  fullWidth
-                  label="Address"
-                  inputProps={register('address', {
-                    required: 'Please enter address',
-                  })}
-                  onChange={provinceData}
-                  helperText={errors.address?.message}
-                >
-                  {r.r.map((data: Regionss, index: number) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <MenuItem key={index} value={data.regCode}>
-                      {data.regDesc}
-                    </MenuItem>
-                  ))}
-                </TextField> */}
-              </ListItem>
-              <ListItem>
                 <select
                   style={{ width: '100%', margin: '0 auto', padding: '0.5rem 0', textAlign: 'center' }}
-                  name="address"
+                  name="region"
                   onChange={provinceData}
                 >
-                  <option
-                    disabled
-                    value=">
+                  <option disabled key="01" value="">
                     Choose Region
                   </option>
-                  <option value="
-                  ></option>
+                  <option key="0" value="0"></option>
 
-                  {r.r.map((data: Regionss) => (
+                  {r.map((data: Regionss) => (
                     <option key={data.regCode} value={data.regCode}>
                       {data.regDesc}
                     </option>
@@ -210,16 +174,13 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
               <ListItem>
                 <select
                   style={{ width: '100%', margin: '0 auto', padding: '0.5rem 0', textAlign: 'center' }}
-                  name="address"
+                  name="city"
                   onChange={citiesData}
                 >
-                  <option
-                    disabled
-                    value=">
+                  <option key="06" disabled value="">
                     Choose City/Provinces
                   </option>
-                  <option key='1'  value="
-                  ></option>
+                  <option key="1" value=""></option>
 
                   {province
                     .sort((a: any, b: any) => (a.provDesc > b.provDesc ? 1 : -1))
@@ -233,16 +194,13 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
               <ListItem>
                 <select
                   style={{ width: '100%', margin: '0 auto', padding: '0.5rem 0', textAlign: 'center' }}
-                  name="address"
+                  name="municipal"
                   onChange={brgyData}
                 >
-                  <option
-                    disabled
-                    value=">
+                  <option key="08" disabled value="">
                     Choose Municipalities
                   </option>
-                  <option style={{ borderBottom: '1px solid black' }} key='2'  value="
-                  ></option>
+                  <option style={{ borderBottom: '1px solid black' }} key="2" value=""></option>
 
                   {cities
                     .sort((a: any, b: any) => (a.citymunDesc > b.citymunDesc ? 1 : -1))
@@ -256,16 +214,13 @@ export default function ShippingAddress(r: { r: Regionss[]; p: Provincess[]; c: 
               <ListItem>
                 <select
                   style={{ width: '100%', margin: '0 auto', padding: '0.5rem 0', textAlign: 'center' }}
-                  name="address"
+                  name="brgy"
                   onChange={brgySelect}
                 >
-                  <option
-                    disabled
-                    value=">
+                  <option disabled key="04" value="">
                     Choose Barangay
                   </option>
-                  <option key='3' value="
-                  ></option>
+                  <option key="3" value=""></option>
                   {brgy
                     .sort((a: any, b: any) => (a.brgyDesc > b.brgyDesc ? 1 : -1))
                     .map((data: Barangays) => (

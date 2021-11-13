@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const LayoutStyle = styled.div`
   .appBar {
@@ -22,9 +22,6 @@ const LayoutStyle = styled.div`
     background: rgb(76, 76, 72);
     text-align: center;
   }
-
-  
-
 `;
 
 export default LayoutStyle;

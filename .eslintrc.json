@@ -39,6 +39,8 @@
     "no-use-before-define": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "eslint-disable react/jsx-props-no-spreading": "off",
+    "jsx-a11y/no-onchange": "off",
+    "react/self-closing-comp": "off",
     "import/order": [
       "error",
       {
