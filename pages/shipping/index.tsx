@@ -272,10 +272,7 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
 
   return {
     props: {
-      r: reg.regions,
-      p: pig.provinces,
-      c: cite.citises,
-      b: bit.bryData,
+      address: { r: reg.regions, p: pig.provinces, c: cite.citises, b: bit.bryData },
       sess: session,
     },
   };
