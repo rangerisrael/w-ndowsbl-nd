@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect, useState } from 'react';
@@ -5,17 +6,17 @@ import { List, ListItem, Typography, Button, Box } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-// import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
 import { getProvince, getRegion, getCities, getBrgy } from '../../queries/addresses-queries';
 
-// type ShippingForm = {
-//   address: string;
-//   city: string;
-//   zipCode: number;
-// };
+type ShippingForm = {
+  address: string;
+  city: string;
+  zipCode: number;
+};
 
 type Regionss = {
   id: number;
@@ -56,13 +57,7 @@ export default function ShippingAddress(address: { r: Regionss[]; p: Provincess[
   const { state } = useContext(Store);
   // eslint-disable-next-line no-redeclare
   const { r, p, c, b } = address;
-  // const {
-  //   handleSubmit,
-  //   getValues,
-  //   register,
-  //   control,
-  //   formState: { errors },
-  // } = useForm<ShippingForm>();
+  const { handleSubmit } = useForm<ShippingForm>();
   const { userInfo } = state;
 
   const [province, setProvince] = useState([]);
@@ -136,9 +131,9 @@ export default function ShippingAddress(address: { r: Regionss[]; p: Provincess[
     setPurok(true);
   };
 
-  // const shippingFormHandler: SubmitHandler<ShippingForm> = async (formData) => {
-  //   console.log(formData);
-  // };
+  const shippingFormHandler: SubmitHandler<ShippingForm> = async (formData) => {
+    console.log(formData);
+  };
 
   return (
     <Layout titles="shipping">
@@ -151,7 +146,7 @@ export default function ShippingAddress(address: { r: Regionss[]; p: Provincess[
               Shipping Address
             </Typography>
           </legend>
-          <form>
+          <form onSubmit={handleSubmit(shippingFormHandler)}>
             <List>
               <ListItem>
                 <select
@@ -243,7 +238,6 @@ export default function ShippingAddress(address: { r: Regionss[]; p: Provincess[
               </ListItem>
 
               <div style={{ textAlign: 'center' }}>
-                {/* {JSON.stringify(getValues(), null, 4)} */}
                 {purokValue}&nbsp; {brgyValue}&nbsp;
                 {citiesValue}&nbsp; {provinceValue}&nbsp;
                 {regionValue}
@@ -271,6 +265,10 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
   const pig = await getProvince();
   const cite = await getCities();
   const bit = await getBrgy();
+  const session = await getSession(context);
+
+  // eslint-disable-next-line no-unneeded-ternary
+  session ? session : null;
 
   return {
     props: {
@@ -278,7 +276,7 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
       p: pig.provinces,
       c: cite.citises,
       b: bit.bryData,
-      session: await getSession(context),
+      sess: session,
     },
   };
 };
