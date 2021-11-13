@@ -316,10 +316,11 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
     }
   }
 
+  // when i added a props key
   return {
     props: {
       regAddress: regions,
-      paddress: provinces,
+      pAddress: provinces,
       munAddress: municipalities,
       brgyAddress: barangay,
       sess: session,
