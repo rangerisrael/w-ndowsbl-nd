@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext, useEffect, useState } from 'react';
-import { List, ListItem, Typography, Button, Box } from '@mui/material';
+import React, { useContext, useEffect } from 'react';
+import { Box } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
@@ -10,37 +10,6 @@ import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
 import { getProvince, getRegion, getCities, getBrgy } from '../../queries/addresses-queries';
 
-type Regionss = {
-  id: number;
-  psgcCode?: string;
-  regDesc?: string;
-  regCode?: string;
-};
-
-type Provincess = {
-  id: number;
-  psgcCode?: string;
-  regCode?: string;
-  provCode?: string;
-  provDesc?: string;
-};
-type Cities = {
-  id: number;
-  psgcCode: string;
-  citymunDesc: string;
-  regDesc: string;
-  provCode: string;
-  citymunCode: string;
-};
-
-type Barangays = {
-  id: number;
-  brgyCode: string;
-  brgyDesc: string;
-  regCode: string;
-  provCode: string;
-  citymunCode: string;
-};
 
 export default function PaymentTest() {
   const router = useRouter();
