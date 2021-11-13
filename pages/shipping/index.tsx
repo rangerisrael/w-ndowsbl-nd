@@ -1,3 +1,6 @@
+/* eslint-disable no-redeclare */
+/* eslint-disable no-else-return */
+/* eslint-disable no-lonely-if */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -60,6 +63,7 @@ export default function ShippingAddress(
 ) {
   const router = useRouter();
   const { state } = useContext(Store);
+
   // eslint-disable-next-line no-redeclare
 
   // eslint-disable-next-line no-redeclare
@@ -141,6 +145,17 @@ export default function ShippingAddress(
   // const shippingFormHandler: SubmitHandler<ShippingForm> = async (formData) => {
   //   console.log(formData);
   // };
+
+  // const handlerMessage = async (statusText: string, status: number, message: string, type: MessageType) => {
+  //   const response = `${statusText} ${status} : ${message}`;
+  //   enqueueSnackbar(response, { variant: type });
+  // };
+
+  // if (error) {
+  //   handlerMessage(statusText, status, data.message, 'error');
+  // } else {
+  //   handlerMessage(statusText, status, data.message, 'success');
+  // }
 
   console.log(regAddress);
   console.log(pAddress);
@@ -282,12 +297,32 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
   // eslint-disable-next-line no-unneeded-ternary
   session ? session : null;
 
+  const { error } = reg || pig || cite || bit || null;
+  const { regions } = reg;
+  const { provinces } = pig;
+  const { citises } = cite;
+  const { bryData } = bit;
+
+  if (error) {
+    console.log(error);
+  } else {
+    if (regions) {
+      return regions;
+    } else if (provinces) {
+      return provinces;
+    } else if (citises) {
+      return citises;
+    } else if (bryData) {
+      return bryData;
+    }
+  }
+
   return {
     props: {
-      regAddress: reg.regions,
-      pAddress: pig.provinces,
-      cAddress: cite.citises,
-      bAddress: bit.bryData,
+      regAddress: regions,
+      pAddress: provinces,
+      cAddress: citises,
+      bAddress: bryData,
       sess: session,
     },
   };
