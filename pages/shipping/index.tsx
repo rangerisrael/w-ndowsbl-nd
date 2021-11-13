@@ -10,11 +10,11 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 // import { useForm, SubmitHandler } from 'react-hook-form';
+import useSWR from 'swr';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
 import { getProvince, getRegion, getCities, getBrgy } from '../../queries/addresses-queries';
-
 // type ShippingForm = {
 //   address: string;
 //   city: string;
@@ -58,8 +58,8 @@ type Barangays = {
 export default function ShippingAddress(
   regions: Regionss[],
   provinces: Provincess[],
-  citises: Cities[],
-  bryData: Barangays[]
+  municipalities: Cities[],
+  barangay: Barangays[]
 ) {
   const router = useRouter();
   const { state } = useContext(Store);
@@ -159,8 +159,8 @@ export default function ShippingAddress(
 
   console.log(regions);
   console.log(provinces);
-  console.log(citises);
-  console.log(bryData);
+  console.log(municipalities);
+  console.log(barangay);
 
   return (
     <Layout titles="shipping">
@@ -288,20 +288,20 @@ export default function ShippingAddress(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
-  const reg = await getRegion();
-  const pig = await getProvince();
-  const cite = await getCities();
-  const bit = await getBrgy();
+  const regionAddress = await getRegion();
+  const provAddress = await getProvince();
+  const municipalAddress = await getCities();
+  const brgyAddress = await getBrgy();
   const session = await getSession(context);
 
   // eslint-disable-next-line no-unneeded-ternary
   session ? session : null;
 
-  const { error } = reg || pig || cite || bit || null;
-  const { regions } = reg;
-  const { provinces } = pig;
-  const { citises } = cite;
-  const { bryData } = bit;
+  const { error } = regionAddress || provAddress || municipalAddress || brgyAddress || null;
+  const { regions } = regionAddress;
+  const { provinces } = provAddress;
+  const { municipalities } = municipalAddress;
+  const { barangay } = brgyAddress;
 
   if (error) {
     console.log(error);
@@ -310,19 +310,19 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
       return regions;
     } else if (provinces) {
       return provinces;
-    } else if (citises) {
-      return citises;
-    } else if (bryData) {
-      return bryData;
+    } else if (municipalities) {
+      return municipalities;
+    } else if (barangay) {
+      return barangay;
     }
   }
 
   return {
     props: {
       regions,
-      citises,
       provinces,
-      bryData,
+      municipalities,
+      barangay,
       sess: session,
     },
   };

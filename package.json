@@ -38,6 +38,7 @@
     "react-dom": "17.0.2",
     "react-hook-form": "^7.17.5",
     "react-is": "^17.0.2",
+    "swr": "^1.0.1",
     "twilio": "^3.69.0"
   },
   "devDependencies": {

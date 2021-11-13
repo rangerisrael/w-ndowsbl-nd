@@ -33,11 +33,11 @@ export const getCities = async () =>
     .get(process.env.CITIES_ADDRESS)
     .then((response) => ({
       error: false,
-      citises: response.data,
+      municipalities: response.data,
     }))
     .catch((err: any) => ({
       error: true,
-      citises: err,
+      municipalities: err,
     }));
 
 export const getBrgy = async () =>
@@ -45,9 +45,9 @@ export const getBrgy = async () =>
     .get(process.env.BRGY_ADDRESS)
     .then((response) => ({
       error: false,
-      bryData: response.data,
+      barangay: response.data,
     }))
     .catch((err: any) => ({
       error: true,
-      bryData: err,
+      barangay: err,
     }));
