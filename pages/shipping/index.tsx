@@ -1,22 +1,22 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext, useEffect, useState } from 'react';
-import { List, ListItem, Typography, Button, Box } from '@mui/material';
+import React, { useContext, useEffect } from 'react';
+import { Box } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { useForm, SubmitHandler } from 'react-hook-form';
+// import { useForm, SubmitHandler } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
 import { getProvince, getRegion, getCities, getBrgy } from '../../queries/addresses-queries';
 
-type ShippingForm = {
-  address: string;
-  city: string;
-  zipCode: number;
-};
+// type ShippingForm = {
+//   address: string;
+//   city: string;
+//   zipCode: number;
+// };
 
 type Regionss = {
   id: number;
@@ -52,25 +52,32 @@ type Barangays = {
 
 // const url = 'https://rangerisrael.github.io/address-api/jsonAddress/region.json';
 
-export default function ShippingAddress(address: { r: Regionss[]; p: Provincess[]; c: Cities[]; b: Barangays[] }) {
+export default function ShippingAddress(
+  regAddress: Regionss[],
+  pAddress: Provincess[],
+  cAddress: Cities[],
+  bAddress: Barangays[]
+) {
   const router = useRouter();
   const { state } = useContext(Store);
   // eslint-disable-next-line no-redeclare
-  const { r, p, c, b } = address;
-  const { handleSubmit } = useForm<ShippingForm>();
+
+  // eslint-disable-next-line no-redeclare
+
+  // const { handleSubmit } = useForm<ShippingForm>();
   const { userInfo } = state;
 
-  const [province, setProvince] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [brgy, setBrgy] = useState([]);
+  // const [province, setProvince] = useState([]);
+  // const [cities, setCities] = useState([]);
+  // const [brgy, setBrgy] = useState([]);
 
-  const [regionValue, setRegionValue] = useState('');
-  const [provinceValue, setProvinceValue] = useState('');
-  const [citiesValue, setCitiesValue] = useState('');
-  const [brgyValue, setBrgyValue] = useState('');
+  // const [regionValue, setRegionValue] = useState('');
+  // const [provinceValue, setProvinceValue] = useState('');
+  // const [citiesValue, setCitiesValue] = useState('');
+  // const [brgyValue, setBrgyValue] = useState('');
 
-  const [purok, setPurok] = useState(false);
-  const [purokValue, setPurokValue] = useState('');
+  // const [purok, setPurok] = useState(false);
+  // const [purokValue, setPurokValue] = useState('');
 
   useEffect(() => {
     if (!userInfo) {
@@ -78,69 +85,74 @@ export default function ShippingAddress(address: { r: Regionss[]; p: Provincess[
     }
   }, [router, userInfo]);
 
-  const provinceData = async (e: any) => {
-    if (e.target.value === '') {
-      e.target.value = 'Choose Region';
-      console.log(e);
-      setRegionValue('');
-      setProvinceValue('');
-      setCitiesValue('');
-      setBrgyValue('');
-      setPurokValue('');
-    } else {
-      // event.target.options[event.target.selectedIndex].text
-      setRegionValue(e.target.selectedOptions[0].text);
-      // setRegionValue(e.target.value.substring(2));
-      setProvinceValue('');
-      setCitiesValue('');
-      setBrgyValue('');
-      setPurokValue('');
-    }
-    // console.log(e.target.value);
-    const splitted = e.target.value;
-    //  const splices = splitted.split(/(.{2})/).filter((a: any) => a);
+  // const provinceData = async (e: any) => {
+  //   if (e.target.value === '') {
+  //     e.target.value = 'Choose Region';
+  //     console.log(e);
+  //     setRegionValue('');
+  //     setProvinceValue('');
+  //     setCitiesValue('');
+  //     setBrgyValue('');
+  //     setPurokValue('');
+  //   } else {
+  //     // event.target.options[event.target.selectedIndex].text
+  //     setRegionValue(e.target.selectedOptions[0].text);
+  //     // setRegionValue(e.target.value.substring(2));
+  //     setProvinceValue('');
+  //     setCitiesValue('');
+  //     setBrgyValue('');
+  //     setPurokValue('');
+  //   }
+  //   // console.log(e.target.value);
+  //   const splitted = e.target.value;
+  //   //  const splices = splitted.split(/(.{2})/).filter((a: any) => a);
 
-    const filterProvinces = p.filter((prov: any) => prov.regCode === splitted).map((value: any) => value);
-    setProvince(filterProvinces);
-    setCities([]);
-    setBrgy([]);
-  };
+  //   const filterProvinces = p.filter((prov: any) => prov.regCode === splitted).map((value: any) => value);
+  //   setProvince(filterProvinces);
+  //   setCities([]);
+  //   setBrgy([]);
+  // };
 
-  const citiesData = async (e: any) => {
-    setProvinceValue(e.target.selectedOptions[0].text);
-    setCitiesValue('');
-    setBrgyValue('');
-    setPurokValue('');
-    // r.c.filter((cb: any) => cb.provCode === e.target.value).map((value: any) => setCities(value.citymunDesc));
-    const filterCity = c.filter((prov: any) => prov.provCode === e.target.value).map((value: any) => value);
-    setCities(filterCity);
-    setBrgy([]);
-  };
+  // const citiesData = async (e: any) => {
+  //   setProvinceValue(e.target.selectedOptions[0].text);
+  //   setCitiesValue('');
+  //   setBrgyValue('');
+  //   setPurokValue('');
+  //   // r.c.filter((cb: any) => cb.provCode === e.target.value).map((value: any) => setCities(value.citymunDesc));
+  //   const filterCity = c.filter((prov: any) => prov.provCode === e.target.value).map((value: any) => value);
+  //   setCities(filterCity);
+  //   setBrgy([]);
+  // };
 
-  const brgyData = async (e: any) => {
-    setCitiesValue(e.target.selectedOptions[0].text);
-    setBrgyValue('');
-    setPurokValue('');
-    // r.b.filter((bry: any) => bry.citymunCode === e.target.value).map((value: any) => setBrgy(value.brgyDesc));
-    const filterBrgy = b.filter((prov: any) => prov.citymunCode === e.target.value).map((value: any) => value);
-    setBrgy(filterBrgy);
-  };
+  // const brgyData = async (e: any) => {
+  //   setCitiesValue(e.target.selectedOptions[0].text);
+  //   setBrgyValue('');
+  //   setPurokValue('');
+  //   // r.b.filter((bry: any) => bry.citymunCode === e.target.value).map((value: any) => setBrgy(value.brgyDesc));
+  //   const filterBrgy = b.filter((prov: any) => prov.citymunCode === e.target.value).map((value: any) => value);
+  //   setBrgy(filterBrgy);
+  // };
 
-  const brgySelect = async (e: any) => {
-    setBrgyValue(e.target.selectedOptions[0].text);
-    setPurok(true);
-  };
+  // const brgySelect = async (e: any) => {
+  //   setBrgyValue(e.target.selectedOptions[0].text);
+  //   setPurok(true);
+  // };
 
-  const shippingFormHandler: SubmitHandler<ShippingForm> = async (formData) => {
-    console.log(formData);
-  };
+  // const shippingFormHandler: SubmitHandler<ShippingForm> = async (formData) => {
+  //   console.log(formData);
+  // };
+
+  console.log(regAddress);
+  console.log(pAddress);
+  console.log(cAddress);
+  console.log(bAddress);
 
   return (
     <Layout titles="shipping">
       <Box sx={{ marginTop: '2rem' }}>
         <CheckoutWizard steps={1} />
         <br />
-        <fieldset>
+        {/* <fieldset>
           <legend style={{ textAlign: 'center' }}>
             <Typography component="h1" variant="h1">
               Shipping Address
@@ -253,7 +265,7 @@ export default function ShippingAddress(address: { r: Regionss[]; p: Provincess[
               </ListItem>
             </List>
           </form>
-        </fieldset>
+        </fieldset> */}
       </Box>
     </Layout>
   );
@@ -272,7 +284,10 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
 
   return {
     props: {
-      address: { r: reg.regions, p: pig.provinces, c: cite.citises, b: bit.bryData },
+      regAddress: reg.regions,
+      pAddress: pig.provinces,
+      cAddress: cite.citises,
+      bAddress: bit.bryData,
       sess: session,
     },
   };
