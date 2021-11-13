@@ -55,10 +55,10 @@ type Barangays = {
 // const url = 'https://rangerisrael.github.io/address-api/jsonAddress/region.json';
 
 export default function ShippingAddress(
-  regions: Regionss[],
-  provinces: Provincess[],
-  municipalities: Cities[],
-  barangay: Barangays[]
+  regAddress: Regionss[],
+  pAddress: Provincess[],
+  munAddress: Cities[],
+  brgyAddress: Barangays[]
 ) {
   const router = useRouter();
   const { state } = useContext(Store);
@@ -156,10 +156,10 @@ export default function ShippingAddress(
   //   handlerMessage(statusText, status, data.message, 'success');
   // }
 
-  console.log(regions);
-  console.log(provinces);
-  console.log(municipalities);
-  console.log(barangay);
+  console.log(regAddress);
+  console.log(pAddress);
+  console.log(munAddress);
+  console.log(brgyAddress);
 
   return (
     <Layout titles="shipping">
@@ -318,10 +318,10 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
 
   return {
     props: {
-      regions,
-      provinces,
-      municipalities,
-      barangay,
+      regAddress: regions,
+      paddress: provinces,
+      munAddress: municipalities,
+      brgyAddress: barangay,
       sess: session,
     },
   };
