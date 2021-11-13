@@ -10,7 +10,6 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 // import { useForm, SubmitHandler } from 'react-hook-form';
-import useSWR from 'swr';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
