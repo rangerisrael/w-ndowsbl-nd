@@ -127,10 +127,10 @@ export default function ShippingAddress() {
   //   handlerMessage(statusText, status, data.message, 'success');
   // }
 
-  console.log(regionsAddress);
-  console.log(provinceAddress);
-  console.log(municipalAddress);
-  console.log(barangayAddress);
+  // console.log(regionsAddress);
+  // console.log(provinceAddress);
+  // console.log(municipalAddress);
+  // console.log(barangayAddress);
 
   // const objects = barangayAddress.map((arr: any) =>
   //   arr.reduce((acc: any, cur: any) => {
