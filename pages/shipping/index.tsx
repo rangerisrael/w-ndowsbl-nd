@@ -13,7 +13,7 @@ import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
-import brgyAddress from '../../utils/jsonAddress/brgy.json';
+import barangayAddress from '../../utils/jsonAddress/barangay.json';
 import municipalAddress from '../../utils/jsonAddress/city.json';
 import provinceAddress from '../../utils/jsonAddress/province.json';
 import regionsAddress from '../../utils/jsonAddress/region.json';
@@ -96,16 +96,16 @@ export default function ShippingAddress() {
     setBrgy([]);
   };
 
-  // const brgyData = async (e: any) => {
-  //   setCitiesValue(e.target.selectedOptions[0].text);
-  //   setBrgyValue('');
-  //   setPurokValue('');
-  //   // r.b.filter((bry: any) => bry.citymunCode === e.target.value).map((value: any) => setBrgy(value.brgyDesc));
-  //   const filterBrgy = brgyAddress
-  //     .filter((prov: any) => prov.citymunCode === e.target.value)
-  //     .map((value: any) => value);
-  //   setBrgy(filterBrgy);
-  // };
+  const brgyData = async (e: any) => {
+    setCitiesValue(e.target.selectedOptions[0].text);
+    setBrgyValue('');
+    setPurokValue('');
+    // r.b.filter((bry: any) => bry.citymunCode === e.target.value).map((value: any) => setBrgy(value.brgyDesc));
+    const filterBrgy = barangayAddress
+      .filter((prov: any) => prov.citymunCode === e.target.value)
+      .map((value: any) => value);
+    setBrgy(filterBrgy);
+  };
 
   const brgySelect = async (e: any) => {
     setBrgyValue(e.target.selectedOptions[0].text);
@@ -127,19 +127,19 @@ export default function ShippingAddress() {
   //   handlerMessage(statusText, status, data.message, 'success');
   // }
 
-  // console.log(regionsAddress);
-  // console.log(provinceAddress);
-  // console.log(municipalAddress);
-  // console.log(brgyAddress);
+  console.log(regionsAddress);
+  console.log(provinceAddress);
+  console.log(municipalAddress);
+  console.log(barangayAddress);
 
-  const objects = brgyAddress.map((arr: any) =>
-    arr.reduce((acc: any, cur: any) => {
-      acc[cur.key] = cur.value;
-      return acc;
-    }, {})
-  );
+  // const objects = barangayAddress.map((arr: any) =>
+  //   arr.reduce((acc: any, cur: any) => {
+  //     acc[cur.key] = cur.value;
+  //     return acc;
+  //   }, {})
+  // );
 
-  console.log(objects);
+  // console.log(objects);
 
   return (
     <Layout titles="shipping">
