@@ -7,7 +7,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { getSession } from 'next-auth/client';
+// import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 // import { useForm, SubmitHandler } from 'react-hook-form';
 import Layout from '../../components/Layout';
