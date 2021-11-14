@@ -80,7 +80,7 @@ export default function Checkout() {
                         <TableCell>
                           <NextLink href={`product/${item.slug}`} passHref>
                             <Link>
-                              <Image src={item.image} width={50} height={50} layout="responsive" />
+                              <Image src={item.imageUrl} width={50} height={50} layout="responsive" />
                             </Link>
                           </NextLink>
                         </TableCell>
