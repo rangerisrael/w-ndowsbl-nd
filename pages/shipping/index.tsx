@@ -286,7 +286,7 @@ export default function ShippingAddress(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getServerSideProps: GetServerSideProps<any> = async (context: GetServerSidePropsContext<any>) => {
+export const getServerSideProps: GetServerSideProps<any> = async () => {
   const regionAddress = await getRegion();
   const provAddress = await getProvince();
   const municipalAddress = await getCities();
