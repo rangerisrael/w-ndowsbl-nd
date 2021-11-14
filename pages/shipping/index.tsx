@@ -6,7 +6,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { GetServerSideProps } from 'next';
 // import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 // import { useForm, SubmitHandler } from 'react-hook-form';
