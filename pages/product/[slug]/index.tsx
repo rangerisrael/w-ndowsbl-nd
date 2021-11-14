@@ -1,4 +1,3 @@
-
 import React, { useContext } from 'react';
 import { Grid, List, ListItem, Typography, Card, Button, Box, Rating, Link } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
@@ -12,7 +11,7 @@ import { ProductQueriesById, ProductQueriesBySlug } from '../../../queries/produ
 export default function ProductDetails(product: IProduct) {
   const router = useRouter();
 
-  const { _id, name, category, image, price, brand, rating, numReviews, countInStock, description } = product;
+  const { _id, name, category, imageUrl, price, brand, rating, numReviews, countInStock, description } = product;
 
   // console.log(product);
   // const { slug } = router.query;
@@ -45,7 +44,7 @@ export default function ProductDetails(product: IProduct) {
             <br />
             <Grid container>
               <Grid item md={6} xs={12}>
-                <Image src={image} alt={name} width={500} height={500} layout="responsive" />
+                <Image src={imageUrl} alt={name} width={500} height={500} layout="responsive" />
               </Grid>
 
               <Grid item md={4} xs={12}>

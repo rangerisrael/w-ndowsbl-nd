@@ -71,7 +71,7 @@ export default function Index({ products }: Props) {
                 <Card>
                   <NextLink href={`/product/${product.slug}`} passHref>
                     <CardActionArea>
-                      <CardMedia component="img" image={product.image} title={product.name} />
+                      <CardMedia component="img" image={product.imageUrl} title={product.name} />
                       <CardContent
                         sx={{
                           display: 'flex',
