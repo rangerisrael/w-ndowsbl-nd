@@ -291,10 +291,8 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
   const provAddress = await getProvince();
   const municipalAddress = await getCities();
   const brgyAddress = await getBrgy();
- 
- 
 
-  const { error } = regionAddress || provAddress || municipalAddress || brgyAddresss;
+  const { error } = regionAddress || provAddress || municipalAddress || brgyAddress;
   const { regions } = regionAddress;
   const { provinces } = provAddress;
   const { municipalities } = municipalAddress;
@@ -302,16 +300,6 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
 
   if (error) {
     console.log(error);
-  } else {
-    if (regions) {
-      return regions;
-    } else if (provinces) {
-      return provinces;
-    } else if (municipalities) {
-      return municipalities;
-    } else if (barangay) {
-      return barangay;
-    }
   }
 
   // when i added a props key
