@@ -291,12 +291,10 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
   const provAddress = await getProvince();
   const municipalAddress = await getCities();
   const brgyAddress = await getBrgy();
-  const session = await getSession(context);
+ 
+ 
 
-  // eslint-disable-next-line no-unneeded-ternary
-  session ? session : null;
-
-  const { error } = regionAddress || provAddress || municipalAddress || brgyAddress || null;
+  const { error } = regionAddress || provAddress || municipalAddress || brgyAddresss;
   const { regions } = regionAddress;
   const { provinces } = provAddress;
   const { municipalities } = municipalAddress;
@@ -323,7 +321,6 @@ export const getServerSideProps: GetServerSideProps<any> = async (context: GetSe
       pAddress: provinces,
       munAddress: municipalities,
       brgyAddress: barangay,
-      sess: session,
     },
   };
 };
