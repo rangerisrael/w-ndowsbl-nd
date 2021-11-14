@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useContext } from 'react';
 import { Grid, List, ListItem, Typography, Card, Button, Box, Rating, Link } from '@mui/material';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
@@ -8,11 +9,11 @@ import { Store } from '../../../components/Store';
 import { IProduct } from '../../../models/interface/Product';
 import { ProductQueriesById, ProductQueriesBySlug } from '../../../queries/product-queries';
 
-export default function ProductDetails(product: IProduct) {
+export default function ProductDetails(product: { product: IProduct }) {
   const router = useRouter();
 
-  const { _id, name, category, imageUrl, price, brand, rating, numReviews, countInStock, description } = product;
-
+  const { _id, name, category, imageUrl, price, brand, rating, numReviews, countInStock, description } =
+    product.product;
   // console.log(product);
   // const { slug } = router.query;
   // const product = data.products.find((a) => a.slug === slug);
