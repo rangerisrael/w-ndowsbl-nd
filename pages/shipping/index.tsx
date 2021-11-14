@@ -6,60 +6,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { GetServerSideProps } from 'next';
+// import { GetServerSideProps } from 'next';
 // import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 // import { useForm, SubmitHandler } from 'react-hook-form';
 import Layout from '../../components/Layout';
 import { Store } from '../../components/Store';
 import CheckoutWizard from '../../components/ui-component/CheckoutWizard';
-import { getProvince, getRegion, getCities, getBrgy } from '../../queries/addresses-queries';
+import brgyAddress from '../../utils/jsonAddress/brgy.json';
+import municipalAddress from '../../utils/jsonAddress/city.json';
+import provinceAddress from '../../utils/jsonAddress/province.json';
+import regionsAddress from '../../utils/jsonAddress/region.json';
+
 // type ShippingForm = {
 //   address: string;
 //   city: string;
 //   zipCode: number;
 // };
 
-type Regionss = {
-  id: number;
-  psgcCode?: string;
-  regDesc?: string;
-  regCode?: string;
-};
-
-type Provincess = {
-  id: number;
-  psgcCode?: string;
-  regCode?: string;
-  provCode?: string;
-  provDesc?: string;
-};
-type Cities = {
-  id: number;
-  psgcCode: string;
-  citymunDesc: string;
-  regDesc: string;
-  provCode: string;
-  citymunCode: string;
-};
-
-type Barangays = {
-  id: number;
-  brgyCode: string;
-  brgyDesc: string;
-  regCode: string;
-  provCode: string;
-  citymunCode: string;
-};
-
 // const url = 'https://rangerisrael.github.io/address-api/jsonAddress/region.json';
 
-export default function ShippingAddress(
-  regAddress: Regionss[],
-  pAddress: Provincess[],
-  munAddress: Cities[],
-  brgyAddress: Barangays[]
-) {
+export default function ShippingAddress() {
   const router = useRouter();
   const { state } = useContext(Store);
 
@@ -156,9 +123,9 @@ export default function ShippingAddress(
   //   handlerMessage(statusText, status, data.message, 'success');
   // }
 
-  console.log(regAddress);
-  console.log(pAddress);
-  console.log(munAddress);
+  console.log(regionsAddress);
+  console.log(provinceAddress);
+  console.log(municipalAddress);
   console.log(brgyAddress);
 
   return (
@@ -286,29 +253,29 @@ export default function ShippingAddress(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getServerSideProps: GetServerSideProps<any> = async () => {
-  const regionAddress = await getRegion();
-  const provAddress = await getProvince();
-  const municipalAddress = await getCities();
-  const brgyAddress = await getBrgy();
+// export const getServerSideProps: GetServerSideProps<any> = async () => {
+//   const regionAddress = await getRegion();
+//   const provAddress = await getProvince();
+//   const municipalAddress = await getCities();
+//   const brgyAddress = await getBrgy();
 
-  const { error } = regionAddress || provAddress || municipalAddress || brgyAddress;
-  const { regions } = regionAddress;
-  const { provinces } = provAddress;
-  const { municipalities } = municipalAddress;
-  const { barangay } = brgyAddress;
+//   const { error } = regionAddress || provAddress || municipalAddress || brgyAddress;
+//   const { regions } = regionAddress;
+//   const { provinces } = provAddress;
+//   const { municipalities } = municipalAddress;
+//   const { barangay } = brgyAddress;
 
-  if (error) {
-    console.log(error);
-  }
+//   if (error) {
+//     console.log(error);
+//   }
 
-  // when i added a props key
-  return {
-    props: {
-      regAddress: regions,
-      pAddress: provinces,
-      munAddress: municipalities,
-      brgyAddress: barangay,
-    },
-  };
-};
+//   // when i added a props key
+//   return {
+//     props: {
+//       regAddress: regions,
+//       pAddress: provinces,
+//       munAddress: municipalities,
+//       brgyAddress: barangay,
+//     },
+//   };
+// };
