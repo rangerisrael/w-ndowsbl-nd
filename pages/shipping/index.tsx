@@ -4,8 +4,8 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext, useEffect } from 'react';
-import { Box } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import { Box, Typography, List, ListItem, Button } from '@mui/material';
 // import { GetServerSideProps } from 'next';
 // import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
@@ -37,17 +37,17 @@ export default function ShippingAddress() {
   // const { handleSubmit } = useForm<ShippingForm>();
   const { userInfo } = state;
 
-  // const [province, setProvince] = useState([]);
-  // const [cities, setCities] = useState([]);
-  // const [brgy, setBrgy] = useState([]);
+  const [province, setProvince] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [brgy, setBrgy] = useState([]);
 
-  // const [regionValue, setRegionValue] = useState('');
-  // const [provinceValue, setProvinceValue] = useState('');
-  // const [citiesValue, setCitiesValue] = useState('');
-  // const [brgyValue, setBrgyValue] = useState('');
+  const [regionValue, setRegionValue] = useState('');
+  const [provinceValue, setProvinceValue] = useState('');
+  const [citiesValue, setCitiesValue] = useState('');
+  const [brgyValue, setBrgyValue] = useState('');
 
-  // const [purok, setPurok] = useState(false);
-  // const [purokValue, setPurokValue] = useState('');
+  const [purok, setPurok] = useState(false);
+  const [purokValue, setPurokValue] = useState('');
 
   useEffect(() => {
     if (!userInfo) {
@@ -55,58 +55,62 @@ export default function ShippingAddress() {
     }
   }, [router, userInfo]);
 
-  // const provinceData = async (e: any) => {
-  //   if (e.target.value === '') {
-  //     e.target.value = 'Choose Region';
-  //     console.log(e);
-  //     setRegionValue('');
-  //     setProvinceValue('');
-  //     setCitiesValue('');
-  //     setBrgyValue('');
-  //     setPurokValue('');
-  //   } else {
-  //     // event.target.options[event.target.selectedIndex].text
-  //     setRegionValue(e.target.selectedOptions[0].text);
-  //     // setRegionValue(e.target.value.substring(2));
-  //     setProvinceValue('');
-  //     setCitiesValue('');
-  //     setBrgyValue('');
-  //     setPurokValue('');
-  //   }
-  //   // console.log(e.target.value);
-  //   const splitted = e.target.value;
-  //   //  const splices = splitted.split(/(.{2})/).filter((a: any) => a);
+  const provinceData = async (e: any) => {
+    if (e.target.value === '') {
+      e.target.value = 'Choose Region';
+      console.log(e);
+      setRegionValue('');
+      setProvinceValue('');
+      setCitiesValue('');
+      setBrgyValue('');
+      setPurokValue('');
+    } else {
+      // event.target.options[event.target.selectedIndex].text
+      setRegionValue(e.target.selectedOptions[0].text);
+      // setRegionValue(e.target.value.substring(2));
+      setProvinceValue('');
+      setCitiesValue('');
+      setBrgyValue('');
+      setPurokValue('');
+    }
+    // console.log(e.target.value);
+    const splitted = e.target.value;
+    //  const splices = splitted.split(/(.{2})/).filter((a: any) => a);
 
-  //   const filterProvinces = p.filter((prov: any) => prov.regCode === splitted).map((value: any) => value);
-  //   setProvince(filterProvinces);
-  //   setCities([]);
-  //   setBrgy([]);
-  // };
+    const filterProvinces = provinceAddress.filter((prov: any) => prov.regCode === splitted).map((value: any) => value);
+    setProvince(filterProvinces);
+    setCities([]);
+    setBrgy([]);
+  };
 
-  // const citiesData = async (e: any) => {
-  //   setProvinceValue(e.target.selectedOptions[0].text);
-  //   setCitiesValue('');
-  //   setBrgyValue('');
-  //   setPurokValue('');
-  //   // r.c.filter((cb: any) => cb.provCode === e.target.value).map((value: any) => setCities(value.citymunDesc));
-  //   const filterCity = c.filter((prov: any) => prov.provCode === e.target.value).map((value: any) => value);
-  //   setCities(filterCity);
-  //   setBrgy([]);
-  // };
+  const citiesData = async (e: any) => {
+    setProvinceValue(e.target.selectedOptions[0].text);
+    setCitiesValue('');
+    setBrgyValue('');
+    setPurokValue('');
+    // r.c.filter((cb: any) => cb.provCode === e.target.value).map((value: any) => setCities(value.citymunDesc));
+    const filterCity = municipalAddress
+      .filter((prov: any) => prov.provCode === e.target.value)
+      .map((value: any) => value);
+    setCities(filterCity);
+    setBrgy([]);
+  };
 
   // const brgyData = async (e: any) => {
   //   setCitiesValue(e.target.selectedOptions[0].text);
   //   setBrgyValue('');
   //   setPurokValue('');
   //   // r.b.filter((bry: any) => bry.citymunCode === e.target.value).map((value: any) => setBrgy(value.brgyDesc));
-  //   const filterBrgy = b.filter((prov: any) => prov.citymunCode === e.target.value).map((value: any) => value);
+  //   const filterBrgy = brgyAddress
+  //     .filter((prov: any) => prov.citymunCode === e.target.value)
+  //     .map((value: any) => value);
   //   setBrgy(filterBrgy);
   // };
 
-  // const brgySelect = async (e: any) => {
-  //   setBrgyValue(e.target.selectedOptions[0].text);
-  //   setPurok(true);
-  // };
+  const brgySelect = async (e: any) => {
+    setBrgyValue(e.target.selectedOptions[0].text);
+    setPurok(true);
+  };
 
   // const shippingFormHandler: SubmitHandler<ShippingForm> = async (formData) => {
   //   console.log(formData);
@@ -123,23 +127,32 @@ export default function ShippingAddress() {
   //   handlerMessage(statusText, status, data.message, 'success');
   // }
 
-  console.log(regionsAddress);
-  console.log(provinceAddress);
-  console.log(municipalAddress);
-  console.log(brgyAddress);
+  // console.log(regionsAddress);
+  // console.log(provinceAddress);
+  // console.log(municipalAddress);
+  // console.log(brgyAddress);
+
+  const objects = brgyAddress.map((arr: any) =>
+    arr.reduce((acc: any, cur: any) => {
+      acc[cur.key] = cur.value;
+      return acc;
+    }, {})
+  );
+
+  console.log(objects);
 
   return (
     <Layout titles="shipping">
       <Box sx={{ marginTop: '2rem' }}>
         <CheckoutWizard steps={1} />
         <br />
-        {/* <fieldset>
+        <fieldset>
           <legend style={{ textAlign: 'center' }}>
             <Typography component="h1" variant="h1">
               Shipping Address
             </Typography>
           </legend>
-          <form onSubmit={handleSubmit(shippingFormHandler)}>
+          <form>
             <List>
               <ListItem>
                 <select
@@ -152,7 +165,7 @@ export default function ShippingAddress() {
                   </option>
                   <option key="0" value="0"></option>
 
-                  {r.map((data: Regionss) => (
+                  {regionsAddress.map((data: any) => (
                     <option key={data.regCode} value={data.regCode}>
                       {data.regDesc}
                     </option>
@@ -172,7 +185,7 @@ export default function ShippingAddress() {
 
                   {province
                     .sort((a: any, b: any) => (a.provDesc > b.provDesc ? 1 : -1))
-                    .map((data: Provincess) => (
+                    .map((data: any) => (
                       <option key={data.provCode} value={data.provCode}>
                         {data.provDesc}
                       </option>
@@ -192,7 +205,7 @@ export default function ShippingAddress() {
 
                   {cities
                     .sort((a: any, b: any) => (a.citymunDesc > b.citymunDesc ? 1 : -1))
-                    .map((data: Cities) => (
+                    .map((data: any) => (
                       <option key={data.citymunCode} value={data.citymunCode}>
                         {data.citymunDesc}
                       </option>
@@ -211,7 +224,7 @@ export default function ShippingAddress() {
                   <option key="3" value=""></option>
                   {brgy
                     .sort((a: any, b: any) => (a.brgyDesc > b.brgyDesc ? 1 : -1))
-                    .map((data: Barangays) => (
+                    .map((data: any) => (
                       <option key={data.brgyCode} value={data.brgyCode}>
                         {data.brgyDesc}
                       </option>
@@ -246,7 +259,7 @@ export default function ShippingAddress() {
               </ListItem>
             </List>
           </form>
-        </fieldset> */}
+        </fieldset>
       </Box>
     </Layout>
   );
